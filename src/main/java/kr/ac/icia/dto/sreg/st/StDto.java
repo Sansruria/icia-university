@@ -8,4 +8,5 @@ import lombok.Setter;
 @Setter
 public class StDto extends PersonInfoDto {
 	private String stId; // 학번
+	private String status; //학적상태
 }

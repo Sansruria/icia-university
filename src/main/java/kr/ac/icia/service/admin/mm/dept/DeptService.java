@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import kr.ac.icia.dao.admin.mm.dept.DeptDao;
 import kr.ac.icia.dto.admin.mm.dept.DeptDto;
+import kr.ac.icia.dto.admin.mm.deptline.DeptLineDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class DeptService {
@@ -54,6 +54,30 @@ public class DeptService {
 			return "삭제에 성공하였습니다";
 		}
 		return "삭제에 실패했습니다";
+	}
+	
+	public String makeListHtml() {
+		String str = "";
+		String prefix = "<div class=\"col\">";
+		String suffix = "</div>";
+		for (DeptDto dto : findByCondition()) {
+			str += "<div class=\"row\" "
+					+ "onclick=selected('" + dto.getDeptId() + "','" + dto.getDeptName() + "') style='cursor:pointer'>";
+			str += prefix;
+			str += dto.getRnum();
+			str += suffix;
+			
+			str += prefix;
+			str += dto.getDeptId();
+			str += suffix;
+			
+			str += prefix;
+			str += dto.getDeptName();
+			str += suffix;
+			str += "</div>";
+		}
+		
+		return str;
 	}
 	
 }

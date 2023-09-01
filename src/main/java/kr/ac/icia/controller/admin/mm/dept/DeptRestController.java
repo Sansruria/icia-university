@@ -24,6 +24,13 @@ public class DeptRestController {
 	@Autowired
 	private final DeptService deptService;
 	
+//	목록
+	@GetMapping("/list")
+	public String list() {
+		log.info("/dept/list api...");
+		return deptService.makeListHtml();
+	}
+	
 //	상세
 	@GetMapping("/detail/{id}")
 	public DeptDto detail(@PathVariable("id") String deptId) {

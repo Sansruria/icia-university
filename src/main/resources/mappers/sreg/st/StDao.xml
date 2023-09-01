@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.ac.icia.dao.sreg.st.StDao">
+
+    <select id="findByCondition" resultType="kr.ac.icia.dto.sreg.st.StDto">
+        SELECT
+		    rownum AS rnum,
+		    stId,
+		    deptId,
+		    deptName,
+		    rrn,
+		    password,
+		    name,
+		    gender,
+		    address,
+		    email,
+		    profile,
+		    national,
+		    status
+		FROM
+		    (SELECT
+		        st.st_id AS stId,
+		        st.department_id AS deptId,
+		        d.department_name AS deptName,
+		        st.rrn,
+		        st.password,
+		        st.st_name AS name,
+		        st.gender,
+		        st.address,
+		        st.email,
+		        st.profile,
+		        st.national,
+		        NVL(r.register_change_id, '재학') AS status
+		    FROM st
+		    JOIN department d ON st.department_id = d.department_id
+		    LEFT OUTER JOIN register r ON st.st_id = r.st_id
+		    ORDER BY d.department_name, st.st_name)
+    </select>
+    
+    <select id="detail" parameterType="String" resultType="kr.ac.icia.dto.sreg.st.StDto">
+        SELECT * FROM st
+    </select>
+    
+    <insert id="write" parameterType="kr.ac.icia.dto.sreg.st.StDto">
+        INSERT INTO st (
+            st_id,
+            department_id,
+            rrn,
+            password,
+            st_name,
+            gender,
+            address,
+            email,
+            profile,
+            national
+        )
+        VALUES (
+            #{stId},
+            #{deptId},
+            #{rrn},
+            #{password},
+            #{name},
+            #{gender},
+            #{address},
+            #{email},
+            #{profile},
+            #{national}
+        )
+    </insert>
+    
+    <update id="update" parameterType="kr.ac.icia.dto.sreg.st.StDto">
+        SELECT * FROM st
+    </update>
+    
+    <delete id="delete" parameterType="String">
+        DELETE FROM st WHERE st_id = #{stId}
+    </delete>
+    
+    <select id="countStOfYear" parameterType="kr.ac.icia.dto.sreg.st.StDto">
+        SELECT COUNT(*) FROM st
+        WHERE
+            department_id = #{deptId}
+            AND
+            st_id LIKE '%' || #{stId} || '%'
+    </select>
+
+</mapper>

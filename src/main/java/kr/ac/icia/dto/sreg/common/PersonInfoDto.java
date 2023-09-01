@@ -6,7 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PersonInfoDto {
-	private String departmentId;// 학과번호
+	private Integer rnum; 	// 번호
+	private String deptId;// 학과번호
+	private String deptName; // 학과명
 	private String rrn;		// 주민등록번호
 	private String password;// 비밀번호
 	private String name;	// 이름
