@@ -74,10 +74,10 @@
 	        })
 	    }
 	    
-	    function detail(deptLineId) {
+	    function detail(id) {
 	        $.ajax({
 	            method : 'GET',
-	            url : '/admin/mm/deptline/api/detail/' + deptLineId
+	            url : '/admin/mm/deptline/api/detail/' + id
 	            
 	        }).done(function(res) {
 	            document.detailFrm.querySelector('input[name="deptLineId"]').value = res['deptLineId']

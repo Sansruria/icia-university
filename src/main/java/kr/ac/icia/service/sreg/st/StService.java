@@ -21,14 +21,8 @@ public class StService {
 	public ArrayList<StDto> findByCondition() {
 		ArrayList<StDto> stList = stDao.findByCondition();
 		for (StDto dto : stList) {
-			if (dto.getGender().equals("1")) {
-				dto.setGender("남");
-			}
-			else {
-				dto.setGender("여");
-			}
+			dto.setGender(dto.getGender().equals("1") ? "남" : "여");
 		}
-		
 		return stList;
 	}
 	
@@ -40,16 +34,16 @@ public class StService {
 		String stId = DateTimeFormatter.ofPattern("YYMM").format(LocalDate.now());
 		stDto.setStId(stId.substring(0, 2));
 		String numbering = stDao.countStOfYear(stDto);
-		
+
+		// 자릿수가 1개일 경우 앞에 0을 붙여줌
 		if (numbering.length() == 1) {
-			if (numbering.equals("0")) {
-				numbering = "1";
-			}
 			numbering = "0" + numbering;
 		}
+
 		stId += stDto.getDeptId() + numbering;
 		stDto.setStId(stId);
-		
+
+		// 주민등록번호 뒷자리를 비밀번호로 함
 		String password = stDto.getRrn();
 		String[] splitPassword = password.split("-");
 		stDto.setPassword(splitPassword[1]);
@@ -65,18 +59,34 @@ public class StService {
 		boolean result = stDao.update(stDto);
 		
 		if (result) {
-			return "저장에 성공하였습니다";
+			return "수정에 성공하였습니다";
 		}
-		return "저장에 실패했습니다";
+		return "수정에 실패했습니다";
 	}
 	
 	public String delete(String stId) {
 		boolean result = stDao.delete(stId);
 		
 		if (result) {
-			return "저장에 성공하였습니다";
+			return "삭제에 성공하였습니다";
 		}
-		return "저장에 실패했습니다";
+		return "삭제에 실패했습니다";
+	}
+
+	public String national(String national) {
+		switch (national) {
+			case "KR" :
+				return "한국";
+			case "JP" :
+				return "일본";
+			case "CN" :
+				return "중국";
+			case "US" :
+				return "미국";
+			case "UK" :
+				return "영국";
+		}
+		return null;
 	}
 
 }

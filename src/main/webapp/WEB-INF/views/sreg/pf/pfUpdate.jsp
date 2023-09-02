@@ -15,33 +15,58 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         
 	<script>
+		let rrnVal = '<c:out value="${pfDto.rrn}"></c:out>'
+		rrnVal = rrnVal.split("-")
+		const genderVal = '<c:out value="${pfDto.gender}"></c:out>'
+		const nationalVal = '<c:out value="${pfDto.national}"></c:out>'
+
 		document.addEventListener("DOMContentLoaded", function(){
 			document.querySelector('.btn-cancle').addEventListener('click', ()=>cancle())
-	        document.querySelector('.btn-save').addEventListener('click', ()=>save())
+	        document.querySelector('.btn-update').addEventListener('click', ()=>update())
 	        document.querySelector('.btn-search').addEventListener('click', ()=>search())
+			document.querySelector('#frontRrn').value = rrnVal[0]
+			document.querySelector('#backRrn').value = rrnVal[1]
+
+			const genders = document.querySelectorAll('input[name="gender"]')
+			genders.forEach(gender=>{
+				if (gender.value == genderVal) {
+					gender.checked = true
+				}
+			})
+
+			let nationals = document.querySelector('select[name="national"]')
+			nationals = nationals.options
+
+			for (const option of nationals) {
+				if (option.value == nationalVal) {
+					option.selected = true
+				}
+			}
 	    })
 
 		function cancle() {
-			location.href='/sreg/st'
+			location.href='/sreg/pf'
 		}
 	     
-	    function save() {
+	    function update() {
 			let obj = $('form[name="frm"]').serializeObject()
 			const rrn = document.querySelector('#frontRrn').value + "-" + document.querySelector('#backRrn').value
 			obj.rrn = rrn
             console.log(obj)
             
             $.ajax({
-                method : 'PUT',
-                url : '/sreg/st/api/write',
+                method : 'PATCH',
+                url : '/sreg/pf/api/update',
                 data : obj
                 
             }).done(function(res) {
                 alert(res)
-                location.href = '/sreg/st'
+                location.href = '/sreg/pf'
                 
             }).fail(function(res) {
-                console.log(res)
+				console.log(res)
+				console.log(res.responseJSON.trace)
+                console.log(res.responseText)
             })
 		}
 
@@ -70,11 +95,13 @@
 
     <div class="container">
         <form name="frm">
+			<input type="hidden" name="pfId" value="<c:out value="${pfDto.pfId}"></c:out>">
+
 		    <div class="row">
 			    <div class="col">학과</div>
 			    <div class="col">
-                    <input type="hidden" name="deptId" class="form-control" readonly>
-                    <input type="text" name="deptName" class="form-control" readonly>
+                    <input type="hidden" name="deptId" class="form-control" value="<c:out value="${pfDto.deptId}"></c:out>" readonly>
+                    <input type="text" name="deptName" class="form-control" value="<c:out value="${pfDto.deptName}"></c:out>" readonly>
 			    </div>
 			    <div class="col">
 			       <button type="button" class="btn btn-primary btn-search"
@@ -94,8 +121,8 @@
 		    </div>
 		    
 		    <div class="row">
-			    <div class="col">학생명</div>
-			    <div class="col"><input type="text" name="name" class="form-control"></div>
+			    <div class="col">교수명</div>
+			    <div class="col"><input type="text" name="name" class="form-control" value="<c:out value="${pfDto.name}"></c:out>"></div>
 		    </div>
 		    
 		    <div class="row">
@@ -110,17 +137,17 @@
 		    
 		    <div class="row">
 			    <div class="col">주소</div>
-			    <div class="col"><input type="text" name="address" class="form-control"></div>
+			    <div class="col"><input type="text" name="address" class="form-control" value="<c:out value="${pfDto.address}"></c:out>"></div>
 		    </div>
 		    
 		    <div class="row">
 			    <div class="col">이메일</div>
-			    <div class="col"><input type="text" name="email" class="form-control"></div>
+			    <div class="col"><input type="text" name="email" class="form-control" value="<c:out value="${pfDto.email}"></c:out>"></div>
 		    </div>
 		    
 		    <div class="row">
 			    <div class="col">프로필</div>
-			    <div class="col"><input type="text" name="profile" class="form-control"></div>
+			    <div class="col"><input type="text" name="profile" class="form-control" value="<c:out value="${pfDto.profile}"></c:out>"></div>
 		    </div>
 		    
 		    <div class="row">
@@ -139,10 +166,8 @@
         </form>
         
         <div class="row">
-            <button type="button" class="btn btn-secondary">취소</button>
-            <button type="button" class="btn btn-danger btn-delete">삭제</button>
+            <button type="button" class="btn btn-secondary btn-cancle">취소</button>
             <button type="button" class="btn btn-primary btn-update">수정</button>
-            <button type="button" class="btn btn-primary btn-save">등록</button>
         </div>
     </div>
     

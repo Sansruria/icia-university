@@ -16,7 +16,7 @@
 	    
     <script>
         document.addEventListener("DOMContentLoaded", function(){
-            document.querySelector('.btn-save').addEventListener('click', ()=>location.href='/sreg/st/write')
+            document.querySelector('.btn-save').addEventListener('click', ()=>location.href='/sreg/pf/write')
             document.querySelector('.btn-search').addEventListener('click', ()=>search())
         })
         
@@ -24,7 +24,7 @@
         }
 
         function detail(id) {
-            location.href = '/sreg/st/detail/' + id
+            location.href = '/sreg/pf/detail/' + id
         }
     </script>
 </head>
@@ -38,18 +38,16 @@
                 <div class="row ">
                     <form name="searchFrm">
 						<div class="row mb-3 align-items-center">
-    					   <div class="col">학적상태</div>
-	   					   <div class="col"><input type="text" name="status" class="form-control"></div>
-    					   <div class="col">학번</div>
-	   					   <div class="col"><input type="text" name="stId" class="form-control"></div>
+    					   <div class="col">교수번호</div>
+	   					   <div class="col"><input type="text" name="pfId" class="form-control"></div>
 						</div>
 						
 						<div class="row mb-3 align-items-center">
-    					   <div class="col">학생명</div>
-	   					   <div class="col"><input type="text" name="name" class="form-control"></div>
-    					   <div class="col">학과</div>
-	   					   <div class="col"><input type="text" name="departmentName" class="form-control"></div>
-						</div>
+    					    <div class="col">학과명</div>
+                            <div class="col"><input type="text" name="deptName" class="form-control"></div>
+                            <div class="col">교수명</div>
+                            <div class="col"><input type="text" name="name" class="form-control"></div>
+                        </div>
                     </form>
                     
                     <div class="row mb-3">
@@ -68,20 +66,18 @@
                 <div class="row text-center">
                     <div class="col">번호</div>
                     <div class="col">학과명</div>
-                    <div class="col">학번</div>
-                    <div class="col">학생명</div>
+                    <div class="col">교수번호</div>
+                    <div class="col">교수명</div>
                     <div class="col">성별</div>
-                    <div class="col">학적상태</div>
                 </div> <!-- end row -->
                 
-                <c:forEach var="st" items="${stList}">
-	                <div class="row text-center" onclick="detail('${st.stId}')" style="cursor:pointer">
-	                    <div class="col">${st.rnum}</div>
-	                    <div class="col">${st.deptName}</div>
-	                    <div class="col">${st.stId}</div>
-	                    <div class="col">${st.name}</div>
-	                    <div class="col">${st.gender}</div>
-	                    <div class="col">${st.status}</div>
+                <c:forEach var="pf" items="${pfList}">
+	                <div class="row text-center" onclick="detail('${pf.pfId}')" style="cursor:pointer">
+	                    <div class="col">${pf.rnum}</div>
+	                    <div class="col">${pf.deptName}</div>
+	                    <div class="col">${pf.pfId}</div>
+	                    <div class="col">${pf.name}</div>
+	                    <div class="col">${pf.gender}</div>
 	                </div>
                 </c:forEach>
                 

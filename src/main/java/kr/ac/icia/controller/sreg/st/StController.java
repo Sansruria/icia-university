@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.ac.icia.dto.sreg.st.StDto;
@@ -35,10 +36,21 @@ public class StController {
 		return "sreg/st/stWrite";
 	}
 	
-//	수정화면
+//	상세화면
 	@GetMapping("/st/detail/{id}")
-	public String detail() {
+	public String detail(@PathVariable("id") String stId, Model model) {
+		StDto stDto = stService.detail(stId);
+		model.addAttribute("stDto", stDto);
+
 		return "sreg/st/stDetail";
 	}
 
+//	수정화면
+	@GetMapping("/st/update/{id}")
+	public String update(@PathVariable("id") String stId, Model model) {
+		StDto stDto = stService.detail(stId);
+		model.addAttribute("stDto", stDto);
+
+		return "sreg/st/stUpdate";
+	}
 }

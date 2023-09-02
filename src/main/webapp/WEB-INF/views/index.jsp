@@ -23,6 +23,10 @@
 	    function move(str) {
 	        location.href='/admin/mm/' + str
 	    }
+
+        function move2(str) {
+            location.href='/sreg/' + str
+        }
 	</script>
 </head>
 
@@ -33,8 +37,8 @@
         <button type="button" onclick="move('deptline')" class="btn btn-primary mb-3">학과계열</button>
         <button type="button" onclick="move('faculty')" class="btn btn-primary mb-3">학부</button>
         <button type="button" onclick="move('dept')" class="btn btn-primary mb-3">학과</button>
-        <button type="button" onclick="move('st')" class="btn btn-primary mb-3">학생</button>
-        <button type="button" onclick="move('pf')" class="btn btn-danger mb-3">교수</button>
+        <button type="button" onclick="move2('st')" class="btn btn-primary mb-3">학생</button>
+        <button type="button" onclick="move2('pf')" class="btn btn-danger mb-3">교수</button>
       </div>
     </div>
 </body>

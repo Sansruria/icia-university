@@ -22,7 +22,7 @@
 	    })
 
 		function cancle() {
-			location.href='/sreg/st'
+			location.href='/sreg/pf'
 		}
 	     
 	    function save() {
@@ -33,15 +33,17 @@
             
             $.ajax({
                 method : 'PUT',
-                url : '/sreg/st/api/write',
+                url : '/sreg/pf/api/write',
                 data : obj
                 
             }).done(function(res) {
                 alert(res)
-                location.href = '/sreg/st'
+                location.href = '/sreg/pf'
                 
             }).fail(function(res) {
-                console.log(res)
+				console.log(res)
+				console.log(res.responseJSON.trace)
+                console.log(res.responseText)
             })
 		}
 
@@ -94,7 +96,7 @@
 		    </div>
 		    
 		    <div class="row">
-			    <div class="col">학생명</div>
+			    <div class="col">교수명</div>
 			    <div class="col"><input type="text" name="name" class="form-control"></div>
 		    </div>
 		    
@@ -139,9 +141,8 @@
         </form>
         
         <div class="row">
-            <button type="button" class="btn btn-secondary">취소</button>
+            <button type="button" class="btn btn-secondary btn-cancle">취소</button>
             <button type="button" class="btn btn-danger btn-delete">삭제</button>
-            <button type="button" class="btn btn-primary btn-update">수정</button>
             <button type="button" class="btn btn-primary btn-save">등록</button>
         </div>
     </div>
