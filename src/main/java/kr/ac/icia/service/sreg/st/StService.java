@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.ac.icia.dao.sreg.st.StDao;
+import kr.ac.icia.dto.common.PagingVO;
 import kr.ac.icia.dto.sreg.st.StDto;
 import lombok.RequiredArgsConstructor;
 
@@ -18,12 +19,16 @@ public class StService {
 	@Autowired
 	private final StDao stDao;
 	
-	public ArrayList<StDto> findByCondition() {
-		ArrayList<StDto> stList = stDao.findByCondition();
+	public ArrayList<StDto> findByCondition(PagingVO pagingVO) {
+		ArrayList<StDto> stList = stDao.findByCondition(pagingVO);
 		for (StDto dto : stList) {
 			dto.setGender(dto.getGender().equals("1") ? "남" : "여");
 		}
 		return stList;
+	}
+	
+	public Integer findAllCount() {
+		return stDao.findAllCount();
 	}
 	
 	public StDto detail(String stId) {

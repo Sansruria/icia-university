@@ -4,12 +4,15 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.ac.icia.dto.common.PagingVO;
 import kr.ac.icia.dto.sreg.st.StDto;
 
 @Mapper
 public interface StDao {
 	
-	public ArrayList<StDto> findByCondition();
+	public ArrayList<StDto> findByCondition(PagingVO pagingVO);
+	
+	public Integer findAllCount();
 	
 	public StDto detail(String stId);
 	
