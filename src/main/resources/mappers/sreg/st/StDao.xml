@@ -4,44 +4,28 @@
 <mapper namespace="kr.ac.icia.dao.sreg.st.StDao">
 
     <select id="findByCondition" parameterType="kr.ac.icia.dto.common.PagingVO" resultType="kr.ac.icia.dto.sreg.st.StDto">
-        SELECT
-           rnum,
-	       stId,
-	       deptId,
-	       deptName,
-	       rrn,
-	       password,
-	       name,
-	       gender,
-	       address,
-	       email,
-	       profile,
-	       national,
-	       status
-		FROM (
-			SELECT
-			    rownum AS rnum,
-			    a1.*
-			FROM
-			    (SELECT
-			        st.st_id AS stId,
-			        st.department_id AS deptId,
-			        d.department_name AS deptName,
-			        st.rrn,
-			        st.password,
-			        st.st_name AS name,
-			        st.gender,
-			        st.address,
-			        st.email,
-			        st.profile,
-			        st.national,
-			        NVL(r.register_change_id, '재학') AS status
-			    FROM st
-			    JOIN department d ON st.department_id = d.department_id
-			    LEFT OUTER JOIN register r ON st.st_id = r.st_id
-			    ORDER BY st.st_id, d.department_name DESC) a1)
-		WHERE rnum BETWEEN #{start} AND #{end}
-		ORDER BY rnum DESC
+        SELECT * FROM (
+            SELECT rownum AS rnum, A.* FROM (
+                SELECT
+                    st.st_id AS stId,
+                    st.department_id AS deptId,
+                    d.department_name AS deptName,
+                    st.rrn,
+                    st.password,
+                    st.st_name AS name,
+                    st.gender,
+                    st.address,
+                    st.email,
+                    st.profile,
+                    st.national,
+                    NVL(r.register_change_id, '재학') AS status
+                FROM st
+                JOIN department d ON st.department_id = d.department_id
+                LEFT OUTER JOIN register r ON st.st_id = r.st_id
+                ORDER BY st.st_id
+            ) A WHERE #{end} >= rownum
+        ) WHERE rnum >= #{start}
+        ORDER BY rnum DESC
     </select>
     
     <select id="findAllCount" resultType="Integer">
