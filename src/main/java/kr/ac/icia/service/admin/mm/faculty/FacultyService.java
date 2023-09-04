@@ -58,11 +58,10 @@ public class FacultyService {
 	
 	public String makeListHtml(String kind) {
 		String str = "";
-		String prefix = "<div class=\"col\">";
-		String suffix = "</div>";
+		String prefix = "<td>";
+		String suffix = "</td>";
 		for (FacultyDto dto : findByCondition()) {
-			str += "<div class=\"row\" "
-					+ "onclick=selected('" + dto.getFacultyId() + "','" + dto.getFacultyName() + "','" + kind +"') style='cursor:pointer'>";
+			str += "<tr>";
 			str += prefix;
 			str += dto.getRnum();
 			str += suffix;
@@ -72,9 +71,13 @@ public class FacultyService {
 			str += suffix;
 			
 			str += prefix;
+			str += "<a href=\"#\" onclick=selected('" + dto.getFacultyId() + "','" + dto.getFacultyName() + "','" + kind +"') "
+					+ "style=\"cursor:pointer\" "
+					+ "class=\"link-offset-2 link-underline link-underline-opacity-0\">";
 			str += dto.getFacultyName();
+			str += "</a>";
 			str += suffix;
-			str += "</div>";
+			str += "</tr>";
 		}
 		
 		return str;

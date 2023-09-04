@@ -57,11 +57,10 @@ public class DeptLineService {
 	
 	public String makeListHtml(String kind) {
 		String str = "";
-		String prefix = "<div class=\"col\">";
-		String suffix = "</div>";
+		String prefix = "<td>";
+		String suffix = "</td>";
 		for (DeptLineDto dto : findByCondition()) {
-			str += "<div class=\"row\" "
-					+ "onclick=selected('" + dto.getDeptLineId() + "','" + dto.getDeptLineName() + "','" + kind +"') style='cursor:pointer'>";
+			str += "<tr>";
 			str += prefix;
 			str += dto.getRnum();
 			str += suffix;
@@ -71,10 +70,33 @@ public class DeptLineService {
 			str += suffix;
 			
 			str += prefix;
+			str += "<a href=\"#\" onclick=selected('" + dto.getDeptLineId() + "','" + dto.getDeptLineName() + "','" + kind +"') "
+					+ "style=\"cursor:pointer\" "
+					+ "class=\"link-offset-2 link-underline link-underline-opacity-0\">";
 			str += dto.getDeptLineName();
+			str += "</a>";
 			str += suffix;
-			str += "</div>";
+			str += "</tr>";
 		}
+//		String str = "";
+//		String prefix = "<div class=\"col\">";
+//		String suffix = "</div>";
+//		for (DeptLineDto dto : findByCondition()) {
+//			str += "<div class=\"row\" "
+//					+ "onclick=selected('" + dto.getDeptLineId() + "','" + dto.getDeptLineName() + "','" + kind +"') style='cursor:pointer'>";
+//			str += prefix;
+//			str += dto.getRnum();
+//			str += suffix;
+//			
+//			str += prefix;
+//			str += dto.getDeptLineId();
+//			str += suffix;
+//			
+//			str += prefix;
+//			str += dto.getDeptLineName();
+//			str += suffix;
+//			str += "</div>";
+//		}
 		
 		return str;
 	}

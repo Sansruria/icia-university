@@ -35,7 +35,7 @@
 		    FROM st
 		    JOIN department d ON st.department_id = d.department_id
 		    LEFT OUTER JOIN register r ON st.st_id = r.st_id
-		    ORDER BY d.department_name DESC, st.st_name DESC)
+		    ORDER BY st.st_id, d.department_name DESC)
         ORDER BY rnum DESC
     </select>
     
@@ -108,7 +108,7 @@
     <select id="countStOfYear" parameterType="kr.ac.icia.dto.sreg.st.StDto">
         SELECT COUNT(*)+1 FROM st
         WHERE
-            department_id = #{deptId}
+            st_id LIKE '%' || #{deptId}  || '%'
             AND
             st_id LIKE '%' || #{stId} || '%'
     </select>

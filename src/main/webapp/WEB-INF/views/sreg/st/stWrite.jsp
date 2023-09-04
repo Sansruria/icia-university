@@ -136,9 +136,8 @@
         </form>
         
         <div class="row">
-            <button type="button" class="btn btn-secondary">취소</button>
+            <button type="button" class="btn btn-secondary btn-cancle">취소</button>
             <button type="button" class="btn btn-danger btn-delete">삭제</button>
-            <button type="button" class="btn btn-primary btn-update">수정</button>
             <button type="button" class="btn btn-primary btn-save">등록</button>
         </div>
     </div>

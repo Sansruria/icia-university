@@ -49,7 +49,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/sreg/st">학생관리</a></li>
                             <li><a class="dropdown-item" href="/sreg/pf">교수관리</a></li>
-                            <li><a class="dropdown-item" href="/admin/mm/dept">학과계열관리</a></li>
+                            <li><a class="dropdown-item" href="/admin/mm/deptline">학과계열관리</a></li>
                             <li><a class="dropdown-item" href="/admin/mm/faculty">학부관리</a></li>
                             <li><a class="dropdown-item" href="/admin/mm/dept">학과관리</a></li>
                             <li><a class="dropdown-item" href="/admin/mm/courselist/list">수강내역관리</a></li>
