@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.ac.icia.dao.sreg.pf.PfDao">
+
+    <select id="findByCondition" resultType="kr.ac.icia.dto.sreg.pf.PfDto">
+        SELECT
+            rownum AS rnum,
+            pfId,
+            deptId,
+            deptName,
+            rrn,
+            password,
+            name,
+            gender,
+            address,
+            email,
+            profile,
+            national
+        FROM
+            (SELECT
+            pf.pf_id AS pfId,
+            pf.department_id AS deptId,
+            d.department_name AS deptName,
+            pf.rrn,
+            pf.password,
+            pf.pf_name AS name,
+            pf.gender,
+            pf.address,
+            pf.email,
+            pf.profile,
+            pf.national
+            FROM pf
+            JOIN department d ON pf.department_id = d.department_id
+            ORDER BY d.department_name DESC, pf.pf_name DESC)
+        ORDER BY rnum DESC
+    </select>
+    
+    <select id="detail" parameterType="String" resultType="kr.ac.icia.dto.sreg.pf.PfDto">
+        SELECT
+            pf.pf_id AS pfId,
+            pf.department_id AS deptId,
+            d.department_name AS deptName,
+            pf.rrn,
+            pf.password,
+            pf.pf_name AS name,
+            pf.gender,
+            pf.address,
+            pf.email,
+            pf.profile,
+            pf.national
+        FROM
+            (SELECT * FROM pf WHERE pf_id = #{pfId}) pf
+            JOIN department d ON pf.department_id = d.department_id
+    </select>
+    
+    <insert id="write" parameterType="kr.ac.icia.dto.sreg.pf.PfDto">
+        INSERT INTO pf (
+            pf_id,
+            department_id,
+            rrn,
+            password,
+            pf_name,
+            gender,
+            address,
+            email,
+            profile,
+            national
+        )
+        VALUES (
+           #{pfId},
+           #{deptId},
+           #{rrn},
+           #{password},
+           #{name},
+           #{gender},
+           #{address},
+           #{email},
+           #{profile},
+           #{national}
+        )
+    </insert>
+    
+    <update id="update" parameterType="kr.ac.icia.dto.sreg.pf.PfDto">
+        UPDATE pf
+        SET
+            department_id = #{deptId},
+            rrn = #{rrn},
+            pf_name = #{name},
+            gender = #{gender},
+            address = #{address},
+            email = #{email},
+            profile = #{profile},
+            national = #{national}
+        WHERE
+            pf_id = #{pfId}
+    </update>
+    
+    <delete id="delete" parameterType="String">
+        DELETE FROM pf WHERE pf_id = #{pfId}
+    </delete>
+    
+    <select id="countPfOfYear" parameterType="kr.ac.icia.dto.sreg.pf.PfDto">
+        SELECT COUNT(*)+1 FROM pf
+        WHERE
+            department_id = #{deptId}
+            AND
+            pf_id LIKE '%' || #{pfId} || '%'
+    </select>
+
+</mapper>

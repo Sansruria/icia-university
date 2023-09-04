@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.ac.icia.dao.admin.mm.deptline.DeptLineDao">
+
+    <select id="findByCondition" resultType="kr.ac.icia.dto.admin.mm.deptline.DeptLineDto">
+        SELECT
+		    rownum AS rnum,
+		    department_line_id AS deptLineId,
+		    department_line_name AS deptLineName,
+		    create_date AS createDate
+		FROM
+		    (SELECT * FROM department_line ORDER BY create_date)
+	    ORDER BY create_date DESC
+    </select>
+    
+    <select id="detail" resultType="kr.ac.icia.dto.admin.mm.deptline.DeptLineDto">
+        SELECT
+           department_line_id AS deptLineId,
+           department_line_name AS deptLineName,
+           create_date AS createDate
+        FROM
+           department_line
+        WHERE
+           department_line_id = #{deptLineId}
+    </select>
+    
+    <insert id="write" parameterType="kr.ac.icia.dto.admin.mm.deptline.DeptLineDto">
+        INSERT INTO
+            department_line
+        VALUES
+            (#{deptLineId}, #{deptLineName}, DEFAULT)
+    </insert>
+    
+    <update id="update" parameterType="kr.ac.icia.dto.admin.mm.deptline.DeptLineDto">
+        UPDATE
+            department_line
+        SET
+            department_line_name = #{deptLineName}
+        WHERE
+            department_line_id = #{deptLineId}
+    </update>
+    
+    <delete id="delete" parameterType="String">
+        DELETE FROM department_line WHERE department_line_id = #{deptLineId}
+    </delete>
+
+</mapper>
