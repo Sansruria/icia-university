@@ -5,15 +5,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>학과관리</title>
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"
-    integrity="sha512-Gn0tSSjkIGAkaZQWjx3Ctl/0dVJuTmjW/f9QyB302kFjU4uTNP4HtA32U2qXs/TRlEsK5CoEqMEMs7LnzLOBsA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <jsp:include page="/WEB-INF/views/layout/head-js.jsp"></jsp:include>
+    <jsp:include page="/WEB-INF/views/layout/head-css.jsp"></jsp:include>
     
     <script>
         document.addEventListener("DOMContentLoaded", function(){
@@ -138,6 +133,9 @@
 </head>
 
 <body>
+
+<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+
 <div class="container">
     <div class="row">
         <div class="card">
@@ -313,7 +311,7 @@
         </div>
     </div>
     
-    <button type="button" class="btn btn-primary" onclick="javascript:location.href='/'">홈으로</button>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
     
 </div>
 </body>

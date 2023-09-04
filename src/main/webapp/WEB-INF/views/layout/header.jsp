@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<nav class="navbar navbar-expand-lg" style="background-color: #0B1B40">
+<nav class="navbar navbar-expand-lg mb-4" style="background-color: #0B1B40">
     <div class="container">
         <a class="navbar-brand" href="/">
-            <img src="img/icia-logo.png" alt="icia" height="60">
+            <img src="/img/icia-logo.png" alt="icia" height="60">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
