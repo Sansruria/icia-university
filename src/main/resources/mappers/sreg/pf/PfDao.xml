@@ -32,7 +32,7 @@
             pf.national
             FROM pf
             JOIN department d ON pf.department_id = d.department_id
-            ORDER BY d.department_name DESC, pf.pf_name DESC)
+            ORDER BY pf.pf_id, d.department_name DESC)
         ORDER BY rnum DESC
     </select>
     
@@ -103,7 +103,7 @@
     <select id="countPfOfYear" parameterType="kr.ac.icia.dto.sreg.pf.PfDto">
         SELECT COUNT(*)+1 FROM pf
         WHERE
-            department_id = #{deptId}
+            pf_id LIKE '%' || #{deptId} || '%'
             AND
             pf_id LIKE '%' || #{pfId} || '%'
     </select>
