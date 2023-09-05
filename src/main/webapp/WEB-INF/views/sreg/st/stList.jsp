@@ -13,9 +13,28 @@
         document.addEventListener("DOMContentLoaded", function(){
             document.querySelector('.btn-save').addEventListener('click', ()=>location.href='/sreg/st/write')
             document.querySelector('.btn-search').addEventListener('click', ()=>search())
+
+            if ('${searchDto.stId}' != null || '${searchDto.stId}' != '') {
+                document.searchFrm.querySelector('input[name="stId"]').value = '${searchDto.stId}'
+            }
+
+            if ('${searchDto.name}' != null || '${searchDto.name}' != '') {
+                document.searchFrm.querySelector('input[name="name"]').value = '${searchDto.name}'
+            }
+
+            if ('${searchDto.deptName}' != null || '${searchDto.deptName}' != '') {
+                document.searchFrm.querySelector('input[name="deptName"]').value = '${searchDto.deptName}'
+            }
+
+            if ('${searchDto.status}' != null || '${searchDto.status}' != '') {
+                document.searchFrm.querySelector('input[name="status"]').value = '${searchDto.status}'
+            }
+
         })
         
         function search() {
+            const sel = document.getElementById('cntPerPage').value
+            document.searchFrm.submit()
         }
 
         function detail(id) {
@@ -37,21 +56,12 @@
     <div class="row mb-3">
         <div class="card">
             <div class="card-body">
-     <div style="float: right;">
-        <select id="cntPerPage" name="sel" onchange="selChange()">
-            <option value="5"
-                <c:if test="${paging.cntPerPage == 5}">selected</c:if>>5줄 보기</option>
-            <option value="10"
-                <c:if test="${paging.cntPerPage == 10}">selected</c:if>>10줄 보기</option>
-            <option value="15"
-                <c:if test="${paging.cntPerPage == 15}">selected</c:if>>15줄 보기</option>
-            <option value="20"
-                <c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄 보기</option>
-        </select>
-    </div> <!-- 옵션선택 끝 -->
             
                 <div class="row ">
                     <form name="searchFrm">
+                        <input type="text" name="nowPage" value="">
+                        <input type="text" name="cntPerPage">
+
 						<div class="row mb-3 align-items-center">
     					   <div class="col">학적상태</div>
 	   					   <div class="col"><input type="text" name="status" class="form-control"></div>
@@ -63,7 +73,7 @@
     					   <div class="col">학생명</div>
 	   					   <div class="col"><input type="text" name="name" class="form-control"></div>
     					   <div class="col">학과</div>
-	   					   <div class="col"><input type="text" name="departmentName" class="form-control"></div>
+	   					   <div class="col"><input type="text" name="deptName" class="form-control"></div>
 						</div>
                     </form>
                     
@@ -75,6 +85,24 @@
             </div>
         </div>
     </div> <!-- end row -->
+
+    <div class="row mb-2">
+        <div class="col-2">
+            <select id="cntPerPage" name="sel" onchange="selChange()" class="form-select">
+                <option value="5"
+                        <c:if test="${searchDto.cntPerPage == 5}">selected</c:if>>5줄 보기</option>
+                <option value="10"
+                        <c:if test="${searchDto.cntPerPage == 10}">selected</c:if>>10줄 보기</option>
+                <option value="15"
+                        <c:if test="${searchDto.cntPerPage == 15}">selected</c:if>>15줄 보기</option>
+                <option value="20"
+                        <c:if test="${searchDto.cntPerPage == 20}">selected</c:if>>20줄 보기</option>
+            </select>
+        </div>
+        <div class="col justify-content-end">
+            <button type="button" class="btn btn-primary btn-save">등록</button>
+        </div>
+    </div>
     
     <div class="row mb-3">
         <div class="card">
@@ -90,38 +118,75 @@
                 </div> <!-- end row -->
                 
                 <c:forEach var="st" items="${stList}">
-	                <div class="row text-center" onclick="detail('${st.stId}')" style="cursor:pointer">
-	                    <div class="col">${st.rnum}</div>
-	                    <div class="col">${st.deptName}</div>
-	                    <div class="col">${st.stId}</div>
-	                    <div class="col">${st.name}</div>
-	                    <div class="col">${st.gender}</div>
-	                    <div class="col">${st.status}</div>
+	                <div class="row text-center" onclick="detail('<c:out value="${st.stId}"></c:out>')" style="cursor:pointer">
+	                    <div class="col"><c:out value="${st.rnum}"></c:out></div>
+	                    <div class="col"><c:out value="${st.deptName}"></c:out></div>
+	                    <div class="col"><c:out value="${st.stId}"></c:out></div>
+	                    <div class="col"><c:out value="${st.name}"></c:out></div>
+	                    <div class="col"><c:out value="${st.gender}"></c:out></div>
+	                    <div class="col"><c:out value="${st.status}"></c:out></div>
 	                </div>
                 </c:forEach>
                 
             </div>
         </div>
-        
     </div> <!-- end row -->
-    <button type="button" class="btn btn-primary btn-save">등록</button>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+
+            <c:if test="${searchDto.startPage != 1}">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            </c:if>
+
+
+            <c:forEach begin="${searchDto.startPage }" end="${searchDto.endPage }" var="p">
+                <c:choose>
+                    <c:when test="${p == searchDto.nowPage }">
+                        <li class="page-item disabled"><a class="page-link" href="#" onclick="search()">${p}</a></li>
+                    </c:when>
+
+                    <c:when test="${p != searchDto.nowPage }">
+                        <li class="page-item"><a class="page-link" href="#" onclick="search()">${p}</a></li>
+                    </c:when>
+                </c:choose>
+            </c:forEach>
+
+
+            <c:if test="${searchDto.endPage != searchDto.lastPage}">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </c:if>
+        </ul>
+    </nav>
+
+
     
-    <div style="display: block; text-align: center;">       
-        <c:if test="${paging.startPage != 1 }">
-            <a href="/sreg/st?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+    <div style="display: block; text-align: center;">
+        <c:if test="${searchDto.startPage != 1 }">
+            <a href="/sreg/st?nowPage=${searchDto.startPage - 1 }&cntPerPage=${searchDto.cntPerPage}">&lt;</a>
         </c:if>
-        <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+
+        <c:forEach begin="${searchDto.startPage }" end="${searchDto.endPage }" var="p">
             <c:choose>
-                <c:when test="${p == paging.nowPage }">
+                <c:when test="${p == searchDto.nowPage }">
                     <b>${p }</b>
                 </c:when>
-                <c:when test="${p != paging.nowPage }">
-                    <a href="/sreg/st?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+                <c:when test="${p != searchDto.nowPage }">
+                    <a href="/sreg/st?nowPage=${p }&cntPerPage=${searchDto.cntPerPage}">${p }</a>
                 </c:when>
             </c:choose>
         </c:forEach>
-        <c:if test="${paging.endPage != paging.lastPage}">
-            <a href="/sreg/st?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+
+        <c:if test="${searchDto.endPage != searchDto.lastPage}">
+            <a href="/sreg/st?nowPage=${searchDto.endPage+1 }&cntPerPage=${searchDto.cntPerPage}">&gt;</a>
         </c:if>
     </div>
 </div>

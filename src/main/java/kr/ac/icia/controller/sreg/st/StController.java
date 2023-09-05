@@ -2,6 +2,7 @@ package kr.ac.icia.controller.sreg.st;
 
 import java.util.ArrayList;
 
+import kr.ac.icia.dto.sreg.common.SearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,11 +28,12 @@ public class StController {
 	
 //	목록
 	@GetMapping("/st")
-	public String list(Model model, PagingVO pagingVO
+	public String list(Model model, SearchDto searchDto
 			, @RequestParam(value="nowPage", required = false) String nowPage
 			, @RequestParam(value="cntPerPage", required = false) String cntPerPage) {
-		
-		int total = stService.findAllCount();
+
+		int total = stService.findAllCount(searchDto);
+
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";
 			cntPerPage = "5";
@@ -42,10 +44,10 @@ public class StController {
 		else if (cntPerPage == null) {
 			cntPerPage = "5";
 		}
-		
-		pagingVO = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-		model.addAttribute("paging", pagingVO);
-		ArrayList<StDto> stList = stService.findByCondition(pagingVO);
+
+		searchDto = new SearchDto(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), searchDto);
+		ArrayList<StDto> stList = stService.findByCondition(searchDto);
+		model.addAttribute("searchDto", searchDto);
 		model.addAttribute("stList", stList);
 		
 		return "sreg/st/stList";

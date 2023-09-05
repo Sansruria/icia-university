@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import kr.ac.icia.dto.sreg.common.SearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +20,19 @@ public class StService {
 	@Autowired
 	private final StDao stDao;
 	
-	public ArrayList<StDto> findByCondition(PagingVO pagingVO) {
-		ArrayList<StDto> stList = stDao.findByCondition(pagingVO);
+	public ArrayList<StDto> findByCondition(SearchDto searchDto) {
+		ArrayList<StDto> stList = stDao.findByCondition(searchDto);
+		int count = findAllCount(searchDto)+1;
+
 		for (StDto dto : stList) {
+			dto.setRnum(count - dto.getRnum()); ;
 			dto.setGender(dto.getGender().equals("1") ? "남" : "여");
 		}
 		return stList;
 	}
 	
-	public Integer findAllCount() {
-		return stDao.findAllCount();
+	public Integer findAllCount(SearchDto searchDto) {
+		return stDao.findAllCount(searchDto);
 	}
 	
 	public StDto detail(String stId) {
