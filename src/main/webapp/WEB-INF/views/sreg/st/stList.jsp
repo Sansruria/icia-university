@@ -8,11 +8,12 @@
 	<title>학생관리</title>
     <jsp:include page="/WEB-INF/views/layout/head-js.jsp"></jsp:include>
     <jsp:include page="/WEB-INF/views/layout/head-css.jsp"></jsp:include>
-	    
+
     <script>
         document.addEventListener("DOMContentLoaded", function(){
             document.querySelector('.btn-save').addEventListener('click', ()=>location.href='/sreg/st/write')
             document.querySelector('.btn-search').addEventListener('click', ()=>search())
+            document.querySelector('.btn-reset').addEventListener('click', ()=>reset())
 
             if ('${searchDto.stId}' != null || '${searchDto.stId}' != '') {
                 document.searchFrm.querySelector('input[name="stId"]').value = '${searchDto.stId}'
@@ -33,8 +34,27 @@
         })
         
         function search() {
-            const sel = document.getElementById('cntPerPage').value
             document.searchFrm.submit()
+        }
+
+        function selectedPage(pageNum) {
+            document.searchFrm.querySelector('input[name="nowPage"]').value = pageNum
+            search()
+        }
+
+        function prev() {
+            document.searchFrm.querySelector('input[name="nowPage"]').value = '${searchDto.startPage - 1 }'
+            search()
+        }
+
+        function next() {
+            document.searchFrm.querySelector('input[name="nowPage"]').value = '${searchDto.endPage + 1 }'
+            search()
+        }
+
+        function reset() {
+            document.searchFrm.reset()
+            search()
         }
 
         function detail(id) {
@@ -42,8 +62,9 @@
         }
         
         function selChange() {
-            var sel = document.getElementById('cntPerPage').value;
-            location.href="/sreg/st?nowPage=${paging.nowPage}&cntPerPage="+sel;
+            const sel = document.getElementById('cntPerPage').value
+            document.searchFrm.querySelector('input[name="cntPerPage"]').value = sel
+            search()
         }
     </script>
 </head>
@@ -58,9 +79,9 @@
             <div class="card-body">
             
                 <div class="row ">
-                    <form name="searchFrm">
-                        <input type="text" name="nowPage" value="">
-                        <input type="text" name="cntPerPage">
+                    <form name="searchFrm" action="/sreg/st" method="GET">
+                        <input type="hidden" name="nowPage" value="<c:out value="${searchDto.startPage}"></c:out>">
+                        <input type="hidden" name="cntPerPage" value="<c:out value="${searchDto.cntPerPage}"></c:out>">
 
 						<div class="row mb-3 align-items-center">
     					   <div class="col">학적상태</div>
@@ -75,11 +96,14 @@
     					   <div class="col">학과</div>
 	   					   <div class="col"><input type="text" name="deptName" class="form-control"></div>
 						</div>
+
+                        <div class="row mb-3">
+                            <div class="col text-end">
+                                <button type="button" class="btn btn-primary btn-search">검색</button>
+                                <button type="button" class="btn btn-secondary btn-reset">초기화</button>
+                            </div>
+                        </div>
                     </form>
-                    
-                    <div class="row mb-3">
-                        <button type="button" class="btn btn-primary btn-search">검색</button>
-                    </div>
                 </div> <!-- end row -->
                 
             </div>
@@ -99,7 +123,7 @@
                         <c:if test="${searchDto.cntPerPage == 20}">selected</c:if>>20줄 보기</option>
             </select>
         </div>
-        <div class="col justify-content-end">
+        <div class="col text-end">
             <button type="button" class="btn btn-primary btn-save">등록</button>
         </div>
     </div>
@@ -137,7 +161,7 @@
 
             <c:if test="${searchDto.startPage != 1}">
                 <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
+                    <a class="page-link" href="#" onclick="prev()" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
@@ -147,11 +171,11 @@
             <c:forEach begin="${searchDto.startPage }" end="${searchDto.endPage }" var="p">
                 <c:choose>
                     <c:when test="${p == searchDto.nowPage }">
-                        <li class="page-item disabled"><a class="page-link" href="#" onclick="search()">${p}</a></li>
+                        <li class="page-item disabled"><a class="page-link" href="#">${p}</a></li>
                     </c:when>
 
                     <c:when test="${p != searchDto.nowPage }">
-                        <li class="page-item"><a class="page-link" href="#" onclick="search()">${p}</a></li>
+                        <li class="page-item"><a class="page-link" href="#" onclick="selectedPage('${p}')">${p}</a></li>
                     </c:when>
                 </c:choose>
             </c:forEach>
@@ -159,36 +183,13 @@
 
             <c:if test="${searchDto.endPage != searchDto.lastPage}">
                 <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
+                    <a class="page-link" href="#" onclick="next()" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
             </c:if>
         </ul>
     </nav>
-
-
-    
-    <div style="display: block; text-align: center;">
-        <c:if test="${searchDto.startPage != 1 }">
-            <a href="/sreg/st?nowPage=${searchDto.startPage - 1 }&cntPerPage=${searchDto.cntPerPage}">&lt;</a>
-        </c:if>
-
-        <c:forEach begin="${searchDto.startPage }" end="${searchDto.endPage }" var="p">
-            <c:choose>
-                <c:when test="${p == searchDto.nowPage }">
-                    <b>${p }</b>
-                </c:when>
-                <c:when test="${p != searchDto.nowPage }">
-                    <a href="/sreg/st?nowPage=${p }&cntPerPage=${searchDto.cntPerPage}">${p }</a>
-                </c:when>
-            </c:choose>
-        </c:forEach>
-
-        <c:if test="${searchDto.endPage != searchDto.lastPage}">
-            <a href="/sreg/st?nowPage=${searchDto.endPage+1 }&cntPerPage=${searchDto.cntPerPage}">&gt;</a>
-        </c:if>
-    </div>
 </div>
 
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

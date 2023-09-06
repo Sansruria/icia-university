@@ -36,15 +36,16 @@
                 </if>
             ) A
         WHERE rnum BETWEEN #{start} AND #{end}
-
         <if test="status != null and status != ''">
-            AND status = #{status}
+            AND status LIKE '%' || #{status} || '%'
         </if>
     </select>
     
     <select id="findAllCount" parameterType="kr.ac.icia.dto.sreg.common.SearchDto" resultType="Integer">
-        SELECT COUNT(*) FROM st
+        SELECT COUNT(*)
+        FROM (SELECT NVL(r.register_change_id, '재학') AS status FROM st
         JOIN department d ON st.department_id = d.department_id
+        LEFT OUTER JOIN register r ON st.st_id = r.st_id
         WHERE 1=1
         <if test="stId != null and stId != ''">
             AND st.st_id LIKE '%'||#{stId}||'%'
@@ -57,9 +58,9 @@
         <if test="deptName != null and deptName != ''">
             AND d.department_name LIKE '%'||#{deptName}||'%'
         </if>
-
+        )
         <if test="status != null and status != ''">
-            AND st.status = #{status}
+            WHERE status LIKE '%' || #{status} || '%'
         </if>
     </select>
     
