@@ -58,24 +58,45 @@ public class DeptService {
 	
 	public String makeListHtml() {
 		String str = "";
-		String prefix = "<div class=\"col\">";
-		String suffix = "</div>";
+		String prefix = "<td>";
+		String suffix = "</td>";
+
 		for (DeptDto dto : findByCondition()) {
-			str += "<div class=\"row\" "
-					+ "onclick=selected('" + dto.getDeptId() + "','" + dto.getDeptName() + "') style='cursor:pointer'>";
+			str += "<tr>";
 			str += prefix;
 			str += dto.getRnum();
 			str += suffix;
-			
+
 			str += prefix;
 			str += dto.getDeptId();
 			str += suffix;
-			
+
 			str += prefix;
+			str += "<a href=\"#\" onclick=selected('" + dto.getDeptId() + "','" + dto.getDeptName() + "') "
+					+ "style=\"cursor:pointer\" "
+					+ "class=\"link-offset-2 link-underline link-underline-opacity-0\">";
 			str += dto.getDeptName();
+			str += "</a>";
 			str += suffix;
-			str += "</div>";
+			str += "</tr>";
 		}
+
+//		for (DeptDto dto : findByCondition()) {
+//			str += "<div class=\"row\" "
+//					+ "onclick=selected('" + dto.getDeptId() + "','" + dto.getDeptName() + "') style='cursor:pointer'>";
+//			str += prefix;
+//			str += dto.getRnum();
+//			str += suffix;
+//
+//			str += prefix;
+//			str += dto.getDeptId();
+//			str += suffix;
+//
+//			str += prefix;
+//			str += dto.getDeptName();
+//			str += suffix;
+//			str += "</div>";
+//		}
 		
 		return str;
 	}

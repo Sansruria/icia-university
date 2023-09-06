@@ -78,25 +78,6 @@ public class DeptLineService {
 			str += suffix;
 			str += "</tr>";
 		}
-//		String str = "";
-//		String prefix = "<div class=\"col\">";
-//		String suffix = "</div>";
-//		for (DeptLineDto dto : findByCondition()) {
-//			str += "<div class=\"row\" "
-//					+ "onclick=selected('" + dto.getDeptLineId() + "','" + dto.getDeptLineName() + "','" + kind +"') style='cursor:pointer'>";
-//			str += prefix;
-//			str += dto.getRnum();
-//			str += suffix;
-//			
-//			str += prefix;
-//			str += dto.getDeptLineId();
-//			str += suffix;
-//			
-//			str += prefix;
-//			str += dto.getDeptLineName();
-//			str += suffix;
-//			str += "</div>";
-//		}
 		
 		return str;
 	}

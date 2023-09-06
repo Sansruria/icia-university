@@ -25,4 +25,6 @@ public interface StDao {
 	
 	public String countStOfYear(StDto stDto);
 
+	public Integer findLastNum(StDto stDto);
+
 }

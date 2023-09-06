@@ -5,7 +5,7 @@
 
     <select id="findByCondition" parameterType="kr.ac.icia.dto.sreg.common.SearchDto" resultType="kr.ac.icia.dto.sreg.st.StDto">
         SELECT *
-        FROM (SELECT row_number() OVER (ORDER BY st.st_id DESC) AS rnum,
+        FROM (SELECT row_number() OVER (ORDER BY st.create_date DESC, st.st_id DESC) AS rnum,
                     st.st_id                              AS stId,
                     st.department_id                      AS deptId,
                     d.department_name                     AS deptName,
@@ -17,12 +17,12 @@
                     st.email,
                     st.profile,
                     st.national,
-                    NVL(r.register_change_id, '재학')       AS status
+                    NVL(r.register_change_id, '재학')       AS status,
+                    st.create_date                         AS createDate
              FROM st
              JOIN department d ON st.department_id = d.department_id
              LEFT OUTER JOIN register r ON st.st_id = r.st_id
              WHERE 1=1
-
                 <if test="stId != null and stId != ''">
                     AND st.st_id LIKE '%'||#{stId}||'%'
                 </if>
@@ -94,8 +94,8 @@
             gender,
             address,
             email,
-            profile,
-            national
+            national,
+            create_date
         )
         VALUES (
             #{stId},
@@ -106,8 +106,8 @@
             #{gender},
             #{address},
             #{email},
-            #{profile},
-            #{national}
+            #{national},
+            DEFAULT
         )
     </insert>
     
@@ -120,7 +120,6 @@
             gender = #{gender},
             address = #{address},
             email = #{email},
-            profile = #{profile},
             national = #{national}
         WHERE
             st_id = #{stId}
@@ -136,6 +135,17 @@
         WHERE st_id LIKE '%' || #{deptId}  || '%'
               AND
               st_id LIKE '%' || #{stId} || '%'
+    </select>
+
+    <select id="findLastNum" parameterType="kr.ac.icia.dto.sreg.st.StDto" resultType="Integer">
+        SELECT * FROM (
+            SELECT SUBSTR(st_id, 10, 2) AS stId
+            FROM st
+            WHERE st_id LIKE '%' || #{deptId}  || '%'
+                  AND
+                  st_id LIKE '%' || #{stId} || '%'
+            ORDER BY create_date DESC)
+        WHERE rownum = 1
     </select>
 
 </mapper>

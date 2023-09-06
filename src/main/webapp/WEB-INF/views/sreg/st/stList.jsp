@@ -83,19 +83,36 @@
                         <input type="hidden" name="nowPage" value="<c:out value="${searchDto.startPage}"></c:out>">
                         <input type="hidden" name="cntPerPage" value="<c:out value="${searchDto.cntPerPage}"></c:out>">
 
-						<div class="row mb-3 align-items-center">
-    					   <div class="col">학적상태</div>
-	   					   <div class="col"><input type="text" name="status" class="form-control"></div>
-    					   <div class="col">학번</div>
-	   					   <div class="col"><input type="text" name="stId" class="form-control"></div>
-						</div>
-						
-						<div class="row mb-3 align-items-center">
-    					   <div class="col">학생명</div>
-	   					   <div class="col"><input type="text" name="name" class="form-control"></div>
-    					   <div class="col">학과</div>
-	   					   <div class="col"><input type="text" name="deptName" class="form-control"></div>
-						</div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="status" name="status" placeholder="검색할 학적상태를 입력해주세요.">
+                                    <label for="status">학적상태</label>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="stId" name="stId" placeholder="검색할 학번을 입력해주세요.">
+                                    <label for="stId">학번</label>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="검색할 학생명을 입력해주세요.">
+                                    <label for="name">학생명</label>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="deptName" name="deptName" placeholder="검색할 학과를 입력해주세요.">
+                                    <label for="deptName">학과</label>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="row mb-3">
                             <div class="col text-end">
@@ -131,27 +148,41 @@
     <div class="row mb-3">
         <div class="card">
             <div class="card-body">
-                
-                <div class="row text-center">
-                    <div class="col">번호</div>
-                    <div class="col">학과명</div>
-                    <div class="col">학번</div>
-                    <div class="col">학생명</div>
-                    <div class="col">성별</div>
-                    <div class="col">학적상태</div>
-                </div> <!-- end row -->
-                
-                <c:forEach var="st" items="${stList}">
-	                <div class="row text-center" onclick="detail('<c:out value="${st.stId}"></c:out>')" style="cursor:pointer">
-	                    <div class="col"><c:out value="${st.rnum}"></c:out></div>
-	                    <div class="col"><c:out value="${st.deptName}"></c:out></div>
-	                    <div class="col"><c:out value="${st.stId}"></c:out></div>
-	                    <div class="col"><c:out value="${st.name}"></c:out></div>
-	                    <div class="col"><c:out value="${st.gender}"></c:out></div>
-	                    <div class="col"><c:out value="${st.status}"></c:out></div>
-	                </div>
-                </c:forEach>
-                
+
+                <div class="row">
+                    <div class="table-responsive text-center">
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>번호</th>
+                                    <th>학과명</th>
+                                    <th>학번</th>
+                                    <th>학생명</th>
+                                    <th>성별</th>
+                                    <th>학적상태</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <c:forEach var="st" items="${stList}">
+                                    <tr>
+                                        <td><c:out value="${st.rnum}"></c:out></td>
+                                        <td><c:out value="${st.deptName}"></c:out></td>
+                                        <td><c:out value="${st.stId}"></c:out></td>
+                                        <td>
+                                            <a href="#" onclick="detail('<c:out value="${st.stId}"></c:out>')"
+                                               class="link-offset-2 link-underline link-underline-opacity-0">
+                                            <c:out value="${st.name}"></c:out></a>
+                                        </td>
+                                        <td><c:out value="${st.gender}"></c:out></td>
+                                        <td><c:out value="${st.status}"></c:out></td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div> <!-- end row -->
@@ -167,7 +198,6 @@
                 </li>
             </c:if>
 
-
             <c:forEach begin="${searchDto.startPage }" end="${searchDto.endPage }" var="p">
                 <c:choose>
                     <c:when test="${p == searchDto.nowPage }">
@@ -180,7 +210,6 @@
                 </c:choose>
             </c:forEach>
 
-
             <c:if test="${searchDto.endPage != searchDto.lastPage}">
                 <li class="page-item">
                     <a class="page-link" href="#" onclick="next()" aria-label="Next">
@@ -190,6 +219,7 @@
             </c:if>
         </ul>
     </nav>
+
 </div>
 
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

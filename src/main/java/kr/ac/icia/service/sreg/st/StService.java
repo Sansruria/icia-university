@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import kr.ac.icia.dto.sreg.common.SearchDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import kr.ac.icia.dto.common.PagingVO;
 import kr.ac.icia.dto.sreg.st.StDto;
 import lombok.RequiredArgsConstructor;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class StService {
@@ -42,11 +44,18 @@ public class StService {
 	public String write(StDto stDto) {
 		String stId = DateTimeFormatter.ofPattern("YYMM").format(LocalDate.now());
 		stDto.setStId(stId.substring(0, 2));
-		String numbering = stDao.countStOfYear(stDto);
+//		String numbering = stDao.countStOfYear(stDto);
+		Integer lastNum = stDao.findLastNum(stDto);
+		String numbering = "";
 
-		// 자릿수가 1개일 경우 앞에 0을 붙여줌
-		if (numbering.length() == 1) {
-			numbering = "0" + numbering;
+		if (lastNum == null) {
+			lastNum = 0;
+		}
+
+		if (lastNum < 9) {
+			numbering = "0" + (++lastNum);
+		} else {
+			numbering += ++lastNum;
 		}
 
 		stId += stDto.getDeptId() + numbering;
