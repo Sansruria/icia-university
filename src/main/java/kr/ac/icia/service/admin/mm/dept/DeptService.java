@@ -61,15 +61,17 @@ public class DeptService {
 		return "삭제에 실패했습니다";
 	}
 	
-	public String makeListHtml(CampusSearchDto campusSearchDto) {
+	public String makeListHtml(CampusSearchDto searchDto) {
 		String str = "";
 		String prefix = "<td>";
 		String suffix = "</td>";
 
-		for (DeptDto dto : findByCondition(campusSearchDto)) {
+		int count = findAllCount(searchDto)+1;
+
+		for (DeptDto dto : findByCondition(searchDto)) {
 			str += "<tr>";
 			str += prefix;
-			str += dto.getRnum();
+			str += count - dto.getRnum();
 			str += suffix;
 
 			str += prefix;

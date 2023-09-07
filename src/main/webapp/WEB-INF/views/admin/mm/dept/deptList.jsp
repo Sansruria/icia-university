@@ -138,7 +138,7 @@
 
 <div class="container">
     <div class="row mb-3 mt-3">
-        <h3>학과관리</h1>
+        <h3>학과관리</h3>
     </div>
 
     <div class="row">
@@ -204,12 +204,12 @@
                             </div>
                             
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" name="deptId" placeholder="학과 고유번호를 입력해주세요.">
+                                <input type="text" class="form-control" id="deptId" name="deptId" placeholder="학과 고유번호를 입력해주세요.">
                                 <label for="deptId">학과번호</label>
                             </div>
                             
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" name="deptName" placeholder="학과명을 입력해주세요.">
+                                <input type="text" class="form-control" id="deptName" name="deptName" placeholder="학과명을 입력해주세요.">
                                 <label for="deptName">학과명</label>
                             </div>
                         </form>
