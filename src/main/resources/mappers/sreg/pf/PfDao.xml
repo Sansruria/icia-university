@@ -101,11 +101,11 @@
     </delete>
     
     <select id="countPfOfYear" parameterType="kr.ac.icia.dto.sreg.pf.PfDto">
-        SELECT COUNT(*)+1 FROM pf
-        WHERE
-            pf_id LIKE '%' || #{deptId} || '%'
-            AND
-            pf_id LIKE '%' || #{pfId} || '%'
+        SELECT COUNT(*)+1
+        FROM pf
+        WHERE pf_id LIKE '%' || #{deptId} || '%'
+              AND
+              pf_id LIKE '%' || #{pfId} || '%'
     </select>
 
 </mapper>

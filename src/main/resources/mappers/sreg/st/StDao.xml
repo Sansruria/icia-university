@@ -3,40 +3,65 @@
 
 <mapper namespace="kr.ac.icia.dao.sreg.st.StDao">
 
-    <select id="findByCondition" resultType="kr.ac.icia.dto.sreg.st.StDto">
-        SELECT
-		    rownum AS rnum,
-		    stId,
-		    deptId,
-		    deptName,
-		    rrn,
-		    password,
-		    name,
-		    gender,
-		    address,
-		    email,
-		    profile,
-		    national,
-		    status
-		FROM
-		    (SELECT
-		        st.st_id AS stId,
-		        st.department_id AS deptId,
-		        d.department_name AS deptName,
-		        st.rrn,
-		        st.password,
-		        st.st_name AS name,
-		        st.gender,
-		        st.address,
-		        st.email,
-		        st.profile,
-		        st.national,
-		        NVL(r.register_change_id, '재학') AS status
-		    FROM st
-		    JOIN department d ON st.department_id = d.department_id
-		    LEFT OUTER JOIN register r ON st.st_id = r.st_id
-		    ORDER BY st.st_id, d.department_name DESC)
-        ORDER BY rnum DESC
+    <select id="findByCondition" parameterType="kr.ac.icia.dto.sreg.common.SearchDto" resultType="kr.ac.icia.dto.sreg.st.StDto">
+        SELECT *
+        FROM (SELECT row_number() OVER (ORDER BY st.st_id DESC) AS rnum,
+                    st.st_id                              AS stId,
+                    st.department_id                      AS deptId,
+                    d.department_name                     AS deptName,
+                    st.rrn,
+                    st.password,
+                    st.st_name                            AS name,
+                    st.gender,
+                    st.address,
+                    st.email,
+                    st.profile,
+                    st.national,
+                    NVL(r.register_change_id, '재학')       AS status
+             FROM st
+             JOIN department d ON st.department_id = d.department_id
+             LEFT OUTER JOIN register r ON st.st_id = r.st_id
+             WHERE 1=1
+
+                <if test="stId != null and stId != ''">
+                    AND st.st_id LIKE '%'||#{stId}||'%'
+                </if>
+
+                <if test="name != null and name != ''">
+                    AND st.st_name LIKE '%'||#{name}||'%'
+                </if>
+
+                <if test="deptName != null and deptName != ''">
+                    AND d.department_name LIKE '%'||#{deptName}||'%'
+                </if>
+            ) A
+        WHERE rnum BETWEEN #{start} AND #{end}
+        <if test="status != null and status != ''">
+            AND status LIKE '%' || #{status} || '%'
+        </if>
+    </select>
+    
+    <select id="findAllCount" parameterType="kr.ac.icia.dto.sreg.common.SearchDto" resultType="Integer">
+        SELECT COUNT(*)
+        FROM (SELECT NVL(r.register_change_id, '재학') AS status FROM st
+        JOIN department d ON st.department_id = d.department_id
+        LEFT OUTER JOIN register r ON st.st_id = r.st_id
+        WHERE 1=1
+        <if test="stId != null and stId != ''">
+            AND st.st_id LIKE '%'||#{stId}||'%'
+        </if>
+
+        <if test="name != null and name != ''">
+            AND st.st_name LIKE '%'||#{name}||'%'
+        </if>
+
+        <if test="deptName != null and deptName != ''">
+            AND d.department_name LIKE '%'||#{deptName}||'%'
+        </if>
+        )
+        <if test="status != null and status != ''">
+            WHERE status LIKE '%' || #{status} || '%'
+        </if>
     </select>
     
     <select id="detail" parameterType="String" resultType="kr.ac.icia.dto.sreg.st.StDto">
@@ -106,11 +131,11 @@
     </delete>
     
     <select id="countStOfYear" parameterType="kr.ac.icia.dto.sreg.st.StDto">
-        SELECT COUNT(*)+1 FROM st
-        WHERE
-            st_id LIKE '%' || #{deptId}  || '%'
-            AND
-            st_id LIKE '%' || #{stId} || '%'
+        SELECT COUNT(*)+1
+        FROM st
+        WHERE st_id LIKE '%' || #{deptId}  || '%'
+              AND
+              st_id LIKE '%' || #{stId} || '%'
     </select>
 
 </mapper>
