@@ -25,7 +25,7 @@ public class DeptController {
 	
 //	목록
 	@GetMapping("/dept")
-	public String list(Model model, CampusSearchDto campusSearchDto) {
+	public String list(Model model, CampusSearchDto searchDto) {
 		log.info("dept...");
 //		ArrayList<DeptDto> deptList = deptService.findByCondition();
 //		model.addAttribute("deptList", deptList);

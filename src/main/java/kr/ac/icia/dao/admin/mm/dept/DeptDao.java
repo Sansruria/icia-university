@@ -10,7 +10,7 @@ import kr.ac.icia.dto.admin.mm.dept.DeptDto;
 @Mapper
 public interface DeptDao {
 	
-	public ArrayList<DeptDto> findByCondition(CampusSearchDto campusSearchDto);
+	public ArrayList<DeptDto> findByCondition(CampusSearchDto searchDto);
 	
 	public DeptDto detail(String deptId);
 	
@@ -20,5 +20,5 @@ public interface DeptDao {
 	
 	public boolean delete(String deptId);
 
-    Integer findAllCount(CampusSearchDto campusSearchDto);
+    Integer findAllCount(CampusSearchDto searchDto);
 }

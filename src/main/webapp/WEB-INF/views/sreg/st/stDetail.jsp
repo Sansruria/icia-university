@@ -156,7 +156,7 @@
 								<div class="col">
 									<div class="input-group mb-3">
 										<span class="input-group-text w-25 p-3">재학</span>
-										<span class="w-75 border p-3"><c:out value="${stDto.email}"></c:out></span>
+										<span class="w-75 border p-3"><c:out value="${stDto.status}"></c:out></span>
 									</div>
 								</div>
 							</div>

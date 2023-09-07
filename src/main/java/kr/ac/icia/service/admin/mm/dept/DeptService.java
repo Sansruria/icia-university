@@ -18,12 +18,12 @@ public class DeptService {
 	private final DeptDao deptDao;
 
 //	목록
-	public ArrayList<DeptDto> findByCondition(CampusSearchDto campusSearchDto) {
-		return deptDao.findByCondition(campusSearchDto);
+	public ArrayList<DeptDto> findByCondition(CampusSearchDto searchDto) {
+		return deptDao.findByCondition(searchDto);
 	}
 
-	public Integer findAllCount(CampusSearchDto campusSearchDto) {
-		return deptDao.findAllCount(campusSearchDto);
+	public Integer findAllCount(CampusSearchDto searchDto) {
+		return deptDao.findAllCount(searchDto);
 	}
 	
 //	상세

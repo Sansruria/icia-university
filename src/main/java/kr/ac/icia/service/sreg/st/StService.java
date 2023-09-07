@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import kr.ac.icia.dto.sreg.common.SearchDto;
+import kr.ac.icia.dto.sreg.common.SregSearchDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class StService {
 	@Autowired
 	private final StDao stDao;
 	
-	public ArrayList<StDto> findByCondition(SearchDto searchDto) {
+	public ArrayList<StDto> findByCondition(SregSearchDto searchDto) {
 		ArrayList<StDto> stList = stDao.findByCondition(searchDto);
 		int count = findAllCount(searchDto)+1;
 
@@ -32,7 +32,7 @@ public class StService {
 		return stList;
 	}
 	
-	public Integer findAllCount(SearchDto searchDto) {
+	public Integer findAllCount(SregSearchDto searchDto) {
 		return stDao.findAllCount(searchDto);
 	}
 	

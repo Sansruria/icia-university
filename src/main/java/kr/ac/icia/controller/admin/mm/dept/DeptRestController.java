@@ -22,11 +22,11 @@ public class DeptRestController {
 	
 //	목록
 	@GetMapping("/list")
-	public HashMap<String, Object> list(CampusSearchDto campusSearchDto
+	public HashMap<String, Object> list(CampusSearchDto searchDto
 			, @RequestParam(value="nowPage", required = false) String nowPage
 			, @RequestParam(value="cntPerPage", required = false) String cntPerPage) {
 		log.info("/dept/list api...");
-		int total = deptService.findAllCount(campusSearchDto);
+		int total = deptService.findAllCount(searchDto);
 
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";
@@ -39,12 +39,12 @@ public class DeptRestController {
 			cntPerPage = "5";
 		}
 
-		campusSearchDto = new CampusSearchDto(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), campusSearchDto);
-		campusSearchDto.isModal = true;
+		searchDto = new CampusSearchDto(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), searchDto);
+		searchDto.isModal = true;
 		HashMap <String, Object> modal = new HashMap<String, Object>();
-		modal.put("searchDto", campusSearchDto);
-		modal.put("makePagingHtml", campusSearchDto.makePagingHtml());
-		modal.put("makeListHtml", deptService.makeListHtml(campusSearchDto));
+		modal.put("searchDto", searchDto);
+		modal.put("makePagingHtml", searchDto.makePagingHtml());
+		modal.put("makeListHtml", deptService.makeListHtml(searchDto));
 
 		return modal;
 	}

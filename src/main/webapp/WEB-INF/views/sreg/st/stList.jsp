@@ -84,7 +84,6 @@
                         <input type="hidden" name="nowPage" value="<c:out value="${searchDto.startPage}"></c:out>">
                         <input type="hidden" name="cntPerPage" value="<c:out value="${searchDto.cntPerPage}"></c:out>">
 
-
                         <div class="row">
                             <div class="col">
                                 <div class="form-floating mb-3">
@@ -155,7 +154,7 @@
                         <table class="table table-bordered table-hover">
                             <thead class="table-primary">
                                 <tr>
-                                    <th>번호11</th>
+                                    <th>번호</th>
                                     <th>학과명</th>
                                     <th>학번</th>
                                     <th>학생명</th>

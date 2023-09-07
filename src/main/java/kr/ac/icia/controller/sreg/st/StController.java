@@ -2,7 +2,7 @@ package kr.ac.icia.controller.sreg.st;
 
 import java.util.ArrayList;
 
-import kr.ac.icia.dto.sreg.common.SearchDto;
+import kr.ac.icia.dto.sreg.common.SregSearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +27,7 @@ public class StController {
 	
 //	목록
 	@GetMapping("/st")
-	public String list(Model model, SearchDto searchDto
+	public String list(Model model, SregSearchDto searchDto
 			, @RequestParam(value="nowPage", required = false) String nowPage
 			, @RequestParam(value="cntPerPage", required = false) String cntPerPage) {
 
@@ -44,7 +44,7 @@ public class StController {
 			cntPerPage = "5";
 		}
 
-		searchDto = new SearchDto(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), searchDto);
+		searchDto = new SregSearchDto(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), searchDto);
 		ArrayList<StDto> stList = stService.findByCondition(searchDto);
 		model.addAttribute("searchDto", searchDto);
 		model.addAttribute("paging", searchDto.makePagingHtml());

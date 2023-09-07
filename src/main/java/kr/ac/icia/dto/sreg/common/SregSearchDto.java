@@ -8,14 +8,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SearchDto extends Paging {
+public class SregSearchDto extends Paging {
     private String pfId; // 교수번호
     private String stId; // 학번
     private String name; // 이름
     private String status; //학적상태
     private String deptName; // 학과명
 
-    public SearchDto(int total, int nowPage, int cntPerPage, SearchDto searchDto) {
+    public SregSearchDto(int total, int nowPage, int cntPerPage, SregSearchDto searchDto) {
         super(total, nowPage, cntPerPage);
         this.pfId = searchDto.getPfId();
         this.stId = searchDto.getStId();
