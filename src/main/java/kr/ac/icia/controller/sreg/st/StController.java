@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import kr.ac.icia.dto.common.Paging;
-import kr.ac.icia.dto.common.PagingVO;
 import kr.ac.icia.dto.sreg.st.StDto;
 import kr.ac.icia.service.sreg.st.StService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/sreg")
 @Controller
@@ -48,6 +47,7 @@ public class StController {
 		searchDto = new SearchDto(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), searchDto);
 		ArrayList<StDto> stList = stService.findByCondition(searchDto);
 		model.addAttribute("searchDto", searchDto);
+		model.addAttribute("paging", searchDto.makePagingHtml());
 		model.addAttribute("stList", stList);
 		
 		return "sreg/st/stList";

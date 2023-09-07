@@ -2,6 +2,7 @@ package kr.ac.icia.controller.admin.mm.dept;
 
 import java.util.ArrayList;
 
+import kr.ac.icia.dto.admin.mm.common.CampusSearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,10 +25,10 @@ public class DeptController {
 	
 //	목록
 	@GetMapping("/dept")
-	public String list(Model model) {
+	public String list(Model model, CampusSearchDto campusSearchDto) {
 		log.info("dept...");
-		ArrayList<DeptDto> deptList = deptService.findByCondition();
-		model.addAttribute("deptList", deptList);
+//		ArrayList<DeptDto> deptList = deptService.findByCondition();
+//		model.addAttribute("deptList", deptList);
 		
 		return "admin/mm/dept/deptList";
 	}

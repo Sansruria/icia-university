@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import kr.ac.icia.dto.sreg.common.SearchDto;
 import org.apache.ibatis.annotations.Mapper;
 
-import kr.ac.icia.dto.common.PagingVO;
 import kr.ac.icia.dto.sreg.st.StDto;
 
 @Mapper
@@ -23,8 +22,6 @@ public interface StDao {
 	
 	public boolean delete(String stId);
 	
-	public String countStOfYear(StDto stDto);
-
 	public Integer findLastNum(StDto stDto);
 
 }

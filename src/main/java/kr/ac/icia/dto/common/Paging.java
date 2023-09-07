@@ -17,6 +17,7 @@ public class Paging {
     private int start;     // SQL에 사용할 start
     private int end;       // SQL에 사용할 end
     private int cntPage = 5;
+    public boolean isModal = false; // 모달여부
 
     public Paging(int total, int nowPage, int cntPerPage) {
         setNowPage(nowPage);
@@ -49,4 +50,43 @@ public class Paging {
         setEnd(nowPage * cntPerPage);
         setStart(getEnd() - cntPerPage + 1);
     }
+
+    public String makePagingHtml() {
+        String str = "<nav><ul id=\\\"pagingModal\\\" class=\\\"pagination justify-content-center\\\">";
+
+        if (startPage != 1) {
+            str += "<li class=\\\"page-item\\\">" +
+                       "<a class=\\\"page-link\\\" href=\\\"#\\\" onclick=\\\"prev()\\\" aria-label=\\\"Previous\\\">" +
+                           "<span aria-hidden=\\\"true\\\">&laquo;</span>" +
+                       "</a>" +
+                   "</li>";
+        }
+
+        for (int page = startPage; page <= endPage; page++) {
+            if (page == nowPage) {
+                str += "<li class=\\\"page-item disabled\\\"><a class=\\\"page-link\\\" href=\\\"#\\\">" + page + "</a></li>";
+            }
+
+            if (page != nowPage) {
+                if (isModal) {
+                   str += "<li class=\\\"page-item\\\"><a class=\\\"page-link\\\" href=\\\"#\\\" onclick=\\\"searchAndPagingModal('" + page + "')\\\">" + page + "</a></li>";
+                } else {
+                   str += "<li class=\\\"page-item\\\"><a class=\\\"page-link\\\" href=\\\"#\\\" onclick=\\\"selectedPage('" + page + "')\\\">" + page + "</a></li>";
+                }
+            }
+        }
+
+        if (endPage != lastPage) {
+            str += "<li class=\\\"page-item\\\">" +
+                        "<a class=\\\"page-link\\\" href=\\\"#\\\" onclick=\\\"next()\\\" aria-label=\\\"Next\\\">" +
+                            "<span aria-hidden=\\\"true\\\">&raquo;</span>" +
+                        "</a>" +
+                    "</li>";
+        }
+
+        str += "</ul></nav>";
+
+        return str;
+    }
+
 }

@@ -84,7 +84,7 @@
 								<div class="col">
 									<div class="input-group mb-3">
 										<span class="input-group-text w-25 p-3">학과명</span>
-										<span class="p-3"><c:out value="${stDto.deptName}"></c:out></span>
+										<span class="w-75 border p-3"><c:out value="${stDto.deptName}"></c:out></span>
 									</div>
 								</div>
 							</div>
@@ -93,7 +93,7 @@
 								<div class="col">
 									<div class="input-group mb-3">
 										<span class="input-group-text w-25 p-3">학번</span>
-										<span class="p-3"><c:out value="${stDto.stId}"></c:out></span>
+										<span class="w-75 border p-3"><c:out value="${stDto.stId}"></c:out></span>
 									</div>
 								</div>
 							</div>
@@ -102,7 +102,7 @@
 								<div class="col">
 									<div class="input-group mb-3">
 										<span class="input-group-text w-25 p-3">학생명</span>
-										<span class="p-3"><c:out value="${stDto.name}"></c:out></span>
+										<span class="w-75 border p-3"><c:out value="${stDto.name}"></c:out></span>
 									</div>
 								</div>
 							</div>
@@ -111,7 +111,7 @@
 								<div class="col">
 									<div class="input-group mb-3">
 										<span class="input-group-text w-25 p-3">주민등록번호</span>
-										<span class="p-3"><c:out value="${stDto.rrn}"></c:out></span>
+										<span class="w-75 border p-3"><c:out value="${stDto.rrn}"></c:out></span>
 									</div>
 								</div>
 							</div>
@@ -120,7 +120,7 @@
 								<div class="col">
 									<div class="input-group mb-3">
 										<span class="input-group-text w-25 p-3">주소</span>
-										<span class="p-3"><c:out value="${stDto.address}"></c:out></span>
+										<span class="w-75 border p-3"><c:out value="${stDto.address}"></c:out></span>
 									</div>
 								</div>
 							</div>
@@ -129,7 +129,7 @@
 								<div class="col">
 									<div class="input-group mb-3">
 										<span class="input-group-text w-25 p-3">이메일</span>
-										<span class="p-3"><c:out value="${stDto.email}"></c:out></span>
+										<span class="w-75 border p-3"><c:out value="${stDto.email}"></c:out></span>
 									</div>
 								</div>
 							</div>
@@ -138,7 +138,7 @@
 								<div class="col">
 									<div class="input-group mb-3">
 										<span class="input-group-text w-25 p-3">성별</span>
-										<span class="p-3" id="gender"></span>
+										<span class="w-75 border p-3" id="gender"></span>
 									</div>
 								</div>
 							</div>
@@ -147,7 +147,7 @@
 								<div class="col">
 									<div class="input-group mb-3">
 										<span class="input-group-text w-25 p-3">국적</span>
-										<span class="p-3" id="national"></span>
+										<span class="w-75 border p-3" id="national"></span>
 									</div>
 								</div>
 							</div>
@@ -156,7 +156,7 @@
 								<div class="col">
 									<div class="input-group mb-3">
 										<span class="input-group-text w-25 p-3">재학</span>
-										<span class="p-3"><c:out value="${stDto.email}"></c:out></span>
+										<span class="w-75 border p-3"><c:out value="${stDto.email}"></c:out></span>
 									</div>
 								</div>
 							</div>
@@ -166,9 +166,11 @@
 				</div>
 			</div>
 
-			<div class="row mt-4 text-end">
+			<div class="row mt-4">
 				<div class="col">
-					<button type="button" class="btn btn-secondary btn-cancle">취소</button>
+					<button type="button" class="btn btn-secondary btn-cancle">목록으로</button>
+				</div>
+				<div class="col text-end">
 					<button type="button" class="btn btn-danger btn-delete">삭제</button>
 					<button type="button" class="btn btn-primary btn-update">수정</button>
 				</div>

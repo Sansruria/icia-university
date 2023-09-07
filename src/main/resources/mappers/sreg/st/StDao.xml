@@ -128,14 +128,6 @@
     <delete id="delete" parameterType="String">
         DELETE FROM st WHERE st_id = #{stId}
     </delete>
-    
-    <select id="countStOfYear" parameterType="kr.ac.icia.dto.sreg.st.StDto">
-        SELECT COUNT(*)+1
-        FROM st
-        WHERE st_id LIKE '%' || #{deptId}  || '%'
-              AND
-              st_id LIKE '%' || #{stId} || '%'
-    </select>
 
     <select id="findLastNum" parameterType="kr.ac.icia.dto.sreg.st.StDto" resultType="Integer">
         SELECT * FROM (

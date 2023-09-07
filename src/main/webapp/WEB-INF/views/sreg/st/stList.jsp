@@ -14,6 +14,7 @@
             document.querySelector('.btn-save').addEventListener('click', ()=>location.href='/sreg/st/write')
             document.querySelector('.btn-search').addEventListener('click', ()=>search())
             document.querySelector('.btn-reset').addEventListener('click', ()=>reset())
+            document.querySelector('#paging').innerHTML = "${paging}";
 
             if ('${searchDto.stId}' != null || '${searchDto.stId}' != '') {
                 document.searchFrm.querySelector('input[name="stId"]').value = '${searchDto.stId}'
@@ -154,7 +155,7 @@
                         <table class="table table-bordered table-hover">
                             <thead class="table-primary">
                                 <tr>
-                                    <th>번호</th>
+                                    <th>번호11</th>
                                     <th>학과명</th>
                                     <th>학번</th>
                                     <th>학생명</th>
@@ -187,38 +188,7 @@
         </div>
     </div> <!-- end row -->
 
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-
-            <c:if test="${searchDto.startPage != 1}">
-                <li class="page-item">
-                    <a class="page-link" href="#" onclick="prev()" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-            </c:if>
-
-            <c:forEach begin="${searchDto.startPage }" end="${searchDto.endPage }" var="p">
-                <c:choose>
-                    <c:when test="${p == searchDto.nowPage }">
-                        <li class="page-item disabled"><a class="page-link" href="#">${p}</a></li>
-                    </c:when>
-
-                    <c:when test="${p != searchDto.nowPage }">
-                        <li class="page-item"><a class="page-link" href="#" onclick="selectedPage('${p}')">${p}</a></li>
-                    </c:when>
-                </c:choose>
-            </c:forEach>
-
-            <c:if test="${searchDto.endPage != searchDto.lastPage}">
-                <li class="page-item">
-                    <a class="page-link" href="#" onclick="next()" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </c:if>
-        </ul>
-    </nav>
+    <div id="paging"></div>
 
 </div>
 

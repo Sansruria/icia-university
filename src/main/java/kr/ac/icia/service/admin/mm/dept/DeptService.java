@@ -2,6 +2,7 @@ package kr.ac.icia.service.admin.mm.dept;
 
 import java.util.ArrayList;
 
+import kr.ac.icia.dto.admin.mm.common.CampusSearchDto;
 import org.springframework.stereotype.Service;
 
 import kr.ac.icia.dao.admin.mm.dept.DeptDao;
@@ -17,8 +18,12 @@ public class DeptService {
 	private final DeptDao deptDao;
 
 //	목록
-	public ArrayList<DeptDto> findByCondition() {
-		return deptDao.findByCondition();
+	public ArrayList<DeptDto> findByCondition(CampusSearchDto campusSearchDto) {
+		return deptDao.findByCondition(campusSearchDto);
+	}
+
+	public Integer findAllCount(CampusSearchDto campusSearchDto) {
+		return deptDao.findAllCount(campusSearchDto);
 	}
 	
 //	상세
@@ -56,12 +61,12 @@ public class DeptService {
 		return "삭제에 실패했습니다";
 	}
 	
-	public String makeListHtml() {
+	public String makeListHtml(CampusSearchDto campusSearchDto) {
 		String str = "";
 		String prefix = "<td>";
 		String suffix = "</td>";
 
-		for (DeptDto dto : findByCondition()) {
+		for (DeptDto dto : findByCondition(campusSearchDto)) {
 			str += "<tr>";
 			str += prefix;
 			str += dto.getRnum();
@@ -80,25 +85,7 @@ public class DeptService {
 			str += suffix;
 			str += "</tr>";
 		}
-
-//		for (DeptDto dto : findByCondition()) {
-//			str += "<div class=\"row\" "
-//					+ "onclick=selected('" + dto.getDeptId() + "','" + dto.getDeptName() + "') style='cursor:pointer'>";
-//			str += prefix;
-//			str += dto.getRnum();
-//			str += suffix;
-//
-//			str += prefix;
-//			str += dto.getDeptId();
-//			str += suffix;
-//
-//			str += prefix;
-//			str += dto.getDeptName();
-//			str += suffix;
-//			str += "</div>";
-//		}
 		
 		return str;
 	}
-	
 }
