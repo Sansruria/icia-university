@@ -5,9 +5,13 @@ import org.springframework.stereotype.Service;
 
 import kr.ac.icia.dao.admin.mm.coursehistory.CourseHistoryDao;
 import kr.ac.icia.dto.course.CourseHistoryMMDto;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Service
+@Getter
+@Setter
 public class CourseHistoryService {
 	
 	@Autowired
@@ -16,7 +20,6 @@ public class CourseHistoryService {
 //	등록
 	public String write(CourseHistoryMMDto courseHistoryMMDto) {
 		boolean result = courseHistoryDao.write(courseHistoryMMDto);
-		
 		if (result) {
 			return "저장에 성공하였습니다";
 		}

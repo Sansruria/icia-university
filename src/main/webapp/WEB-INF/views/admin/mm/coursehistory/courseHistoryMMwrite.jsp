@@ -28,9 +28,10 @@
 		})
 	});
 	
-	function save() {
+	function submit() {
 		let obj = $('form[name="frm"]').serializeObject()
-		const course_time = document.querySelector('#inputstartDepartment').value + "~" + document.querySelector('#inputendDepartment').value
+		const course_time = document.querySelector('input[name="course_start_period"]').value
+		+ "~" + document.querySelector('input[name="course_end_period"]').value
 		obj.course_time = course_time
         console.log(obj)
         
@@ -71,51 +72,52 @@
 
 <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
-
 	<div class="container">
-		<form name="frm">
-		<div class="form-control"
-			style="padding: 10px; font-size: 14px; width: 40%; margin: 0 auto; text-align: center;">
-			<div class="col">
-				<label for="inputSubject" class="form-label">과목명</label> 
-				<input type="text" id="inputSubject" class="form-control" value="<c:out value="${CourseHistoryMMDto.course_name}"></c:out>">
-			</div>
-			<div class="col mb-2">
-				<label for="inputDepartment" class="form-label">학과명</label> 
-				<input type="hidden" id="deptId" class="form-control" value="<c:out value="${stDto.deptId}"></c:out>"readonly>
-				<input type="text" id="deptName" class="form-control" value="<c:out value="${stDto.deptName}"></c:out>"readonly>
-			</div>
-			<div class="col">
-			<button type="button" class="btn btn-primary btn-search"
-		                data-bs-toggle="modal" data-bs-target="#searchModal">찾아보기</button>
-			</div>
-			<div class="col">
-				<label for="inputSubject" class="form-label">이수구분</label> 
-				<input type="text" id="inputSubject" class="form-control" value="<c:out value="${CourseHistoryMMDto.course_division}"></c:out>">	
-			</div>
-			<div class="col">
-				<label for="inputDepartment" class="form-label">수강시작기간</label> <input
-					type="text" id="inputstartDepartment" class="form-control" value="<c:out value="${CourseHistoryMMDto.course_start_period}"></c:out>">
-			</div>
-			<div class="col">
-				<label for="inputDepartment" class="form-label">수강종료기간</label> <input
-					type="text" id="inputendDepartment" class="form-control" value="<c:out value="${CourseHistoryMMDto.course_end_period}"></c:out>">
-			</div>
-			<div class="col mb-3">
-				<label for="inputDepartment" class="form-label">수강신청최대인원</label> <input
-					type="text" id="inputDepartment" class="form-control" value="<c:out value="${CourseHistoryMMDto.limit_max_count}"></c:out>">
-			</div>
-
-			<div class="row">
-				<div class="col text-end">
-					<button type="button" class="btn btn-secondary" id="btn-close">←취소</button>
-<!-- 					document.querySelector('.btn-close') // class 선택자 -->
-<!-- 					document.querySelector('#btn-close') // id 선택자 -->
-<!-- 					document.querySelector('input[name="name"]') // name 선택자  -->
-					<button type="button" class="btn btn-primary btn-save">📖등록</button>
+		<form name="frm" method="POST" action="/admin/mm/coursehistory/write">
+			<div class="form-control"
+				style="padding: 10px; font-size: 14px; width: 40%; margin: 0 auto; text-align: center;">
+				<div class="col">
+					<label for="inputSubject" class="form-label">과목명</label> 
+					<input type="text" id="inputSubject" name="course_name" class="form-control" value="<c:out value="${CourseHistoryMMDto.course_name}"></c:out>">
+				</div>
+				<div class="col mb-2">
+					<label for="inputDepartment" class="form-label">학과명</label> 
+					<input type="hidden" id="deptId" name="deptId" class="form-control" value="<c:out value="${stDto.deptId}"></c:out>"readonly>
+					<input type="text" id="deptName" name="deptName" class="form-control" value="<c:out value="${stDto.deptName}"></c:out>"readonly>
+				</div>
+				<div class="col">
+				<button type="button" class="btn btn-primary btn-search"
+			                data-bs-toggle="modal" data-bs-target="#searchModal">찾아보기</button>
+				</div>
+				<div class="col">
+					<label for="inputSubject" class="form-label">이수구분</label> 
+					<input type="text" id="inputSubject" name="course_division" class="form-control" value="<c:out value="${CourseHistoryMMDto.course_division}"></c:out>">	
+				</div>
+				<div class="col">
+					<label for="inputDepartment" class="form-label">수강시작기간</label> <input
+						type="text" id="inputstartDepartment" name="course_start_period" class="form-control" value="<c:out value="${CourseHistoryMMDto.course_start_period}"></c:out>">
+				</div>
+				<div class="col">
+					<label for="inputDepartment" class="form-label">수강종료기간</label> <input
+						type="text" id="inputendDepartment" class="form-control" name="course_end_period" value="<c:out value="${CourseHistoryMMDto.course_end_period}"></c:out>">
+				</div>
+				<div class="col mb-3">
+					<label for="inputDepartment" class="form-label">수강신청최대인원</label> <input
+						type="text" id="inputDepartment" class="form-control" name="limit_max_count" value="<c:out value="${CourseHistoryMMDto.limit_max_count}"></c:out>">
+				</div>
+	
+				<div class="row">
+					<div class="col text-end">
+						<button type="button" class="btn btn-secondary" id="btn-close">←취소</button>
+	<!-- 					document.querySelector('.btn-close') // class 선택자 -->
+	<!-- 					document.querySelector('#btn-close') // id 선택자 -->
+	<!-- 					document.querySelector('input[name="name"]') // name 선택자  -->
+	<!-- 					document.querySelector("input[name='name']") // name 선택자  -->
+						<button type="button" class="btn btn-primary btn-save">📖등록</button>
+					</div>
 				</div>
 			</div>
-		</div>
+			<input type="submit" class="btn btn-primary" value="전송">
 		</form>
 	</div>
 	
