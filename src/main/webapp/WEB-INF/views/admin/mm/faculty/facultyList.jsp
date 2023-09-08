@@ -13,8 +13,14 @@
     <script>
         document.addEventListener("DOMContentLoaded", function(){
             document.querySelector('.btn-save').addEventListener('click', ()=>save())
+            document.querySelector('.btn-search').addEventListener('click', ()=>search())
             document.querySelector('.btn-search-save').addEventListener('click', ()=>openSearchModal(false))
+            document.querySelector('.btn-reset').addEventListener('click', ()=>reset())
             document.querySelector('#paging').innerHTML = "${paging}"
+
+            if ('${searchDto.facultyName}' != null || '${searchDto.facultyName}' != '') {
+                document.searchFrm.querySelector('input[name="facultyName"]').value = '${searchDto.facultyName}'
+            }
         })
 
         function save() {
@@ -49,6 +55,29 @@
 
             $('.modal-content-search').load(url)
         }
+
+        function search() {
+            document.searchFrm.submit()
+        }
+
+        function selectedPage(pageNum) {
+            document.searchFrm.querySelector('input[name="nowPage"]').value = pageNum
+            search()
+        }
+        function prev() {
+            document.searchFrm.querySelector('input[name="nowPage"]').value = '${searchDto.startPage - 1 }'
+            search()
+        }
+
+        function next() {
+            document.searchFrm.querySelector('input[name="nowPage"]').value = '${searchDto.endPage + 1 }'
+            search()
+        }
+
+        function reset() {
+            document.searchFrm.reset()
+            search()
+        }
     </script>
 </head>
 
@@ -65,6 +94,21 @@
 
                 <div class="row">
                     <div class="col">
+                        <form name="searchFrm" action="/admin/mm/faculty" method="GET">
+                            <input type="hidden" name="nowPage" value="<c:out value="${searchDto.startPage}"></c:out>">
+                            <input type="hidden" name="cntPerPage" value="<c:out value="${searchDto.cntPerPage}"></c:out>">
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text bg-primary-subtle w-25 p-3">학부명</span>
+                                        <input type="text" class="form-control" name="facultyName" placeholder="검색할 학부명을 입력해주세요.">
+                                        <button type="button" class="btn btn-primary btn-search">검색</button>
+                                        <button type="button" class="btn btn-secondary btn-reset">초기화</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                         <div class="table-responsive text-center">
                             <table class="table table-bordered table-hover">
                                 <thead class="table-primary">
