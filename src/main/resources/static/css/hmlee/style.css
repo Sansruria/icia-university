@@ -1,3 +1,4 @@
+/* 공통 설정 */
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -8,9 +9,97 @@ div {
 	display: block;
 }
 
+/* 컨테이너 */
 .container {
-	border-top: 1px solid #e5e5e5;
+	/*  border-top: 1px solid #e5e5e5;*/
 	width: 100%;
+}
+
+/* 제목 설정 */
+.h3_box h3 {
+	text-align: center;
+	font-weight: 400;
+	font-size: 26px;
+	padding-bottom: 30px;
+}
+
+/* 검색 폼 */
+.searchForm {
+	margin-bottom: 30px;
+	background: #f6faff;
+	border: 1px solid #e5eaf0;
+	padding: 22px 20px;
+}
+
+/* 드롭다운 설정 */
+#facultySelect,
+#departmentSelect {
+	width: 100%;
+	min-width: 130px;
+	height: 40px;
+	border: 1px solid #e2e2e2;
+}
+
+/* 버튼 설정 */
+.btn01 {
+	padding: 11px 5px;
+	font-weight: 600;
+	min-width: 50px;
+	border-radius: 3px;
+	text-align: center;
+	font-size: 13px;
+}
+
+/* 테이블 설정 */
+.table {
+	width: 100%;
+}
+
+.table th,
+.table td {
+	padding: 19px 5px;
+	text-align: center;
+	border-bottom: 1px solid #e1e5e6;
+}
+
+/* 기본 폰트 설정 */
+body,
+h1,
+h2,
+h3,
+h4,
+input,
+button,
+textarea,
+pre {
+	font: normal 13px/1.1 '나눔고딕', '돋움', sans-serif;
+	color: #666666;
+}
+
+/* 공통 설정  끝*/
+
+
+
+
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+div {
+	display: block;
+}
+
+h3 {
+	display: block;
+	font-size: 1.17em;
+	margin-block-start: 1em;
+	margin-block-end: 1em;
+	margin-inline-start: 0px;
+	margin-inline-end: 0px;
+	font-weight: bold;
 }
 
 .h3_box {
@@ -214,4 +303,54 @@ table_wrap table.t_list tbody td {
 	border: 1px solid #e2e2e2;
 	overflow: visible !important;
 	writing-mode: horizontal-tb !important;
+}
+
+#facultySelect:hover,
+#departmentSelect:hover {
+	border-color: #007BFF;
+}
+
+.courseRegTable tbody tr:hover {
+	background-color: #f5f5f5;
+}
+
+.courseRegList {
+	background-color: #ffffff;
+	border-radius: 4px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.viewTimtbInfoBtn:hover {
+	background-color: #007BFF;
+	color: white;
+}
+
+.search_title {
+	font-weight: 600;
+	color: #333;
+}
+
+.search_resetBtn {
+	display: flex;
+	justify-content: flex-start;
+	gap: 20px;
+}
+
+.btn_ic01,
+.btn01.col03 {
+	margin-left: auto;
+}
+
+.search_form_wrap ul li.btn_w {
+	width: 100%;
+	padding-top: 10px;
+	text-align: right;
+	padding-right: 35px;
+	display: flex;
+	justify-content: flex-end;
+	gap: 20px;
+}
+
+#searchBtn {
+	margin-left: auto;
 }

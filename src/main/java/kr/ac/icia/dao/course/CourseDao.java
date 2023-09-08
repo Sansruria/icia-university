@@ -1,21 +1,24 @@
 package kr.ac.icia.dao.course;
 
+
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import kr.ac.icia.dto.course.SubjectDto;
+import kr.ac.icia.dto.course.FilteringDto;
+import kr.ac.icia.dto.course.FilterringSearchListDto;
 
 @Mapper
 public interface CourseDao {
-	
-	//모든 수강신청 리스트 출력
-	List<SubjectDto> AllCourseReg();
-	
-	//학부, 학과 검색조건으로 수강신청 리스트 출력 
-	List<SubjectDto> courseReg(String department_id, String faculty_id);
 
-	//출력할 수강신청 리스트 필터링  : 학부에 따른  학과 목록으로 필터링
-	List<SubjectDto> filteringSearch(String faculty_id);
-
+	//수강신청 페이지 이동 시 필터링 부분 학부 드롭다운 자동 채우기
+	List<FilteringDto> getAllfaculty();
+	
+	// 선택한 학부 기반으로 학과 데이터 가져오기
+	List<FilteringDto> filtering(String facultyId);
+	
+	 // 필터링된 수강신청(수강신청 테이블이 아닌 과목 테이블)할 리스트 가져오기
+	List<FilterringSearchListDto> filteringSearch(Map<String, String> filterConditionMap);
+	
 }
