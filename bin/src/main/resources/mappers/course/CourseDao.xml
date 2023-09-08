@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.ac.icia.dao.course.CourseDao">
+	<!-- 수강신청 Start -->
+	<!-- 수강신청 검색조건으로 리스트 출력 -->
+	<select id="courseReg" resultType="SubjectDto">
+		SELECT * FROM SUBJECT
+		<!-- if태그 사용하려고 넣은 where절 1=1은 항상 true값이라 쿼리문에 영향X 덕분애 AND사용 가능 -->
+		WHERE 1=1
+		<if test="department_id != null">
+			AND department_id = #{department_id}
+		</if>
+		<if test="faculty_id != null">
+			AND faculty_id = #{faculty_id}
+		</if>
+	</select>
+
+	<!-- 수강신청 모든 리스트 출력 -->
+	<select id="AllCourseReg" resultType="SubjectDto">
+		SELECT * FROM SUBJECT
+	</select>
+
+	<!--  출력할 수강신청 리스트 필터링  : 학부에 따른  학과 목록으로 필터링 -->
+	<!-- 학부 ID를 기반으로 학과 목록을 가져온다. -->
+	<select id="filteringSearch" resultType="SubjectDto">
+		SELECT * FROM DEPARTMENT
+		WHERE faculty_id = #{faculty_id}
+	</select>
+
+	<!-- 수강신청 End -->
+</mapper>

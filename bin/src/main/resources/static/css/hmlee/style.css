@@ -1,0 +1,217 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+div {
+	display: block;
+}
+
+.container {
+	border-top: 1px solid #e5e5e5;
+	width: 100%;
+}
+
+.h3_box {
+	position: relative;
+	clear: both;
+	overflow: hidden;
+	text-align: center;
+	padding-bottom: 30px;
+}
+
+.h3_box h3 {
+	text-align: center;
+	font-weight: 400;
+	font-size: 26px !important;
+	padding-bottom: 30px;
+}
+
+.search_form_wrap {
+	margin-bottom: 30px;
+	background: #f6faff;
+	border: 1px solid #e5eaf0;
+	padding: 22px 20px;
+}
+
+.search_form_wrap ul li dl dt {
+	float: left;
+	width: 120px;
+	font-size: 13px;
+	color: #333333;
+	font-weight: 600;
+	padding-right: 9px;
+	vertical-align: middle;
+}
+
+.search_form_wrap ul li.btn_w {
+	width: 100%;
+	padding-top: 10px;
+	text-align: right;
+	padding-right: 35px;
+	display: flex;
+	justify-content: flex-end;
+	/* Flexbox */
+	gap: 20px;
+	/* Space between buttons */
+}
+
+.search_form li .select select {
+	width: 100%;
+	min-width: 130px;
+	vertical-align: middle;
+	height: 40px;
+	padding-right: 0;
+	min-width: 110px;
+	background-color: #fff;
+	border: 1px solid #e2e2e2;
+	overflow: visible !important;
+	writing-mode: horizontal-tb !important;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+input,
+button,
+textarea,
+pre {
+	font: normal 13px/1.1 'Nanum Gothic', '나눔고딕', '돋움', Dotum, sans-serif;
+	color: #666666;
+}
+
+form {
+	display: block;
+	margin-top: 0em;
+}
+
+html,
+body {
+	background: #fff;
+	min-width: 320px;
+	display: block;
+}
+
+.btn01,
+.btn01.col02,
+.btn01.col03,
+.btn01.col07 {
+	padding: 11px 5px;
+	font-weight: 600;
+	display: inline-block;
+	min-width: 50px;
+	border-radius: 3px;
+	text-align: center;
+	font-size: 13px;
+	color: #303030;
+	background: #ffffff;
+	border: 1px solid #868686;
+	opacity: 1;
+}
+
+.btn01.col02 {
+	background: #d81f25;
+	border: 1px solid #d81f25;
+}
+
+.btn01.col03 {
+	background: #c6c6c6;
+	border: 1px solid #c6c6c6;
+}
+
+.btn01 span {
+	padding: 3px 0;
+	display: inline-block;
+}
+
+.table_wrap table.t_list thead th {
+	padding: 19px 5px;
+	text-align: center;
+	color: #333333;
+	background: #fff;
+	font-weight: 600;
+	letter-spacing: -0.5px;
+}
+
+.table_wrap table th {
+	line-height: 1.2em;
+	font-size: 13px;
+}
+
+.table_wrap table.t_list tbody td .btn01,
+.table_wrap table .btn01 {
+	font-size: 14px;
+	padding: 0 5px;
+	min-width: 60px;
+	font-weight: 400;
+	height: 40px;
+	max-height: 40px;
+	vertical-align: middle;
+}
+
+.table a.col07,
+.btn01.col07 {
+	color: #103ea6;
+	background: #ffffff;
+	border: 1px solid #e1e1e1;
+}
+
+.table_list_wrap+.user_data,
+.user_data {
+	border: 3px solid #e7e9ed;
+	padding: 20px 20px 10px 20px;
+	margin-bottom: 0;
+	text-align: left;
+}
+
+.user_data ul,
+.ul_list {
+	clear: both;
+	overflow: hidden;
+}
+
+table_wrap table.t_list tbody td {
+	padding: 19px 5px;
+	text-align: center;
+	border-bottom: 1px solid #e1e5e6;
+	letter-spacing: -0.5px;
+}
+
+.table_wrap table td,
+.table_wrap table.t_list thead th.last,
+.table_wrap table.t_list tbody th.last,
+.table_wrap table.t_list tfoot th.last,
+.table_wrap table.t_list tbody td.last {
+	line-height: 1.2em;
+	font-size: 13px;
+	border-right: none;
+	color: #666;
+}
+
+.NO_RESULT {
+	text-align: center;
+	height: 100px;
+	line-height: 100px;
+	font-size: 15px;
+	color: #777 !important;
+	padding-top: 60px !important;
+	background: url(images/com_aladdin/no_date.png) no-repeat 50% 40px;
+	background-size: 40px auto;
+}
+
+#facultySelect,
+#departmentSelect {
+	width: 100%;
+	min-width: 130px;
+	vertical-align: middle;
+	height: 40px;
+	padding-right: 0;
+	min-width: 110px;
+	background-color: #fff;
+	border: 1px solid #e2e2e2;
+	overflow: visible !important;
+	writing-mode: horizontal-tb !important;
+}

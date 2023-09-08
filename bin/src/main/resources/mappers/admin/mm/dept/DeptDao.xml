@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.ac.icia.dao.admin.mm.dept.DeptDao">
+
+    <select id="findByCondition" parameterType="kr.ac.icia.dto.admin.mm.common.CampusSearchDto" resultType="kr.ac.icia.dto.admin.mm.dept.DeptDto">
+        SELECT * FROM (SELECT
+                            rownum AS rnum,
+                            facultyId,
+                            facultyName,
+                            deptId,
+                            deptName,
+                            createDate,
+                            status
+                        FROM
+                            (SELECT
+                                d.faculty_id AS facultyId,
+                                f.faculty_name AS facultyName,
+                                d.department_id AS deptId,
+                                d.department_name AS deptName,
+                                d.create_date AS createDate,
+                                d.status
+                            FROM
+                                department d
+                            JOIN faculty f ON f.faculty_id = d.faculty_id
+                            WHERE 1=1
+
+                            <if test="deptName != null and deptName != ''">
+                                AND d.department_name LIKE '%'||#{deptName}||'%'
+                            </if>
+
+                            ORDER BY d.create_date DESC))
+        WHERE rnum BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="findAllCount" parameterType="kr.ac.icia.dto.admin.mm.common.SearchDto" resultType="Integer">
+        SELECT COUNT(*) FROM department WHERE 1=1
+        <if test="deptName != null and deptName != ''">
+            AND d.department_name LIKE '%'||#{deptName}||'%'
+        </if>
+        )
+    </select>
+    
+    <select id="detail" parameterType="kr.ac.icia.dto.admin.mm.dept.DeptDto" resultType="kr.ac.icia.dto.admin.mm.dept.DeptDto">
+        SELECT
+            rownum AS rnum,
+            facultyId,
+            facultyName,
+            deptId,
+            deptName,
+            createDate,
+            status
+        FROM
+            (SELECT
+                d.faculty_id AS facultyId,
+                f.faculty_name AS facultyName,
+                d.department_id AS deptId,
+                d.department_name AS deptName,
+                d.create_date AS createDate,
+                d.status
+            FROM
+                department d
+            JOIN faculty f ON f.faculty_id = d.faculty_id
+            ORDER BY d.create_date)
+		WHERE
+		    deptId = #{deptId}
+    </select>
+    
+    <insert id="write" parameterType="kr.ac.icia.dto.admin.mm.dept.DeptDto">
+        INSERT INTO
+            department (faculty_id, department_id, department_name, create_date, status)
+        VALUES
+            (#{facultyId}, #{deptId}, #{deptName}, DEFAULT, DEFAULT)
+    </insert>
+    
+    <update id="update" parameterType="kr.ac.icia.dto.admin.mm.dept.DeptDto">
+        UPDATE
+            department
+        SET
+            faculty_id = #{facultyId},
+            department_name = #{deptName},
+            status = #{status}
+        WHERE
+            department_id = #{deptId}
+    </update>
+    
+    <delete id="delete" parameterType="String">
+        DELETE FROM department WHERE department_id = #{deptId}
+    </delete>
+
+</mapper>

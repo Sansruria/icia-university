@@ -13,10 +13,10 @@
     <script>
         document.addEventListener("DOMContentLoaded", function(){
         	document.querySelector('.btn-save').addEventListener('click', ()=>save())
-            document.querySelector('.btn-update').addEventListener('click', ()=>update())
-            document.querySelector('.btn-delete').addEventListener('click', ()=>del())
-            document.querySelector('.btn-search-save').addEventListener('click', ()=>search('save'))
-            document.querySelector('.btn-search-update').addEventListener('click', ()=>search('update'))
+            document.querySelector('.btn-search').addEventListener('click', ()=>search())
+            document.querySelector('.btn-search-save').addEventListener('click', ()=>openSearchModal(false))
+            document.querySelector('.btn-reset').addEventListener('click', ()=>reset())
+            document.querySelector('#paging').innerHTML = "${paging}"
         })
         
         function save() {
@@ -36,98 +36,44 @@
                 console.log(res)
             })
         }
-        
-        function update() {
-            const obj = $('form[name="detailFrm"]').serializeObject()
-            console.log(obj)
-            
-            $.ajax({
-                method : 'PATCH',
-                url : '/admin/mm/dept/api/update',
-                data : obj
-                
-            }).done(function(res) {
-                alert(res)
-                location.href = '/admin/mm/dept'
-                
-            }).fail(function(res) {
-                console.log(res)
-            })
-        }
-        
-        function del() {
-            const deptId = document.detailFrm.querySelector('input[name="deptId"]').value
-            
-            $.ajax({
-                method : 'DELETE',
-                url : '/admin/mm/dept/api/delete/' + deptId
-                
-            }).done(function(res) {
-                alert(res)
-                location.href = '/admin/mm/dept'
-                
-            }).fail(function(res) {
-                console.log(res)
-            })
-        }
-        
+
         function detail(id) {
-            $.ajax({
-                method : 'GET',
-                url : '/admin/mm/dept/api/detail/' + id
-                
-            }).done(function(res) {
-                document.detailFrm.querySelector('input[name="facultyId"]').value = res['facultyId']
-                document.detailFrm.querySelector('input[name="facultyName"]').value = res['facultyName']
-                document.detailFrm.querySelector('input[name="deptId"]').value = res['deptId']
-                document.detailFrm.querySelector('input[name="deptName"]').value = res['deptName']
-                document.detailFrm.querySelector('input[name="createDate"]').value = res['createDate']
-                
-                const statuses = document.detailFrm.querySelectorAll('input[name="status"]')
-                statuses.forEach(status=>{
-                    if(status.value == res['status']) {
-                        status.checked = true
-                    }
-                })
-                
-            }).fail(function(res) {
-                console.log(res)
-            })
+            $('.modal-content-detail').load('/admin/mm/dept/modal/detail/' + id)
         }
-        
-        function search(kind) {
-            $.ajax({
-                method : "GET",
-                url : "/admin/mm/faculty/api/list/" + kind
-                
-            }).done(function(res) {
-                document.querySelector("#modal-body").innerHTML = res
-                if (kind == 'update') {
-                    document.querySelector('.btn-close-searchModal').setAttribute('data-bs-target', '#detailModal') 
-                    document.querySelector('.btn-close-searchModal').setAttribute('data-bs-toggle', 'modal') 
-                }
-                else {
-                    document.querySelector('.btn-close-searchModal').removeAttribute('data-bs-target') 
-                    document.querySelector('.btn-close-searchModal').removeAttribute('data-bs-toggle') 
-                }
-                
-            }).fail(function(res) {
-                console.log(res)
-            })
+
+        function openSearchModal(isUpdate) {
+            let url = '/admin/mm/faculty/modal/list'
+
+            if (isUpdate === true) {
+                // $('#detailModal').modal('hide')
+                url = '/admin/mm/faculty/modal/mm/list'
+                console.log("url :", url)
+            }
+
+            $('.modal-content-search').load(url)
         }
-        
-        function selected(id, name, kind) {
-            $('#searchModal').modal('hide')
-            
-            if (kind == 'save') {
-                document.frm.querySelector('input[name="facultyId"]').value = id
-                document.frm.querySelector('input[name="facultyName"]').value = name
-            }
-            else if (kind == 'update') {
-                document.detailFrm.querySelector('input[name="facultyId"]').value = id
-                document.detailFrm.querySelector('input[name="facultyName"]').value = name
-                $('#detailModal').modal('show')
-            }
+
+        function search() {
+            document.searchFrm.submit()
+        }
+
+        function selectedPage(pageNum) {
+            document.searchFrm.querySelector('input[name="nowPage"]').value = pageNum
+            search()
+        }
+        function prev() {
+            document.searchFrm.querySelector('input[name="nowPage"]').value = '${searchDto.startPage - 1 }'
+            search()
+        }
+
+        function next() {
+            document.searchFrm.querySelector('input[name="nowPage"]').value = '${searchDto.endPage + 1 }'
+            search()
+        }
+
+        function reset() {
+            document.searchFrm.reset()
+            search()
         }
     </script>
 </head>
@@ -137,60 +83,99 @@
 <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 
 <div class="container">
+    <div class="row mb-3 mt-3">
+        <h3>학과관리</h3>
+    </div>
+
     <div class="row">
-        <div class="card">
-            <div class="card-body">
+        <div class="card bg-light">
+            <div class="card-body py-4">
             
                 <div class="row">
-                    <div class="col text-center">
-                        <div class="row">
-                            <div class="col">번호</div>
-                            <div class="col">학부번호</div>
-                            <div class="col">학부명</div>
-                            <div class="col">학과번호</div>
-                            <div class="col">학과명</div>
-                        </div>
-                        
-                        <c:forEach var="dept" items="${deptList}">
-                            <div class="row" onclick="detail('${dept.deptId}')"
-                                data-bs-toggle="modal" data-bs-target="#detailModal" style="cursor:pointer">
-                                <div class="col">${dept.rnum}</div>
-                                <div class="col">${dept.facultyId}</div>
-                                <div class="col">${dept.facultyName}</div>
-                                <div class="col">${dept.deptId}</div>
-                                <div class="col">${dept.deptName}</div>
-                            </div>
-                        </c:forEach>
-                    </div> <!-- end row -->
-                    
                     <div class="col">
+                        <form name="searchFrm" action="/admin/mm/dept" method="GET">
+                            <input type="hidden" name="nowPage" value="<c:out value="${searchDto.startPage}"></c:out>">
+                            <input type="hidden" name="cntPerPage" value="<c:out value="${searchDto.cntPerPage}"></c:out>">
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text bg-primary-subtle w-25 p-3">학과명</span>
+                                        <input type="text" class="form-control" name="deptName" placeholder="검색할 학과명을 입력해주세요.">
+                                        <button type="button" class="btn btn-primary btn-search">검색</button>
+                                        <button type="button" class="btn btn-secondary btn-reset">초기화</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="table-responsive text-center">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-primary">
+                                    <tr>
+	                                    <th>번호</th>
+	                                    <th>학부번호</th>
+	                                    <th>학부명</th>
+	                                    <th>학과번호</th>
+	                                    <th>학과명</th>
+	                                    <th>운영상태</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="dept" items="${deptList}">
+                                        <tr>
+                                            <td>${dept.rnum}</td>
+                                            <td>${dept.facultyId}</td>
+                                            <td>${dept.facultyName}</td>
+                                            <td>${dept.deptId}</td>
+                                            <td>
+                                                <a href="#" onclick="detail('${dept.deptId}')"
+                                                    data-bs-toggle="modal" data-bs-target="#detailModal" style="cursor:pointer" class="link-offset-2 link-underline link-underline-opacity-0">
+                                                    ${dept.deptName}
+                                                </a>
+                                            </td>
+                                            <td>
+	                                            <c:if test="${dept.status eq '1'}">운영</c:if>
+	                                            <c:if test="${dept.status eq '0'}">폐지</c:if>
+                                            </td>
+                                         </tr>
+                                     </c:forEach>
+                                 </tbody>
+                             </table>
+
+                            <div id="paging"></div>
+
+                         </div>
+                    </div>
+                    
+                    <div class="col-4">
                         <form name="frm">
-                            <div class="row mb-3 align-items-center">
-                                <div class="col-3">학부번호</div>
-                                <div class="col"><input type="text" name="facultyId" class="form-control" readonly></div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="facultyId" name="facultyId" placeholder="학부 고유번호를 입력해주세요." readonly>
+                                <label for="facultyId">학부번호</label>
                             </div>
                             
-                            <div class="row mb-3 align-items-center">
-                                <div class="col-3">학부명</div>
-                                <div class="col"><input type="text" name="facultyName" class="form-control" readonly></div>
+                            <div class="row">
                                 <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="facultyName" name="facultyName" placeholder="학부명을 입력해주세요." readonly>
+                                <label for="facultyName">학부명</label>
+                                    </div>
+                                </div>
+                                <div class="col-4">
                                     <button type="button" class="btn btn-primary btn-search-save"
                                         data-bs-toggle="modal" data-bs-target="#searchModal">찾아보기</button>
                                 </div>
                             </div>
                             
-                            <div class="row mb-3 align-items-center">
-                                <div class="col-3">학과번호</div>
-                                <div class="col">
-                                    <input type="text" name="deptId" class="form-control">
-                                </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="deptId" name="deptId" placeholder="학과 고유번호를 입력해주세요.">
+                                <label for="deptId">학과번호</label>
                             </div>
                             
-                            <div class="row mb-3 align-items-center">
-                                <div class="col-3">학과명</div>
-                                <div class="col">
-                                    <input type="text" name="deptName" class="form-control">
-                                </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="deptName" name="deptName" placeholder="학과명을 입력해주세요.">
+                                <label for="deptName">학과명</label>
                             </div>
                         </form>
                         
@@ -204,112 +189,29 @@
                         </div>
                     </div>
                 </div> <!-- end row -->
-                
-                <!-- Detail Modal -->
-                <div class="modal fade" id="detailModal" data-bs-backdrop="static" data-bs-keyboard="false"
-                    tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="detailModalLabel">학과</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      
-                      <div class="modal-body">
-                        <form name="detailFrm">
-                            <div class="row mb-3 align-items-center">
-                                <div class="col-3">학부번호</div>
-                                <div class="col">
-                                    <input type="text" name="facultyId" class="form-control" readonly>
-                                </div>
-                            </div>
-                            
-                            <div class="row mb-3 align-items-center">
-                                <div class="col-3">학부명</div>
-                                <div class="col">
-                                    <input type="text" name="facultyName" class="form-control" readonly>
-                                </div>
-                                <div class="col">
-                                    <button type="button" class="btn btn-primary btn-search-update"
-                                        data-bs-toggle="modal" data-bs-target="#searchModal">찾아보기</button>
-                                </div>
-                            </div>
-                            
-                            <div class="row mb-3 align-items-center">
-                                <div class="col-3">학과번호</div>
-                                <div class="col">
-                                    <input type="text" name="deptId" class="form-control-plaintext" readonly>
-                                </div>
-                            </div>
-                            
-                            <div class="row mb-3 align-items-center">
-                                <div class="col-3">학과명</div>
-                                <div class="col">
-                                    <input type="text" name="deptName" class="form-control">
-                                </div>
-                            </div>
-                            
-                            <div class="row mb-3 align-items-center">
-                                <div class="col-3">등록일</div>
-                                <div class="col">
-                                    <input type="text" name="createDate" class="form-control-plaintext" disabled>
-                                </div>
-                            </div>
-                            
-                            <div class="row mb-3 align-items-center">
-                                <div class="col-3">운영상태</div>
-                                <div class="col">
-                                    <input type="radio" id="operating" name="status" class="" value="1">
-                                    <label for="operating" class="form-label">운영중</label>
-                                    <input type="radio" id="drop" name="status" class="" value="2">
-                                    <label for="drop" class="form-label">폐지</label>
-                                </div>
-                            </div>
-                        </form>
-                      </div> <!-- ene modal-body -->
-                      
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                        <button type="button" class="btn btn-danger btn-delete">삭제</button>
-                        <button type="button" class="btn btn-primary btn-update">수정</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- end Detail Modal -->
-                
-                <!-- Search Modal -->
-                <div class="modal fade" id="searchModal" data-bs-backdrop="static" data-bs-keyboard="false"
-                    tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="searchModalLabel">학부</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      
-                      <div class="modal-body">
-                        <div class="row">
-                            <div class="col">번호</div>
-                            <div class="col">학부번호</div>
-                            <div class="col">학부명</div>
-                        </div>
-                        
-                        <div id="modal-body"></div>
-                      </div>
-                      
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-close-searchModal"
-                            data-bs-dismiss="modal">닫기</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- end Search Modal -->
-                
             </div>
         </div>
     </div>
+
+    <!-- search modal -->
+    <div class="modal fade" id="searchModal" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content modal-content-search">
+            </div>
+        </div>
+    </div>
+    <!-- end modal -->
+
+    <!-- Detail Modal -->
+    <div class="modal fade" id="detailModal" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content modal-content-detail">
+            </div>
+        </div>
+    </div>
+    <!-- end Detail Modal -->
     
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
     

@@ -3,25 +3,38 @@
 
 <mapper namespace="kr.ac.icia.dao.admin.mm.faculty.FacultyDao">
 
-    <select id="findByCondition" resultType="kr.ac.icia.dto.admin.mm.faculty.FacultyDto">
-		SELECT
-		    rownum AS rnum,
-		    deptLineId,
-		    deptLineName,
-		    facultyId,
-		    facultyName,
-		    createDate
-		FROM
-		    (SELECT
-		         d.department_line_id   AS deptLineId,
-		         d.department_line_name AS deptLineName,
-		         f.faculty_id           AS facultyId,
-		         f.faculty_name         AS facultyName,
-		         f.create_date          AS createDate
-		    FROM faculty f
-		    JOIN department_line d ON f.department_line_id = d.department_line_id
-		    ORDER BY f.create_date)
-	    ORDER BY createDate DESC
+    <select id="findByCondition" parameterType="kr.ac.icia.dto.admin.mm.common.CampusSearchDto" resultType="kr.ac.icia.dto.admin.mm.faculty.FacultyDto">
+        SELECT * FROM (SELECT
+                           rownum AS rnum,
+                           deptLineId,
+                           deptLineName,
+                           facultyId,
+                           facultyName,
+                           createDate
+                       FROM (
+                                SELECT
+                                    d.department_line_id   AS deptLineId,
+                                    d.department_line_name AS deptLineName,
+                                    f.faculty_id           AS facultyId,
+                                    f.faculty_name         AS facultyName,
+                                    f.create_date          AS createDate
+                                FROM faculty f
+                                JOIN department_line d ON f.department_line_id = d.department_line_id
+                                WHERE 1=1
+
+                                <if test="facultyName != null and facultyName != ''">
+                                    AND faculty_name LIKE '%'||#{facultyName}||'%'
+                                </if>
+
+                                ORDER BY f.create_date DESC))
+        WHERE rnum BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="findAllCount" parameterType="kr.ac.icia.dto.admin.mm.common.CampusSearchDto" resultType="Integer">
+        SELECT COUNT(*) FROM faculty WHERE 1=1
+        <if test="facultyName != null and facultyName != ''">
+            AND faculty_name LIKE '%'||#{facultyName}||'%'
+        </if>
     </select>
     
     <select id="detail" parameterType="kr.ac.icia.dto.admin.mm.faculty.FacultyDto" resultType="kr.ac.icia.dto.admin.mm.faculty.FacultyDto">

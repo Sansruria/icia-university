@@ -3,15 +3,31 @@
 
 <mapper namespace="kr.ac.icia.dao.admin.mm.deptline.DeptLineDao">
 
-    <select id="findByCondition" resultType="kr.ac.icia.dto.admin.mm.deptline.DeptLineDto">
-        SELECT
-		    rownum AS rnum,
-		    department_line_id AS deptLineId,
-		    department_line_name AS deptLineName,
-		    create_date AS createDate
-		FROM
-		    (SELECT * FROM department_line ORDER BY create_date)
-	    ORDER BY create_date DESC
+    <select id="findByCondition" parameterType="kr.ac.icia.dto.admin.mm.common.CampusSearchDto" resultType="kr.ac.icia.dto.admin.mm.deptline.DeptLineDto">
+        SELECT * FROM (SELECT rownum AS rnum,
+                              deptLineId,
+                              deptLineName,
+                              createDate
+                       FROM (SELECT
+                                 department_line_id AS deptLineId,
+                                 department_line_name AS deptLineName,
+                                 create_date AS createDate
+                             FROM department_line
+                             WHERE 1=1
+
+                            <if test="deptLineName != null and deptLineName != ''">
+                                AND department_line_name LIKE '%'||#{deptLineName}||'%'
+                            </if>
+
+                             ORDER BY create_date DESC))
+        WHERE rnum BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="findAllCount" parameterType="kr.ac.icia.dto.admin.mm.common.CampusSearchDto" resultType="Integer">
+        SELECT COUNT(*) FROM department_line WHERE 1=1
+        <if test="deptLineName != null and deptLineName != ''">
+            AND department_line_name LIKE '%'||#{deptLineName}||'%'
+        </if>
     </select>
     
     <select id="detail" resultType="kr.ac.icia.dto.admin.mm.deptline.DeptLineDto">

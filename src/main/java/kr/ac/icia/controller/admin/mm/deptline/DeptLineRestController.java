@@ -1,18 +1,16 @@
 package kr.ac.icia.controller.admin.mm.deptline;
 
+import kr.ac.icia.dto.admin.mm.common.CampusSearchDto;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import kr.ac.icia.dto.admin.mm.deptline.DeptLineDto;
 import kr.ac.icia.service.admin.mm.deptline.DeptLineService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,11 +21,39 @@ public class DeptLineRestController {
 	private final DeptLineService deptLineService;
 	
 	@GetMapping("list/{kind}")
-	public String list(@PathVariable("kind") String kind, Model model) {
+	public String list2(@PathVariable("kind") String kind, Model model) {
 		log.info("departmentline api...");
 		String deptLineList = deptLineService.makeListHtml(kind); 
 		
 		return deptLineList;
+	}
+
+	@GetMapping("list")
+	public HashMap<String, Object> list(Model model, CampusSearchDto searchDto
+			, @RequestParam(value="nowPage", required = false) String nowPage
+			, @RequestParam(value="cntPerPage", required = false) String cntPerPage) {
+
+		int total = deptLineService.findAllCount(searchDto);
+
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "5";
+		}
+		else if (nowPage == null) {
+			nowPage = "1";
+		}
+		else if (cntPerPage == null) {
+			cntPerPage = "5";
+		}
+
+		searchDto = new CampusSearchDto(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), searchDto);
+		searchDto.isModal = true;
+		HashMap<String, Object> modal = new HashMap<String, Object>();
+		modal.put("searchDto", searchDto);
+		modal.put("makePagingHtml", searchDto.makePagingHtml());
+		modal.put("makeListHtml", deptLineService.makeListHtml(searchDto));
+
+		return modal;
 	}
 	
 	@PutMapping("/write")
