@@ -18,7 +18,7 @@
 		document.addEventListener("DOMContentLoaded", function(){
 			document.querySelector('.btn-cancle').addEventListener('click', ()=>cancle())
 	        document.querySelector('.btn-update').addEventListener('click', ()=>update())
-	        document.querySelector('.btn-search').addEventListener('click', ()=>search())
+	        document.querySelector('.btn-search').addEventListener('click', ()=>openSearchModal())
 			document.querySelector('#frontRrn').value = rrnVal[0]
 			document.querySelector('#backRrn').value = rrnVal[1]
 
@@ -63,58 +63,8 @@
             })
 		}
 
-		function search() {
-			document.searchFrmModal.reset()
-
-			$.ajax({
-			    method : "GET",
-			    url : '/admin/mm/dept/api/list'
-			    
-			}).done(function(res) {
-				let searchDto = res['searchDto'];
-				document.searchFrmModal.querySelector('input[name="nowPageModal"]').value = searchDto['nowPage']
-				document.searchFrmModal.querySelector('input[name="cntPerPageModal"]').value = searchDto['cntPerPage']
-
-				let makePagingHtml = res['makePagingHtml']
-				makePagingHtml = makePagingHtml.replace(/\\/gi, ''); // 정규식을 이용해서 문자열에 포함된 모든 '\'를 삭제함
-				document.querySelector('#pagingModal').innerHTML = makePagingHtml
-				document.querySelector('#modal-body').innerHTML = res['makeListHtml']
-			    
-			}).fail(function(res) {
-			    console.log(res)
-			})
-		}
-		   
-		function selected(id, name) {
-		    $('#searchModal').modal('hide')
-	        document.frm.querySelector('input[name="deptId"]').value = id
-	        document.frm.querySelector('input[name="deptName"]').value = name
-		}
-
-		function searchAndPagingModal(pageNum) {
-			let obj = {}
-			obj.nowPage = pageNum
-			obj.cntPerPage = document.searchFrmModal.querySelector('input[name="cntPerPageModal"]').value
-			obj.deptName = document.searchFrmModal.querySelector('input[name="deptNameModal"]').value
-
-			$.ajax({
-				method : "GET",
-				url : '/admin/mm/dept/api/list',
-				data : obj
-
-			}).done(function(res) {
-				let searchDto = res['searchDto'];
-				document.searchFrmModal.querySelector('input[name="nowPageModal"]').value = searchDto['nowPage']
-				document.searchFrmModal.querySelector('input[name="cntPerPageModal"]').value = searchDto['cntPerPage']
-
-				let makePagingHtml = res['makePagingHtml']
-				makePagingHtml = makePagingHtml.replace(/\\/gi, ''); // 정규식을 이용해서 문자열에 포함된 모든 '\'를 삭제함
-				document.querySelector('#pagingModal').innerHTML = makePagingHtml
-				document.querySelector('#modal-body').innerHTML = res['makeListHtml']
-
-			}).fail(function(res) {
-				console.log(res)
-			})
+		function openSearchModal() {
+			$('.modal-content').load('/admin/mm/dept/modal/list')
 		}
 	</script>
 </head>
@@ -233,46 +183,6 @@
 		 tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="searchModalLabel">학과계열</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-
-				<div class="modal-body">
-					<form name="searchFrmModal">
-						<input type="hidden" name="nowPageModal" value="<c:out value="${searchDto.nowPage}"></c:out>">
-						<input type="hidden" name="cntPerPageModal" value="<c:out value="${searchDto.cntPerPage}"></c:out>">
-						<div class="row">
-							<div class="col">
-								<div class="input-group mb-3">
-									<span class="input-group-text w-25 p-3">학과명</span>
-									<input type="text" class="form-control" name="deptNameModal" placeholder="검색할 학과명을 입력해주세요." oninput="searchAndPagingModal()">
-								</div>
-							</div>
-						</div>
-					</form>
-
-					<div class="row">
-						<div class="col">
-							<table class="table table-bordered table-hover text-center">
-								<thead class="table-primary">
-								<th>번호</th>
-								<th>학과번호</th>
-								<th>학과명</th>
-								</thead>
-								<tbody id="modal-body">
-								</tbody>
-							</table>
-						</div>
-					</div>
-
-					<div id="pagingModal"></div>
-
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary btn-close-searchModal" data-bs-dismiss="modal">닫기</button>
-				</div>
 			</div>
 		</div>
 	</div>

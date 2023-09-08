@@ -14,12 +14,12 @@
                             status
                         FROM
                             (SELECT
-                            d.faculty_id AS facultyId,
-                            f.faculty_name AS facultyName,
-                            d.department_id AS deptId,
-                            d.department_name AS deptName,
-                            d.create_date AS createDate,
-                            d.status
+                                d.faculty_id AS facultyId,
+                                f.faculty_name AS facultyName,
+                                d.department_id AS deptId,
+                                d.department_name AS deptName,
+                                d.create_date AS createDate,
+                                d.status
                             FROM
                             department d
                             JOIN faculty f ON f.faculty_id = d.faculty_id

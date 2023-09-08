@@ -49,13 +49,6 @@ public class DeptRestController {
 		return modal;
 	}
 	
-//	상세
-	@GetMapping("/detail/{id}")
-	public DeptDto detail(@PathVariable("id") String deptId) {
-		log.info("/dept/detail api...");
-		return deptService.detail(deptId);
-	}
-	
 //	등록
 	@PutMapping("/write")
 	public String write(DeptDto deptDto) {
