@@ -2,6 +2,8 @@ package kr.ac.icia.service.admin.mm.faculty;
 
 import java.util.ArrayList;
 
+import kr.ac.icia.dto.admin.mm.common.CampusSearchDto;
+import kr.ac.icia.dto.admin.mm.dept.DeptDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +19,12 @@ public class FacultyService {
 	private final FacultyDao facultyDao;
 	
 //	목록
-	public ArrayList<FacultyDto> findByCondition() {
-		return facultyDao.findByCondition();
+	public ArrayList<FacultyDto> findByCondition(CampusSearchDto searchDto) {
+		return facultyDao.findByCondition(searchDto);
+	}
+
+	public Integer findAllCount(CampusSearchDto searchDto) {
+		return facultyDao.findAllCount(searchDto);
 	}
 	
 //	상세
@@ -56,26 +62,59 @@ public class FacultyService {
 		return "삭제에 실패하였습니다";
 	}
 	
-	public String makeListHtml(String kind) {
+	public String makeListHtml(CampusSearchDto searchDto) {
 		String str = "";
-		String prefix = "<div class=\"col\">";
-		String suffix = "</div>";
-		for (FacultyDto dto : findByCondition()) {
-			str += "<div class=\"row\" "
-					+ "onclick=selected('" + dto.getFacultyId() + "','" + dto.getFacultyName() + "','" + kind +"') style='cursor:pointer'>";
+		String prefix = "<td>";
+		String suffix = "</td>";
+
+		int count = findAllCount(searchDto)+1;
+
+		for (FacultyDto dto : findByCondition(searchDto)) {
+			str += "<tr>";
 			str += prefix;
-			str += dto.getRnum();
+			str += count - dto.getRnum();
 			str += suffix;
-			
+
 			str += prefix;
 			str += dto.getFacultyId();
 			str += suffix;
-			
+
 			str += prefix;
+			str += "<a href=\"#\" onclick=selected('" + dto.getFacultyId() + "','" + dto.getFacultyName() + "') "
+					+ "style=\"cursor:pointer\" "
+					+ "class=\"link-offset-2 link-underline link-underline-opacity-0\">";
 			str += dto.getFacultyName();
+			str += "</a>";
 			str += suffix;
-			str += "</div>";
+			str += "</tr>";
 		}
+
+
+
+
+
+
+//		String prefix = "<td>";
+//		String suffix = "</td>";
+//		for (FacultyDto dto : findByCondition()) {
+//			str += "<tr>";
+//			str += prefix;
+//			str += dto.getRnum();
+//			str += suffix;
+//
+//			str += prefix;
+//			str += dto.getFacultyId();
+//			str += suffix;
+//
+//			str += prefix;
+//			str += "<a href=\"#\" onclick=selected('" + dto.getFacultyId() + "','" + dto.getFacultyName() + "','" + kind +"') "
+//					+ "style=\"cursor:pointer\" "
+//					+ "class=\"link-offset-2 link-underline link-underline-opacity-0\">";
+//			str += dto.getFacultyName();
+//			str += "</a>";
+//			str += suffix;
+//			str += "</tr>";
+//		}
 		
 		return str;
 	}

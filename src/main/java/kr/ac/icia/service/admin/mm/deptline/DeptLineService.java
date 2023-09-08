@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import kr.ac.icia.dto.admin.mm.common.CampusSearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,8 @@ public class DeptLineService {
 		return "저장에 실패했습니다";
 	}
 
-	public ArrayList<DeptLineDto> findByCondition() {
-		return deptLineDao.findByCondition();
+	public ArrayList<DeptLineDto> findByCondition(CampusSearchDto searchDto) {
+		return deptLineDao.findByCondition(searchDto);
 	}
 	
 	public DeptLineDto detail(String deptLineId) {
@@ -56,27 +57,61 @@ public class DeptLineService {
 	}
 	
 	public String makeListHtml(String kind) {
+//		String str = "";
+//		String prefix = "<td>";
+//		String suffix = "</td>";
+//		for (DeptLineDto dto : findByCondition()) {
+//			str += "<tr>";
+//			str += prefix;
+//			str += dto.getRnum();
+//			str += suffix;
+//
+//			str += prefix;
+//			str += dto.getDeptLineId();
+//			str += suffix;
+//
+//			str += prefix;
+//			str += "<a href=\"#\" onclick=selected('" + dto.getDeptLineId() + "','" + dto.getDeptLineName() + "','" + kind +"') "
+//					+ "style=\"cursor:pointer\" "
+//					+ "class=\"link-offset-2 link-underline link-underline-opacity-0\">";
+//			str += dto.getDeptLineName();
+//			str += "</a>";
+//			str += suffix;
+//			str += "</tr>";
+//		}
+//
+//		return str;
+		return "";
+	}
+
+	public String makeListHtml(CampusSearchDto searchDto) {
 		String str = "";
-		String prefix = "<div class=\"col\">";
-		String suffix = "</div>";
-		for (DeptLineDto dto : findByCondition()) {
-			str += "<div class=\"row\" "
-					+ "onclick=selected('" + dto.getDeptLineId() + "','" + dto.getDeptLineName() + "','" + kind +"') style='cursor:pointer'>";
+		String prefix = "<td>";
+		String suffix = "</td>";
+		for (DeptLineDto dto : findByCondition(searchDto)) {
+			str += "<tr>";
 			str += prefix;
 			str += dto.getRnum();
 			str += suffix;
-			
+
 			str += prefix;
 			str += dto.getDeptLineId();
 			str += suffix;
-			
+
 			str += prefix;
+			str += "<a href=\"#\" onclick=selected('" + dto.getDeptLineId() + "','" + dto.getDeptLineName() + "') "
+					+ "style=\"cursor:pointer\" "
+					+ "class=\"link-offset-2 link-underline link-underline-opacity-0\">";
 			str += dto.getDeptLineName();
+			str += "</a>";
 			str += suffix;
-			str += "</div>";
+			str += "</tr>";
 		}
-		
+
 		return str;
 	}
 
+	public Integer findAllCount(CampusSearchDto searchDto) {
+		return deptLineDao.findAllCount(searchDto);
+	}
 }

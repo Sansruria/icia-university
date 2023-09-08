@@ -3,37 +3,55 @@
 
 <mapper namespace="kr.ac.icia.dao.sreg.pf.PfDao">
 
-    <select id="findByCondition" resultType="kr.ac.icia.dto.sreg.pf.PfDto">
-        SELECT
-            rownum AS rnum,
-            pfId,
-            deptId,
-            deptName,
-            rrn,
-            password,
-            name,
-            gender,
-            address,
-            email,
-            profile,
-            national
-        FROM
-            (SELECT
-            pf.pf_id AS pfId,
-            pf.department_id AS deptId,
-            d.department_name AS deptName,
-            pf.rrn,
-            pf.password,
-            pf.pf_name AS name,
-            pf.gender,
-            pf.address,
-            pf.email,
-            pf.profile,
-            pf.national
-            FROM pf
-            JOIN department d ON pf.department_id = d.department_id
-            ORDER BY d.department_name DESC, pf.pf_name DESC)
-        ORDER BY rnum DESC
+    <select id="findByCondition" parameterType="kr.ac.icia.dto.sreg.common.SregSearchDto" resultType="kr.ac.icia.dto.sreg.pf.PfDto">
+        SELECT *
+        FROM (SELECT
+                  row_number() OVER (ORDER BY pf.create_date DESC, pf.pf_id DESC) AS rnum,
+                  pf.pf_id AS pfId,
+                  pf.department_id AS deptId,
+                  d.department_name AS deptName,
+                  pf.rrn,
+                  pf.password,
+                  pf.pf_name AS name,
+                  pf.gender,
+                  pf.address,
+                  pf.email,
+                  pf.profile,
+                  pf.national,
+                  pf.create_date
+              FROM pf
+              JOIN department d ON pf.department_id = d.department_id
+              WHERE 1=1
+                <if test="pfId != null and pfId != ''">
+                    AND UPPER(pf.pf_id) LIKE '%'|| UPPER(#{pfId})||'%'
+                </if>
+
+                <if test="name != null and name != ''">
+                    AND pf.pf_name LIKE '%'||#{name}||'%'
+                </if>
+
+                <if test="deptName != null and deptName != ''">
+                    AND d.department_name LIKE '%'||#{deptName}||'%'
+                </if>
+              )
+        WHERE rnum BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="findAllCount" parameterType="kr.ac.icia.dto.sreg.common.SregSearchDto" resultType="Integer">
+        SELECT COUNT(*) FROM pf
+        JOIN department d ON pf.department_id = d.department_id
+        WHERE 1=1
+            <if test="pfId != null and pfId != ''">
+                AND UPPER(pf.pf_id) LIKE '%'||UPPER(#{pfId})||'%'
+            </if>
+
+            <if test="name != null and name != ''">
+                AND pf.pf_name LIKE '%'||#{name}||'%'
+            </if>
+
+            <if test="deptName != null and deptName != ''">
+                AND d.department_name LIKE '%'||#{deptName}||'%'
+            </if>
     </select>
     
     <select id="detail" parameterType="String" resultType="kr.ac.icia.dto.sreg.pf.PfDto">
@@ -64,7 +82,6 @@
             gender,
             address,
             email,
-            profile,
             national
         )
         VALUES (
@@ -76,7 +93,6 @@
            #{gender},
            #{address},
            #{email},
-           #{profile},
            #{national}
         )
     </insert>
@@ -90,7 +106,6 @@
             gender = #{gender},
             address = #{address},
             email = #{email},
-            profile = #{profile},
             national = #{national}
         WHERE
             pf_id = #{pfId}
@@ -99,13 +114,16 @@
     <delete id="delete" parameterType="String">
         DELETE FROM pf WHERE pf_id = #{pfId}
     </delete>
-    
-    <select id="countPfOfYear" parameterType="kr.ac.icia.dto.sreg.pf.PfDto">
-        SELECT COUNT(*)+1 FROM pf
-        WHERE
-            department_id = #{deptId}
-            AND
-            pf_id LIKE '%' || #{pfId} || '%'
+
+    <select id="findLastNum" parameterType="kr.ac.icia.dto.sreg.pf.PfDto" resultType="Integer">
+        SELECT * FROM (
+                      SELECT SUBSTR(pf_id, 10, 2) AS pfId
+                      FROM pf
+                      WHERE pf_id LIKE '%' || #{deptId}  || '%'
+                            AND
+                            pf_id LIKE '%' || #{pfId} || '%'
+                      ORDER BY create_date DESC)
+        WHERE rownum = 1
     </select>
 
 </mapper>

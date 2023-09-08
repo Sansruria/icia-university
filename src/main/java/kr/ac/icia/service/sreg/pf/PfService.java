@@ -1,6 +1,8 @@
 package kr.ac.icia.service.sreg.pf;
 
 import kr.ac.icia.dao.sreg.pf.PfDao;
+import kr.ac.icia.dto.admin.mm.common.CampusSearchDto;
+import kr.ac.icia.dto.sreg.common.SregSearchDto;
 import kr.ac.icia.dto.sreg.pf.PfDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +21,16 @@ public class PfService {
     @Autowired
     private final PfDao pfDao;
 
-    public ArrayList<PfDto> findByCondition() {
-        ArrayList<PfDto> pfList = pfDao.findByCondition();
+    public ArrayList<PfDto> findByCondition(SregSearchDto searchDto) {
+        ArrayList<PfDto> pfList = pfDao.findByCondition(searchDto);
         for (PfDto dto : pfList) {
             dto.setGender((dto.getGender().equals("1")) ? "남" : "여");
         }
         return pfList;
+    }
+
+    public Integer findAllCount(SregSearchDto searchDto) {
+        return pfDao.findAllCount(searchDto);
     }
 
     public PfDto detail(String pfId) {
@@ -34,12 +40,21 @@ public class PfService {
     public String write(PfDto pfDto) {
         String pfId = DateTimeFormatter.ofPattern("YYMM").format(LocalDate.now());
         pfDto.setPfId(pfId.substring(0, 2));
+        Integer lastNum = pfDao.findLastNum(pfDto);
         log.info("pfId : {}", pfDto.getPfId());
-        String numbering = pfDao.countPfOfYear(pfDto);
+        String numbering = "";
 
-        // 자릿수가 1개일 경우 앞에 0을 붙여줌
-        if (numbering.length() == 1) {
-            numbering = "0" + numbering;
+        // 조회 결과가 없을 경우에 0으로 초기화
+        if (lastNum == null) {
+            lastNum = 0;
+        }
+
+        // 조회 결과가 9 미만일 경우
+        if (lastNum < 9) {
+            numbering = "0" + (++lastNum);
+        } else {
+            // 조회 결과가 9 이상일 경우
+            numbering += ++lastNum;
         }
 
         pfId += pfDto.getDeptId() + numbering;
