@@ -15,6 +15,13 @@
             document.querySelector('.btn-save').addEventListener('click', ()=>save())
             document.querySelector('.btn-update').addEventListener('click', ()=>update())
             document.querySelector('.btn-delete').addEventListener('click', ()=>del())
+            document.querySelector('.btn-search').addEventListener('click', ()=>search())
+            document.querySelector('.btn-reset').addEventListener('click', ()=>reset())
+            document.querySelector('#paging').innerHTML = "${paging}"
+
+            if ('${searchDto.deptLineName}' != null || '${searchDto.deptLineName}' != '') {
+                document.searchFrm.querySelector('input[name="deptLineName"]').value = '${searchDto.deptLineName}'
+            }
         })
     
         function save() {
@@ -83,6 +90,29 @@
                 console.log(res)
             })
         }
+
+        function search() {
+            document.searchFrm.submit()
+        }
+
+        function selectedPage(pageNum) {
+            document.searchFrm.querySelector('input[name="nowPage"]').value = pageNum
+            search()
+        }
+        function prev() {
+            document.searchFrm.querySelector('input[name="nowPage"]').value = '${searchDto.startPage - 1 }'
+            search()
+        }
+
+        function next() {
+            document.searchFrm.querySelector('input[name="nowPage"]').value = '${searchDto.endPage + 1 }'
+            search()
+        }
+
+        function reset() {
+            document.searchFrm.reset()
+            search()
+        }
     </script>
 </head>
 
@@ -92,7 +122,7 @@
 
 <div class="container">
     <div class="row mb-3 mt-3">
-        <h3>학과계열관리</h1>
+        <h3>학과계열관리</h3>
     </div>
 
     <div class="row">
@@ -101,6 +131,21 @@
             
                 <div class="row">
                     <div class="col">
+                        <form name="searchFrm" action="/admin/mm/deptline" method="GET">
+                            <input type="hidden" name="nowPage" value="<c:out value="${searchDto.startPage}"></c:out>">
+                            <input type="hidden" name="cntPerPage" value="<c:out value="${searchDto.cntPerPage}"></c:out>">
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text bg-primary-subtle w-25 p-3">학부명</span>
+                                        <input type="text" class="form-control" name="deptLineName" placeholder="검색할 학과계열명을 입력해주세요.">
+                                        <button type="button" class="btn btn-primary btn-search">검색</button>
+                                        <button type="button" class="btn btn-secondary btn-reset">초기화</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
 	                    <div class="table-responsive text-center">
 	                       <table class="table table-bordered table-hover">
 	                           <thead class="table-primary">
@@ -125,6 +170,9 @@
 	                               </c:forEach>
 	                           </tbody>
 	                       </table>
+
+                            <div id="paging"></div>
+
 	                    </div>
                     </div> <!-- end col -->
                     

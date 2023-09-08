@@ -45,6 +45,8 @@ public class DeptLineController {
 
 		searchDto = new CampusSearchDto(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), searchDto);
 		ArrayList<DeptLineDto> deptLineList = deptLineService.findByCondition(searchDto);
+		model.addAttribute("searchDto", searchDto);
+		model.addAttribute("paging", searchDto.makePagingHtml());
 		model.addAttribute("deptLineList", deptLineList);
 		
 		return "admin/mm/deptline/deptLineList";
