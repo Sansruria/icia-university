@@ -14,8 +14,7 @@
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 
     <div class="container">
-		<h1>index.jsp</h1>
-		<!-- 여기에 내용을 넣어주세요 -->
+	
     </div>
     
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.ac.icia.dao.admin.mm.coursehistory.CourseHistoryDao">
+
+	<insert id="write" parameterType="kr.ac.icia.dto.course.CourseHistoryMMDto">
+		INSERT INTO subject(
+		course_name,
+		deptName,
+		course_division,
+		course_time,
+		limit_max_count
+		)
+		VALUES(
+		#{course_name},
+		#{deptName},
+		#{course_division},
+		#{course_time},
+		#{limit_max_count}
+		)
+	</insert>
+</mapper>

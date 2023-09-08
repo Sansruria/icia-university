@@ -31,11 +31,11 @@
                 url : '/sreg/st/api/write',
                 data : obj
                 
-            }).done(function(res) {
+            }).done(function(res) {//성공 했을떄
                 alert(res)
                 location.href = '/sreg/st'
                 
-            }).fail(function(res) {
+            }).fail(function(res) {//실패 했을떄
                 console.log(res)
             })
 		}
@@ -45,10 +45,10 @@
 			    method : "GET",
 			    url : '/admin/mm/dept/api/list'
 			    
-			}).done(function(res) {
+			}).done(function(res) {//성공 했을떄
 			    document.querySelector("#modal-body").innerHTML = res
 			    
-			}).fail(function(res) {
+			}).fail(function(res) {//실패 했을떄
 			    console.log(res)
 			})
 		}
