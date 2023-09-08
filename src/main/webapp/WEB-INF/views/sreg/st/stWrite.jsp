@@ -31,17 +31,36 @@
                 url : '/sreg/st/api/write',
                 data : obj
                 
-            }).done(function(res) {
+            }).done(function(res) {//성공 했을떄
                 alert(res)
                 location.href = '/sreg/st'
                 
-            }).fail(function(res) {
+            }).fail(function(res) {//실패 했을떄
                 console.log(res)
             })
 		}
 
 		function openSearchModal() {
 			$('.modal-content').load('/admin/mm/dept/modal/list')
+		}
+
+		function search() {
+			$.ajax({
+			    method : "GET",
+			    url : '/admin/mm/dept/api/list'
+			    
+			}).done(function(res) {//성공 했을떄
+			    document.querySelector("#modal-body").innerHTML = res
+			    
+			}).fail(function(res) {//실패 했을떄
+			    console.log(res)
+			})
+		}
+		   
+		function selected(id, name) {
+		    $('#searchModal').modal('hide')
+	        document.frm.querySelector('input[name="deptId"]').value = id
+	        document.frm.querySelector('input[name="deptName"]').value = name
 		}
 	</script>
 </head>

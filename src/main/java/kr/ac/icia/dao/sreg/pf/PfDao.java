@@ -25,4 +25,5 @@ public interface PfDao {
 	public String countPfOfYear(PfDto pfDto);
 
     Integer findLastNum(PfDto pfDto);
+
 }
