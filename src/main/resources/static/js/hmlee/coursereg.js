@@ -1,116 +1,66 @@
 $(document).ready(function() {
-	// 페이지 로딩 후 실행됨
-	fetchDepartments();
-	fetchCourses();
-
-	// 학과 또는 학교가 변경될 때 과목 검색
-	function fetchCourses() {
-		var faculty = $("#facultySelect").val();
-		var department = $("#departmentSelect").val();
-		$.ajax({
-			type: "GET",
-			url: "/course/coursereg/oper/list",
-			data: { faculty_Id: faculty, department_Id: department },
-			success: function(data) {
-				// UI에 과목 데이터 반영 로직
-			}
-		});
-	}
-
-	$("#lessnSyy").change(fetchCourses);
-	$("#lessnSemstCode").change(fetchCourses);
-
-	// 첫 번째 폼에 대한 사용자 지정 유효성 검사 함수
-	function validateForm() {
-		var faculty = $("#lessnSyy").val();
-		var department = $("#lessnSemstCode").val();
-		if (faculty === "" || department === "") {
-			alert("학부와 학과는 필수 필드입니다.");
-			return false;
-		}
-		return true;
-	}
-
-	function fetchFilteredData() {
-		var faculty = $("#lessnSyy").val();
-		var department = $("#lessnSemstCode").val();
-		$.ajax({
-			type: "GET",
-			url: "/course/coursereg/oper/list",
-			data: { departmentId: department, facultyId: faculty },
-			success: function(response) {
-				// 표에 데이터를 채우는 코드는 여기에 들어갑니다.
-			}
-		});
-	}
-
-	$("#searchBtn").click(function() {
-		if (validateForm()) {
-			fetchFilteredData();
-		}
-	});
-
-	// 학과 선택 시 부서 목록 업데이트
-	function fetchDepartments() {
-		var facultyId = $("#facultySelect").val();
-		$.ajax({
-			type: "GET",
-			url: "/course/coursereg/oper/search",
-			data: { facultyId: facultyId },
-			success: function(data) {
-				var departmentSelect = $("#departmentSelect");
-				departmentSelect.empty();
-				departmentSelect.append('<option value="">Select</option>');
-				for (var i = 0; i < data.length; i++) {
-					departmentSelect.append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
-				}
-			}
-		});
-	}
-
+	// 학부(faculty) 드롭다운이 바뀔 때 실행되는 함수
 	$("#facultySelect").change(function() {
-		var facultyId = $(this).val();
+		let facultyId = $(this).val();
 		$.ajax({
-			url: "/course/coursereg/oper/search",
-			method: "GET",
-			data: { facultyId: facultyId },
+			type: 'GET',
+			url: '/course/coursereg/oper/filtering',
+			data: { 'facultyId': facultyId },
 			success: function(data) {
-				$("#departmentSelect").empty();
-				$.each(data, function(index, department) {
-					$("#departmentSelect").append(
-						$('<option>', {
-							value: department.departmentId,
-							text: department.departmentName
-						})
-					);
+				// 학과(department) 드롭다운 채우기
+				let departmentSelect = $("#departmentSelect");
+				departmentSelect.empty();
+				departmentSelect.append('<option value="">선택하세요</option>');
+				$.each(data, function(index, item) {
+					departmentSelect.append('<option value="' + item.department_id + '">' + item.department_name + '</option>');
 				});
 			}
 		});
 	});
 
-	// 새 학과가 선택될 때 실행
-	$("#facultySelect").change(fetchDepartments);
+	/*------------------------------------------------------------------------------------------------------------------------------------------	*/
 
-	// 이 부분은 새로 추가된 코드입니다.
-	// 부서 선택 드롭다운이 포커스되면 동적으로 학과 목록을 가져옵니다.
-	$('#facultySelect').on('focus', function() {
-		// 기존 옵션을 지웁니다.
-		$('#facultySelect').html('<option value="">Select</option>');
-
-		// 여기에 서버에서 가져온 학과 목록을 채울 수 있습니다.
-		// 예시 코드:
-		fetchDepartments();  // 기존의 fetchDepartments 함수를 재사용합니다.
+	// SEARCH 버튼을 클릭했을 때 함수를 실행 (학부, 학과로 필터링한 데이터로 리스트 출력)
+	$("#searchButton").click(function() {
+		let facultyId = $("#facultySelect").val();
+		let departmentId = $("#departmentSelect").val();
+		updateTable(facultyId, departmentId);
 	});
 
-	// 학과가 선택되면 부서 목록을 동적으로 채웁니다.
-	$('#facultySelect').on('change', function() {
-		const selectedFaculty = $(this).val();
+	// 테이블 업데이트 함수 정의
+	const updateTable = function(facultyId, departmentId) {
+		$.ajax({
+			type: 'GET',
+			url: '/course/coursereg/oper/search', // API 엔드포인트
+			data: {
+				'facultyId': facultyId,
+				'departmentId': departmentId
+			},
+			success: function(response) {
+				console.log("Response:", response);
+				// 테이블에 데이터를 추가
+				let table = $("#courseTableBody");
+				table.empty(); // 기존 내용을 지움
 
-		// 기존 옵션을 지웁니다.
-		$('#departmentSelect').html('<option value="">Select</option>');
+				// 데이터가 없을 경우 출력
+				if (response.length === 0) {
+					table.append('<tr class="first last"><td class="NO_RESULT first last" colspan="8">검색된 데이터 없음.</td></tr>');
+				} else {
+					// forEach를 사용하여 각 아이템에 대한 처리 수행
+					//실제 필터링된 데이터 기반으로 리스트 생성 부분
+					
+					response.forEach(function(item) {
+						console.log(item);
+						table.append('<tr><td><button class="applyButton">신청</button></td><td>' + item.grade + "/" + item.semester + '</td><td>' + item.course_division + '</td><td>' + item.course_id + '</td><td>' + item.credit + '</td><td>' + item.course_name + '</td><td>' + item.pf_name + '</td><td>' + item.course_time + '</td></tr>');
+					});
+				}
+			}
+		});
+	};
+	
+	// 초기에 함수를 실행
+	updateTable(null, null); // 빈 필터 기준으로 모든 데이터 가져오기
 
-		// 여기에 선택한 학과에 따라 부서 목록을 채울 수 있습니다.
-		// 예시 코드:
-		fetchDepartments();  // 기존의 fetchDepartments 함수를 재사용합니다.
-	});
+	/*------------------------------------------------------------------------------------------------------------------------------------------	*/
+
 });

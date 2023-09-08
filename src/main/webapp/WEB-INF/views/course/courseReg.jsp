@@ -1,90 +1,152 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>수강신청</title>
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<jsp:include page="/WEB-INF/views/layout/head-js.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/layout/head-css.jsp"></jsp:include>
 <script src="/js/hmlee/coursereg.js" type="text/javascript"></script>
-<link rel="stylesheet" href="/css/hmlee/style.css">
+<link rel="stylesheet" href="/css/hmlee/coursereg.css">
 </head>
-<body>
 
-	<!-- header -->
-	<header> </header>
+<body>
+	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 
 	<div class="container">
 		<div class="con_wrap">
 			<!-- 내용 -->
 			<section>
-
+				<!-- 페이지 타이틀  -->
 				<div class="h3_box">
 					<h3 class="title">수강신청</h3>
-
 				</div>
-
+				<!-- 페이지 타이틀 끝 -->
+				<!-- 띄워주기 공백 부분 -->
 				<div class="con_box" id="tilesContent"></div>
-
-
+				<!-- 띄워주기 공백 부분 끝 -->
 				<form id="baseForm" name="baseForm" method="post">
-					<input type="hidden" name="currentPageNo" value="">
-					<div class="search_form_wrap">
-						<ul class="search_form dl2">
+					<!-- 학부/학과로 필터링 해서 수강 목록 search -->
+					<div class="searchForm">
+
+						<ul class="searchForm2">
+
 							<li class="first">
-								<!-- 부서 선택에 대한 부분 -->
-								<dl class="type2">
+								<dl class="type1 ">
 									<dt>
 										<span class="search_title">학부</span>
-										<!-- '부서 선택' 텍스트 -->
 									</dt>
+
 									<dd>
-										<span class="cd"> <input type="hidden"
-											id="COMBO_SYYLIST" class="gojworld"> <span
-											class="select"> <select name="facultyId"
-												id="facultySelect" class="{" required":true}" title="부서"
-												maxlength="100">
-													<option value="">Select</option>
-													<!-- 여기에 서버에서 가져온 부서 목록 추가 -->
+										<span class="select_box"> <span class="select">
+												<select name="facultyId" id="facultySelect">
+													<option value="">선택</option>
+													<c:forEach items="${facultyList}" var="faculty">
+														<option value="${faculty.faculty_id}">${faculty.faculty_name}</option>
+													</c:forEach>
 											</select>
 										</span>
 										</span>
 									</dd>
-								</dl> <!-- 학과 선택에 대한 부분 -->
-								<dl class="type2">
+								</dl> <!-- 학과 드롭다운 --> <!-- 학부 선택시 비동기 처리로 학과 드롭다운 채우기 -->
+								<dl class="type1">
 									<dt>
 										<span class="search_title">학과</span>
-										<!-- '학과 선택' 텍스트 -->
 									</dt>
+
 									<dd>
-										<span class="cd"> <input type="hidden" id="SCD343"
-											class="gojworld"> <span class="select"> <select
-												name="departmentId" id="departmentSelect" class="{ "
-												required" : true}" title="학과" maxlength="100">
-													<option value="">Select</option>
-													<!-- 여기에 부서에 따라 변경되는 학과 목록 추가 -->
+										<span class="select_box"> <span class="select">
+												<select name="departmentId" id="departmentSelect">
+													<option value="">선택</option>
+													<c:forEach items="${departmentList}" var="department">
+														<option value="${department.id}">${department.name}</option>
+													</c:forEach>
 											</select>
 										</span>
 										</span>
 									</dd>
 								</dl>
+
 							</li>
-							<li class="btn_w last"><a href="#" class="btn01 col02"
-								id="searchBtn"><span class="btn_ic01">SEARCH</span></a> <a
-								href="#" class="btn01 col03" title="Reset"
-								onclick="global.reset();"><span>Reset</span></a></li>
+
+
+							<!-- 검색 버튼과 초기화 버튼 -->
+							<li class="search_resetBtn">
+								<!-- 검색 버튼 -->
+								<button id="searchButton" type="button">SEARCH</button> 
+								<button id="resetButton" type="button">초기화</button><!-- 초기화 버튼 -->
+							</li>
+						</ul>
+					</div>
+					<!-- 학부/학과로 필터링 해서 수강 목록 search 끝 -->
+					
+					<!-- 필터링한 데이터를 출력시키는 리스트 -->
+					<div class="table_list_wrap">
+						<div class="tab_top_wrap">
+							<!-- <h4 class="f_left">수강신청 상세</h4> -->
+						</div>
+						<div class="table_wrap pc_view">
+							<table class="table t_list">
+								<!-- 컬럼 너비 설정 -->
+								<colgroup>
+									<col class="col_w70">
+									<col class="col_w100">
+									<col class="col_w200">
+									<col class="col_w60">
+									<col class="col_w60">
+									<col class="col_w100">
+									<col class="col_w90">
+									<col class="col_w200">
+								</colgroup>
+								<!-- 테이블 헤더 -->
+								<thead>
+									<tr class="first last">
+										<th scope="col" class="first">선택</th>
+										<th scope="col">학년/학기</th>
+										<th scope="col">이수구분</th>
+										<th scope="col">학수번호</th>
+										<th scope="col">학점</th>
+										<th scope="col">과목명</th>
+										<th scope="col">교수명</th>
+										<th scope="col" class="last"><b>강의시간</b></th>
+									</tr>
+								</thead>
+								<!-- 테이블 바디 -->
+								<tbody id="courseTableBody">
+									
+									<tr class="first last">
+											<!-- 데이터가 없을 경우 출력 -->
+										<td class="NO_RESULT first last" colspan="10">검색된 데이터가
+											없습니다.</td>
+											<!-- 실제 출력되는 데이터 리스트 영역   -->
+											<!-- 이 부분은 JavaScript로 코드 구현해둠 coursereg.js파일 참고 -->
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+
+					<!-- 위에 부분까지 수정함~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  -->
+
+
+					<div class="user_data">
+						<ul class="ul_list">
+							<li class="first"><strong><b>과목수</b>&nbsp;</strong>:&nbsp;0</li>
+							<li class="last"><strong><b>학점수</b>&nbsp;</strong>:&nbsp;</li>
 						</ul>
 					</div>
 					<div class="table_list_wrap">
 						<div class="tab_top_wrap">
-							<!-- <h4 class="f_left">수강신청내역</h4> -->
-							<div class="m_list_view"></div>
+							<div class="tab_top_wrap">
+								<h4 class="f_left">수강신청현황</h4>
+							</div>
 						</div>
 						<div class="table_wrap pc_view">
 							<table class="table t_list">
-								<!-- 열 넓이 조정 -->
 								<colgroup>
 									<col class="col_w70">
 									<col class="col_w100">
@@ -99,82 +161,20 @@
 								</colgroup>
 								<thead>
 									<tr class="first last">
-										<th scope="col" class="first">수강신청</th>
-										<th scope="col" class="first">학년/학기</th>
-
-										<th scope="col" class="first">이수구분</th>
+										<th scope="col" class="first">선택</th>
+										<th scope="col">학년/학기</th>
+										<th scope="col">이수구분</th>
 										<th scope="col">학수번호</th>
-										<th scope="col">교과목명</th>
 										<th scope="col">학점</th>
-										<th scope="col">담당교수</th>
-										<th scope="col">강의시간</th>
+										<th scope="col">과목명</th>
+										<th scope="col">교수명</th>
+										<th scope="col" class="last"><b>강의시간</b></th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr class="first">
-										<td data-mb="수강신청" class="last input_td"><a
-											href="https://e-campus.khu.ac.kr"
-											class="btn01 col07 viewTimtbInfoBtn" target="_blank">신청</a></td>
-										<td data-mb="이수구분" class="first">1학년/1학기</td>
-
-										<td data-mb="이수구분" class="first">전공필수</td>
-										<td data-mb="학수번호분반">ICIA1111-11</td>
-										<td data-mb="교과목명">Java프로그래밍</td>
-										<td data-mb="학점">3</td>
-										<td data-mb="담당교수">이형민</td>
-										<td data-mb="강의시간강의실">차지헌 월10:30-11:45</td>
-									</tr>
-									<tr>
-										<td data-mb="수강신청" class="last input_td"><a
-											href="https://e-campus.khu.ac.kr"
-											class="btn01 col07 viewTimtbInfoBtn" target="_blank">신청</a></td>
-										<td data-mb="이수구분" class="first">1학년/1학기</td>
-
-										<td data-mb="이수구분" class="first">전공필수</td>
-										<td data-mb="학수번호분반">ICIA2222-22</td>
-										<td data-mb="교과목명">Oracle DataBase</td>
-										<td data-mb="학점">3</td>
-										<td data-mb="담당교수">유예슬</td>
-										<td data-mb="강의시간강의실">차지헌 화17:00-17:50</td>
-									</tr>
-									<tr>
-										<td data-mb="수강신청" class="last input_td"><a
-											href="https://e-campus.khu.ac.kr"
-											class="btn01 col07 viewTimtbInfoBtn" target="_blank">신청</a></td>
-										<td data-mb="이수구분" class="first">1학년/1학기</td>
-
-										<td data-mb="이수구분" class="first">전공선택</td>
-										<td data-mb="학수번호분반">ICIA3333-33</td>
-										<td data-mb="교과목명">Java응용 JDBC</td>
-										<td data-mb="학점">2</td>
-										<td data-mb="담당교수">한영화</td>
-										<td data-mb="강의시간강의실">차지헌 수13:30-14:45</td>
-									</tr>
-									<tr>
-										<td data-mb="수강신청" class="last input_td"><a
-											href="https://e-campus.khu.ac.kr"
-											class="btn01 col07 viewTimtbInfoBtn" target="_blank">신청</a></td>
-										<td data-mb="이수구분" class="first">1학년/1학기</td>
-
-										<td data-mb="이수구분" class="first">전공선택</td>
-										<td data-mb="학수번호분반">ICIA4444-44</td>
-										<td data-mb="교과목명">웹퍼블리싱&amp;프론트엔드</td>
-										<td data-mb="학점">2</td>
-										<td data-mb="담당교수">민동규</td>
-										<td data-mb="강의시간강의실">차지헌 목10:30-11:45</td>
-									</tr>
-									<tr>
-										<td data-mb="수강신청" class="last input_td"><a
-											href="https://e-campus.khu.ac.kr"
-											class="btn01 col07 viewTimtbInfoBtn" target="_blank">신청</a></td>
-										<td data-mb="이수구분" class="first">1학년/1학기</td>
-
-										<td data-mb="이수구분" class="first">교양</td>
-										<td data-mb="학수번호분반">ICIA5555-55</td>
-										<td data-mb="교과목명">Servlet&amp;MVC를 응용한 SpringBoot</td>
-										<td data-mb="학점">1</td>
-										<td data-mb="담당교수">박하사</td>
-										<td data-mb="강의시간강의실">차지헌 월13:30-14:45</td>
+									<tr class="first last">
+										<td class="NO_RESULT first last" colspan="10">검색된 데이터가
+											없습니다.</td>
 									</tr>
 								</tbody>
 							</table>
@@ -182,53 +182,10 @@
 					</div>
 					<div class="user_data">
 						<ul class="ul_list">
-							<li class="first"><strong><b>과목수</b>&nbsp;</strong>:&nbsp;5</li>
-							<li class="last"><strong><b>학점수</b>&nbsp;</strong>:&nbsp;11</li>
+							<li class="first"><strong><b>과목수</b>&nbsp;</strong>:&nbsp;0</li>
+							<li class="last"><strong><b>학점수</b>&nbsp;</strong>:&nbsp;</li>
 						</ul>
 					</div>
-					<div class="table_list_wrap">
-						<div class="tab_top_wrap">
-							<h4 class="f_left">수강신청현황</h4>
-							<div class="m_list_view"></div>
-						</div>
-						<div class="table_wrap pc_view">
-							<table class="table t_list">
-								<caption>수강신청현황 정보 테이블입니다.</caption>
-								<colgroup>
-									<col class="col_w150">
-									<col class="col_w200">
-									<col class="col_w100">
-									<col class="col_w120">
-									<col class="col_w200">
-									<col class="col_w90">
-									<col class="col_w90">
-								</colgroup>
-								<thead>
-									<tr class="first last">
-										<th scope="col" class="first">수강취소</th>
-										<th scope="col" class="first">학년/학기</th>
-
-										<th scope="col" class="first">이수구분</th>
-										<th scope="col">학수번호</th>
-										<th scope="col">교과목명</th>
-										<th scope="col">학점</th>
-										<th scope="col">담당교수</th>
-										<th scope="col">강의시간</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr class="first last">
-										<td class="NO_RESULT first last" colspan="7">검색된 데이터가
-											없습니다.</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<ul class="ul_list">
-						<li class="first"><strong><b>과목수</b>&nbsp;</strong>:&nbsp;0</li>
-						<li class="last"><strong><b>학점수</b>&nbsp;</strong>:&nbsp;0</li>
-					</ul>
 				</form>
 
 			</section>
@@ -236,10 +193,6 @@
 
 	</div>
 
-	<!-- footer -->
-	<footer>
-		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-	</footer>
-
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </body>
 </html>

@@ -1,0 +1,294 @@
+/* 기본 스타일링 (기본 설정) */
+* {
+	box-sizing: border-box;
+	-webkit-text-size-adjust: none;
+}
+
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+form,
+fieldset,
+p,
+button {
+	margin: 0;
+	padding: 0;
+}
+
+/* 폰트 및 글자 설정 */
+body,
+h1,
+h2,
+h3,
+h4,
+input,
+button,
+textarea,
+pre {
+	font: normal 13px/1.1 'Nanum Gothic', '나눔고딕', '돋움', Dotum, sans-serif;
+	color: #666666;
+}
+
+/* 레이아웃 설정 */
+body {
+	text-align: left;
+	word-break: break-word;
+	overflow-y: scroll;
+}
+
+/* 헤딩 설정 (제목들) */
+h3,
+.h3_box h3 {
+	text-align: center;
+	font-size: 26px;
+	font-weight: 400;
+	color: #333333 !important;
+	padding-bottom: 30px;
+}
+
+/* 컨테이너 설정 (메인 레이아웃의 컨테이너 설정) */
+.container {
+	border-top: 1px solid #e5e5e5;
+	width: 100%;
+}
+
+.container .con_wrap {
+	position: relative;
+	width: 100%;
+	margin: auto;
+	overflow: hidden;
+}
+
+/* 섹션 설정 (각 페이지의 메인 섹션) */
+section {
+	position: relative;
+	clear: both;
+	overflow: hidden;
+	min-height: 800px;
+	margin: 0 auto;
+	max-width: 1280px;
+	background: #fff;
+	padding: 150px 40px 60px;
+	transition: all 0.5s ease;
+}
+
+@media only screen and (max-width: 1280px) {
+	section {
+		padding: 90px 10px 100px 20px;
+	}
+}
+
+/* 검색 폼 설정 (페이지 내에서 사용되는 검색 폼) */
+.search_form_wrap {
+	background: #f9f9f9;
+	border: 1px solid #e1e5e8;
+	padding: 0 35px 10px 70px;
+	margin-bottom: 50px;
+}
+
+/* 검색 및 리셋 버튼 */
+#searchButton,
+#resetButton {
+	display: inline-block;
+	padding: 10px 20px;
+	margin: 5px;
+	font-size: 16px;
+	cursor: pointer;
+	text-align: center;
+	border: none;
+}
+
+#searchButton {
+	background-color: #a9201d;
+	color: white;
+}
+
+#resetButton {
+	background-color: #afb8c0;
+	color: white;
+}
+
+
+
+
+
+
+
+.search_form_wrap ul li dl {
+	display: inline-block;
+	width: 50%;
+	float: left;
+	padding-top: 10px;
+	transition: all 0.5s ease;
+}
+
+.search_form_wrap ul li dl dt {
+	float: left;
+	width: 120px;
+	font-size: 13px;
+	color: #333333;
+	font-weight: 600;
+	padding-right: 9px;
+}
+
+.search_form_wrap ul li dl dd {
+	float: left;
+	width: calc(100% - 120px);
+	padding-right: 35px;
+}
+
+.search_form_wrap ul li.btn_w {
+	width: 100%;
+	padding-top: 10px;
+	text-align: right;
+	padding-right: 35px;
+}
+
+/* 입력 및 버튼 설정 (폼에 있는 입력 박스 및 버튼) */
+input,
+select,
+button {
+	vertical-align: middle;
+}
+
+input {
+	background-color: #fff;
+	height: 40px;
+}
+
+/* 테이블 설정 (페이지 내 테이블에 관한 설정) */
+.table_wrap {
+	border-top: 1px solid #666666;
+}
+
+.table_wrap table {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+
+.table_wrap table.t_list thead {
+	border-bottom: 1px solid #333333;
+}
+
+.table_wrap table.t_list thead th,
+.table_wrap table.t_list tbody td {
+	padding: 19px 5px;
+	text-align: center;
+	font-size: 13px;
+	letter-spacing: -0.5px;
+}
+
+.table_wrap table.t_list tbody td {
+	border-bottom: 1px solid #e1e5e6;
+	color: #666;
+}
+
+/* 사용자 데이터 설정 (사용자 정보 표시) */
+.user_data,
+.table_list_wrap+.user_data {
+	margin-top: 30px;
+	border: 3px solid #e7e9ed;
+	padding: 20px 20px 10px;
+	text-align: left;
+}
+
+.user_data ul,
+.ul_list {
+	clear: both;
+	overflow: hidden;
+}
+
+.user_data ul li,
+.ul_list li {
+	float: left;
+	padding: 0 15px 10px 10px;
+	color: #222;
+	font-size: 15px;
+	line-height: 1.2em;
+}
+
+/* 탭 상단 설정 (탭 네비게이션에 대한 설정) */
+.tab_top_wrap {
+	padding-bottom: 20px;
+	clear: both;
+	overflow: hidden;
+}
+
+.tab_top_wrap .f_left {
+	margin-top: 6px;
+	width: calc(100% - 100px);
+	float: left !important;
+}
+
+/* 버튼 스타일 설정 */
+.btn01 {
+	display: inline-block;
+	min-width: 50px;
+	padding: 10px 10px;
+	font-weight: 400;
+	text-align: center;
+	font-size: 13px;
+	border: 1px solid #868686;
+	border-radius: 3px;
+}
+
+.btn01.col02,
+.btn01.col03 {
+	color: #fff;
+	min-width: 130px;
+}
+
+.btn01.col02 {
+	background: #a9201d;
+	border: 1px solid #a9201d;
+}
+
+.btn01.col03 {
+	background: #afb8c0;
+	border: 1px solid #afb8c0;
+}
+
+/* 링크 설정 */
+a {
+	color: #222;
+	text-decoration: none;
+}
+
+/* 기타 설정 */
+h4 {
+	font-size: 18px;
+	font-weight: 400;
+	color: #282828;
+	font-family: 'Noto Sans KR';
+}
+
+strong {
+	font-weight: 600;
+	line-height: 1;
+}
+
+ul {
+	list-style-type: disc;
+	margin: 1em 0;
+	padding-left: 40px;
+}
+
+/* 결과 없음 표시 (검색이나 리스트에서 결과가 없을 경우) */
+.NO_RESULT {
+	text-align: center;
+	height: 160px;
+	line-height: 100px;
+	color: #777 !important;
+	padding-top: 60px
+}

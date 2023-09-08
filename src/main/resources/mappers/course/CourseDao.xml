@@ -3,29 +3,43 @@
 
 <mapper namespace="kr.ac.icia.dao.course.CourseDao">
 	<!-- 수강신청 Start -->
-	<!-- 수강신청 검색조건으로 리스트 출력 -->
-	<select id="courseReg" resultType="SubjectDto">
-		SELECT * FROM SUBJECT
-		<!-- if태그 사용하려고 넣은 where절 1=1은 항상 true값이라 쿼리문에 영향X 덕분애 AND사용 가능 -->
-		WHERE 1=1
-		<if test="department_id != null">
-			AND department_id = #{department_id}
-		</if>
-		<if test="faculty_id != null">
-			AND faculty_id = #{faculty_id}
-		</if>
+	<!-- 수강신청 페이지 이동 시 필터링 부분 학부 드롭다운 자동 채우기 -->
+	<select id="getAllfaculty" resultType="FilteringDto">
+		SELECT faculty_id,
+		faculty_name
+		FROM faculty
 	</select>
 
-	<!-- 수강신청 모든 리스트 출력 -->
-	<select id="AllCourseReg" resultType="SubjectDto">
-		SELECT * FROM SUBJECT
+	<!-- 선택한 학부(faculty)에 따라서 학과(department) 정보를 가져오는 쿼리 -->
+	<select id="filtering" resultType="FilteringDto">
+		SELECT department_id,
+		department_name
+		FROM department
+		WHERE faculty_id = #{facultyId}
 	</select>
 
-	<!--  출력할 수강신청 리스트 필터링  : 학부에 따른  학과 목록으로 필터링 -->
-	<!-- 학부 ID를 기반으로 학과 목록을 가져온다. -->
-	<select id="filteringSearch" resultType="SubjectDto">
-		SELECT * FROM DEPARTMENT
-		WHERE faculty_id = #{faculty_id}
+	<!-- 필터링된 수강신청(수강신청 테이블이 아닌 과목 테이블)할 리스트 가져오는 쿼리 -->
+	<!-- subject(과목)테이블 / pf(교수의)테이블의 컬럼들의 데이터가 필요하기 떄문에 JOIN해서 쿼리 작성 -->
+	<select id="filteringSearch" resultType="FilterringSearchListDto">
+		SELECT
+		s.COURSE_ID,
+		s.GRADE,
+		s.SEMESTER,
+		s.COURSE_DIVISION,
+		s.CREDIT,
+		s.COURSE_NAME,
+		s.COURSE_TIME,
+		pf.PF_NAME
+		FROM
+		SUBJECT s
+		JOIN DEPARTMENT d ON s.DEPARTMENT_ID = d.DEPARTMENT_ID
+		JOIN FACULTY f ON d.FACULTY_ID = f.FACULTY_ID
+		JOIN PF pf ON s.PF_ID = pf.PF_ID
+		<!-- 파라미터를 ?로 대체해서 사용 -->
+		WHERE
+		f.FACULTY_ID = #{facultyId} AND d.DEPARTMENT_ID = #{departmentId}
+		ORDER BY
+		s.COURSE_ID
 	</select>
 
 	<!-- 수강신청 End -->
