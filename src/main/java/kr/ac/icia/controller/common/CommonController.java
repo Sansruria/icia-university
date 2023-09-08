@@ -9,23 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class CommonController {
 	
-//	@GetMapping("/")
-//	public String login() {
-//		return "index";
-//	}
-	@GetMapping("/footer")
-	public String footer() {
-		return "footer";
+	@GetMapping("/")
+	public String login() {
+		return "index";
 	}
 
-	@GetMapping("/dropoutdetail")
-	public String list() {
-		return "dropoutdetail";
-	}
-
-//	@GetMapping("/main")
-//	public String main() {
-//		return "main";
-//	}
 }
 
