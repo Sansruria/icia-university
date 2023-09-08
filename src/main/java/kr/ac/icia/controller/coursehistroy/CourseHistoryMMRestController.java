@@ -18,7 +18,7 @@ public class CourseHistoryMMRestController {
 	// select, detail, delete는 GetMapping으로
 	//등록, 수정은 PostMapping으로
 	//등록
-	@PostMapping("/historywrite")
+	@PostMapping("/write")
 	public String write(CourseHistoryMMDto courseHistoryMMDto) {
 		return courseHistoryService.write(courseHistoryMMDto);
 	}
