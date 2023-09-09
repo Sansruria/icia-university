@@ -24,6 +24,11 @@ public class StController {
 	
 	@Autowired
 	private final StService stService;
+
+	@GetMapping("/st/main")
+	public String mainPage() {
+		return "sreg/st/stMain";
+	}
 	
 //	목록
 	@GetMapping("/st")
