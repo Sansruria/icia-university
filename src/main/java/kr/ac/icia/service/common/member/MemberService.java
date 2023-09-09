@@ -1,6 +1,7 @@
 package kr.ac.icia.service.common.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import kr.ac.icia.dao.common.member.MemberDao;
@@ -15,26 +16,40 @@ public class MemberService {
 	private final MemberDao memberDao;
 	
 //	로그인
-	public MemberDto login() {
-		boolean result = false;
+	public MemberDto login(MemberDto memberDto) {
+//		입력 받은 아이디가 교수인지 학생인지 구분
+//		입력 받은 아이디가 존재하는지와 입력한 비밀번호 조회
+		String foundPw;
+		String isPf = memberDto.getUserId().substring(0,1);
+		if (isPf.equals("P") || memberDto.getUserId().equals("admin")) {
+//			교수일 때
+			memberDto.setTableName("pf");
+			memberDto.setColumnName("pf_id");
+		} else {
+//			학생일 때
+			memberDto.setTableName("st");
+			memberDto.setColumnName("st_id");
+		}
+
+		foundPw = memberDao.findPwById(memberDto);
+		if (foundPw != null) {
+//			입력받은 비밀번호를 암호화하고 가져온 비밀번호와 일치하는지 비교함
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			if (passwordEncoder.matches(memberDto.getPassword(), foundPw)) {
+				if (isPf.equals("P") || memberDto.getUserId().equals("admin")) {
+					return memberDao.findPfInfoById(memberDto.getUserId());
+				} else {
+					return memberDao.findStInfoById(memberDto.getUserId());
+				}
+
+			} else {
+				return null;
+			}
+
+		} else {
+			return null;
+		}
 		
-//		학생일 때
-		result = memberDao.findPwByStId();
-		
-//		교수일 때
-		result = memberDao.findPwByPfId();
-		
-		return null;
-	}
-	
-//	비밀번호 가져오기
-	public String findPassword() {
-		return null;
-	}
-	
-//	회원정보 가져오기
-	public MemberDto findMemberInfo() {
-		return null;
 	}
 
 }

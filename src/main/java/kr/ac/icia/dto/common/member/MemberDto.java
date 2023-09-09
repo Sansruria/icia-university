@@ -9,5 +9,7 @@ import lombok.Setter;
 public class MemberDto extends PersonInfoDto {
 	private String userId; // 계정 (학번, 교수번호)
 	private String status; // 학적상태
+	private String columnName;
+	private String tableName;
 
 }
