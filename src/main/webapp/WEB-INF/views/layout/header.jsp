@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <nav class="navbar navbar-expand-lg mb-4" style="background-color: #0B1B40">
     <div class="container">
@@ -12,7 +13,17 @@
 
         <div class="row">
             <div class="text-end text-white">
-                <a href="#" class="nav-link">로그아웃</a>
+                <c:if test="${memberInfo != null}">
+                    <a href="#" class="nav-link">
+                        <c:out value="${sessionScope.memberInfo.name}"></c:out>님
+                        <form action="/logout" method="POST">
+                            <button type="submit">로그아웃</button>
+                        </form>
+                    </a>
+                </c:if>
+                <c:if test="${memberInfo == null}">
+                    <a href="/login" class="nav-link">로그인</a>
+                </c:if>
             </div>
             
             <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
