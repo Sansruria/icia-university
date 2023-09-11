@@ -28,9 +28,9 @@ public class CourseHistroyMM {
 
 		@PostMapping("/admin/mm/coursehistory/write")
 		public String write(CourseHistoryMMDto courseHistoryMMDto) {
-			log.info("dto : {}", courseHistoryMMDto);
-			return null;
-//			return courseHistoryService.write(courseHistoryMMDto);
+//			log.info("dto : {}", courseHistoryMMDto);
+//			return null;
+			return courseHistoryService.write(courseHistoryMMDto);
 		}
 		
 }
