@@ -28,7 +28,11 @@
 				<!-- 띄워주기 공백 부분 -->
 				<div class="con_box" id="tilesContent"></div>
 				<!-- 띄워주기 공백 부분 끝 -->
+
+
 				<form id="baseForm" name="baseForm" method="post">
+
+
 					<!-- 학부/학과로 필터링 해서 수강 목록 search -->
 					<div class="searchForm">
 
@@ -76,13 +80,13 @@
 							<!-- 검색 버튼과 초기화 버튼 -->
 							<li class="search_resetBtn">
 								<!-- 검색 버튼 -->
-								<button id="searchButton" type="button">SEARCH</button> 
-								<button id="resetButton" type="button">초기화</button><!-- 초기화 버튼 -->
+								<button id="searchButton" type="button">SEARCH</button>
+								<button id="resetButton" type="button">초기화</button> <!-- 초기화 버튼 -->
 							</li>
 						</ul>
 					</div>
 					<!-- 학부/학과로 필터링 해서 수강 목록 search 끝 -->
-					
+
 					<!-- 필터링한 데이터를 출력시키는 리스트 -->
 					<div class="table_list_wrap">
 						<div class="tab_top_wrap">
@@ -115,14 +119,14 @@
 									</tr>
 								</thead>
 								<!-- 테이블 바디 -->
-								<tbody id="courseTableBody">
-									
+								<tbody id="courseRegTableBody">
+
 									<tr class="first last">
-											<!-- 데이터가 없을 경우 출력 -->
+										<!-- 데이터가 없을 경우 출력 -->
 										<td class="NO_RESULT first last" colspan="10">검색된 데이터가
 											없습니다.</td>
-											<!-- 실제 출력되는 데이터 리스트 영역   -->
-											<!-- 이 부분은 JavaScript로 코드 구현해둠 coursereg.js파일 참고 -->
+										<!-- 실제 출력되는 데이터 리스트 영역   -->
+										<!-- 이 부분은 JavaScript로 코드 구현해둠 coursereg.js파일 참고 -->
 									</tr>
 								</tbody>
 							</table>
@@ -135,10 +139,12 @@
 
 					<div class="user_data">
 						<ul class="ul_list">
-							<li class="first"><strong><b>과목수</b>&nbsp;</strong>:&nbsp;0</li>
+							<li class="first"><strong><b>과목수</b>&nbsp;</strong>:&nbsp;</li>
 							<li class="last"><strong><b>학점수</b>&nbsp;</strong>:&nbsp;</li>
 						</ul>
 					</div>
+
+
 					<div class="table_list_wrap">
 						<div class="tab_top_wrap">
 							<div class="tab_top_wrap">
@@ -147,6 +153,7 @@
 						</div>
 						<div class="table_wrap pc_view">
 							<table class="table t_list">
+								<!-- 컬럼 너비 설정 -->
 								<colgroup>
 									<col class="col_w70">
 									<col class="col_w100">
@@ -156,9 +163,8 @@
 									<col class="col_w100">
 									<col class="col_w90">
 									<col class="col_w200">
-									<col class="col_w80">
-									<col class="col_w80">
 								</colgroup>
+								<!-- 테이블 헤더 -->
 								<thead>
 									<tr class="first last">
 										<th scope="col" class="first">선택</th>
@@ -171,21 +177,31 @@
 										<th scope="col" class="last"><b>강의시간</b></th>
 									</tr>
 								</thead>
-								<tbody>
+								<!-- 테이블 바디 -->
+								<tbody id="courseRegStatusTableBody">
+
 									<tr class="first last">
+										<!-- 데이터가 없을 경우 출력 -->
 										<td class="NO_RESULT first last" colspan="10">검색된 데이터가
 											없습니다.</td>
+										<!-- 실제 출력되는 데이터 리스트 영역   -->
+										<!-- 이 부분은 JavaScript로 코드 구현해둠 coursereg.js파일 참고 -->
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
+
+
 					<div class="user_data">
 						<ul class="ul_list">
-							<li class="first"><strong><b>과목수</b>&nbsp;</strong>:&nbsp;0</li>
+							<li class="first"><strong><b>과목수</b>&nbsp;</strong>:&nbsp;</li>
 							<li class="last"><strong><b>학점수</b>&nbsp;</strong>:&nbsp;</li>
 						</ul>
+						<!-- 최종 수강신청 버튼 -->
 					</div>
+					<button id="courseRegisterButton" type="button">수강신청</button>
+
 				</form>
 
 			</section>

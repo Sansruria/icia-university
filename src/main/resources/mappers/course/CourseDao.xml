@@ -20,7 +20,8 @@
 
 	<!-- 필터링된 수강신청(수강신청 테이블이 아닌 과목 테이블)할 리스트 가져오는 쿼리 -->
 	<!-- subject(과목)테이블 / pf(교수의)테이블의 컬럼들의 데이터가 필요하기 떄문에 JOIN해서 쿼리 작성 -->
-	<select id="filteringSearch" resultType="FilterringSearchListDto">
+	<select id="filteringSearch"
+		resultType="FilterringSearchListDto">
 		SELECT
 		s.COURSE_ID,
 		s.GRADE,
@@ -32,8 +33,10 @@
 		pf.PF_NAME
 		FROM
 		SUBJECT s
-		JOIN DEPARTMENT d ON s.DEPARTMENT_ID = d.DEPARTMENT_ID
-		JOIN FACULTY f ON d.FACULTY_ID = f.FACULTY_ID
+		JOIN DEPARTMENT d
+		ON s.DEPARTMENT_ID = d.DEPARTMENT_ID
+		JOIN FACULTY f ON d.FACULTY_ID =
+		f.FACULTY_ID
 		JOIN PF pf ON s.PF_ID = pf.PF_ID
 		<!-- 파라미터를 ?로 대체해서 사용 -->
 		WHERE
@@ -41,6 +44,37 @@
 		ORDER BY
 		s.COURSE_ID
 	</select>
+
+	<!-- 등록된 학생 수를 검색하는 쿼리 -->
+	<select id="getStudentCount" parameterType="string"
+		resultType="int">
+		SELECT COUNT(*) FROM COURSE_REGISTER WHERE
+		COURSE_ID=#{courseId}
+	</select>
+
+	<!-- 강의를 신청하는 쿼리 -->
+	<insert id="finalApply" parameterType="CourseRegisterDto">
+		INSERT INTO COURSE_REGISTER
+		(
+		REQ_COURSE_ID, COURSE_ID, ST_ID,
+		REQ_GRADE, REQ_SEMESTER, REQ_COURSE_DIVISION,
+		REQ_CREDIT,
+		REQ_COURSE_NAME, REQ_PF_NAME,
+		REQ_COURSE_TIME, REQ_ST_COUNT
+		)
+		VALUES
+		<foreach collection="list" item="course" separator=",">
+			(
+			#{course.reg_course_id}, #{course.course_id}, #{course.req_st_id},
+			#{course.req_grade}, #{course.req_semester},
+			#{course.req_course_division},
+			#{course.req_credit},
+			#{course.req_course_name},
+			#{course.req_pf_name},
+			#{course.req_course_time}, #{course.req_st_count}
+			)
+		</foreach>
+	</insert>
 
 	<!-- 수강신청 End -->
 </mapper>
