@@ -57,7 +57,7 @@
                                 학적
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/stchangm">전과신청메인</a></li>
+                                <li><a class="dropdown-item" href="/sreg/stchangm">전과신청메인</a></li>
                                 <li><a class="dropdown-item" href="/sreg/stchangm/update">전과신청화면</a></li>
                                 <li><a class="dropdown-item" href="/sreg/stchangm/update/list">전과조회페이지</a></li>
                                 <li><a class="dropdown-item" href="/sreg/dropout/list">자퇴신청</a></li>
