@@ -2,6 +2,7 @@ package kr.ac.icia.controller.common.member;
 
 import jakarta.servlet.http.HttpSession;
 import kr.ac.icia.dto.common.member.MemberDto;
+import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ public class MemberController {
 
 	@GetMapping("/login")
 	public String login() {
-		return "login";
+		return "common/member/login";
 	}
 
 	@PostMapping("/login")
@@ -52,6 +53,16 @@ public class MemberController {
 		session.invalidate();
 		rttr.addFlashAttribute("msg", "로그아웃 되었습니다");
 		return "redirect:/login";
+	}
+
+	@GetMapping("/member/find/id")
+	public String findId() {
+		return "common/member/findId";
+	}
+
+	@GetMapping("/member/find/pw")
+	public String findPw() {
+		return "common/member/findPw";
 	}
 
 }
