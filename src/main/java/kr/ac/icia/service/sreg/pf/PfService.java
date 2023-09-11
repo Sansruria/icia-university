@@ -7,6 +7,7 @@ import kr.ac.icia.dto.sreg.pf.PfDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -57,13 +58,14 @@ public class PfService {
             numbering += ++lastNum;
         }
 
-        pfId += pfDto.getDeptId() + numbering;
+        pfId = "P" + pfId + pfDto.getDeptId() + numbering;
         pfDto.setPfId(pfId);
 
         // 주민등록번호 뒷자리를 비밀번호로 함
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String password = pfDto.getRrn();
         String[] splitPassword = password.split("-");
-        pfDto.setPassword(splitPassword[1]);
+        pfDto.setPassword(passwordEncoder.encode(splitPassword[1]));
         boolean result = pfDao.write(pfDto);
 
         if (result) {

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import kr.ac.icia.dto.sreg.common.SregSearchDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import kr.ac.icia.dao.sreg.st.StDao;
@@ -64,9 +65,10 @@ public class StService {
 		stDto.setStId(stId);
 
 		// 주민등록번호 뒷자리를 비밀번호로 함
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String password = stDto.getRrn();
 		String[] splitPassword = password.split("-");
-		stDto.setPassword(splitPassword[1]);
+		stDto.setPassword(passwordEncoder.encode(splitPassword[1]));
 		boolean result = stDao.write(stDto);
 		
 		if (result) {
