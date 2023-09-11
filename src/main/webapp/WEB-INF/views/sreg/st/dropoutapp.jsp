@@ -10,6 +10,7 @@
     <jsp:include page="/WEB-INF/views/layout/head-js.jsp"></jsp:include>
     <jsp:include page="/WEB-INF/views/layout/head-css.jsp"></jsp:include>
     <style>
+  
 .dropout_app{
 	text-align:center;
 }
@@ -106,6 +107,11 @@ position:absolute;
 	top:375px;
 	left:420px;
 }
+footer{
+position:absolute;
+	bottom:0px;
+	width:1900px;
+}
 </style>
 </head>
 
@@ -136,6 +142,9 @@ position:absolute;
 <div id="uploadedFiles"></div>
 	  <button id="linkButton" class="cbcb2">신청</button>
  	</div>
+ 	<footer>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
+    </footer>
 	<script>
     // 버튼 요소를 가져와서 클릭 이벤트를 추가합니다.
     document.getElementById("linkButton").addEventListener("click", function() {
@@ -154,6 +163,5 @@ position:absolute;
 
   
     
-    <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </body>
 </html>

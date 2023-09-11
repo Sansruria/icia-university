@@ -82,6 +82,11 @@
 .user_text4{
 	font-size:20px;
 }
+footer{
+	position:absolute;
+	bottom:0px;
+	width:1900px;
+}
 </style>
 </head>
 
@@ -124,7 +129,8 @@
  	</div>
 
     </div>
-    
+    <footer>
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
+    </footer>
 </body>
 </html>
