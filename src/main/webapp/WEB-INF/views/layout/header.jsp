@@ -75,7 +75,6 @@
                                 <li><a class="dropdown-item" href="/course/courseevreg/list">강의평가</a></li>
                                 <li><a class="dropdown-item" href="/course/courseev/list">강의평가조회</a></li>
                                 <li><a class="dropdown-item" href="/course/syllabusreg/oper/list">수업계획서 등록</a></li>
-                                <li><a class="dropdown-item" href="/course/mm/courselist/list">수강내역관리</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -89,6 +88,7 @@
                                 <li><a class="dropdown-item" href="/admin/mm/deptline">학과계열관리</a></li>
                                 <li><a class="dropdown-item" href="/admin/mm/faculty">학부관리</a></li>
                                 <li><a class="dropdown-item" href="/admin/mm/dept">학과관리</a></li>
+                                <li><a class="dropdown-item" href="/admin/mm/course/history">수강내역관리</a></li>
                             </ul>
                         </li>
                     </ul>

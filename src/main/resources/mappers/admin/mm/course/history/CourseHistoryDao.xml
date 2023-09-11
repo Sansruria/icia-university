@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.ac.icia.dao.admin.mm.course.history.CourseHistoryDao">
+
+<!--    <select id="findByCondition" parameterType="" resultType="">-->
+<!--        -->
+<!--    </select>-->
+
+<!--    <select id="findAllCount" parameterType="" resultType="Integer">-->
+<!--        SELECT COUNT(*) FROM subject WHERE 1=1-->
+<!--    </select>-->
+<!--    -->
+<!--    <select id="detail" parameterType="" resultType="">-->
+<!--        SELECT * FROM subject-->
+<!--    </select>-->
+    
+    <insert id="write" parameterType="kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto">
+        INSERT INTO subject (
+                course_id,
+                department_id,
+                pf_id,
+                course_division,
+                course_name,
+                limit_max_count,
+                credit,
+                grade,
+                semester,
+                course_day,
+                course_start_time,
+                course_end_time)
+        VALUES (
+                #{courseId},
+                #{deptId},
+                #{pfId},
+                #{courseDivision},
+                #{courseName},
+                #{limitMaxCount},
+                #{credit},
+                #{grade},
+                #{semester},
+                #{courseDay},
+                #{courseStartTime},
+                #{courseEndTime}
+               )
+    </insert>
+    
+<!--    <update id="update" parameterType="">-->
+<!--        UPDATE-->
+<!--            subject-->
+<!--        SET-->
+<!--            department_id = #{deptId},-->
+<!--            pf_id = #{pfId},-->
+<!--            course_division = #{courseDivision},-->
+<!--            course_name = #{courseName},-->
+<!--            limit_max_count = #{limitMaxCount},-->
+<!--            credit = #{credit},-->
+<!--            course_day = #{course},-->
+<!--            course_start_time = #{courseStartTime},-->
+<!--            course_end_time = #{courseEndTime}-->
+<!--        WHERE-->
+<!--            course_id = #{courseId}-->
+<!--    </update>-->
+<!--    -->
+<!--    <delete id="delete" parameterType="String">-->
+<!--        DELETE FROM subjcet WHERE course_id = #{courseId}-->
+<!--    </delete>-->
+
+</mapper>
