@@ -27,6 +27,7 @@
 
         }).done(function(res) {
             alert('회원님의 아이디는 ' + res + '입니다.')
+            location.href='redirect:/login'
 
         }).fail(function(res) {
             alert(res)

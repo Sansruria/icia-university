@@ -27,6 +27,7 @@
 
         }).done(function(res) {
             alert(res)
+            location.href='redirect:/login'
 
         }).fail(function(res) {
             alert(res)
