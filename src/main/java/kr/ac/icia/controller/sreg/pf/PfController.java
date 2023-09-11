@@ -25,6 +25,11 @@ public class PfController {
 
 	@Autowired
 	private final PfService pfService;
+
+	@GetMapping("/pf/main")
+	public String mainPage() {
+		return "sreg/pf/pfMain";
+	}
 	
 //	목록
 	@GetMapping("/pf")
@@ -32,9 +37,7 @@ public class PfController {
 			, @RequestParam(value="nowPage", required = false) String nowPage
 			, @RequestParam(value="cntPerPage", required = false) String cntPerPage) {
 
-		log.info("/sreg/pf...");
 		int total = pfService.findAllCount(searchDto);
-		log.info("/sreg/pf total : {}", total);
 
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";

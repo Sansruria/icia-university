@@ -4,15 +4,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+
 //<관리자> 기능컨트롤러
 
 @RestController
-@RequestMapping({"/regadmin"})
+@RequestMapping("/regadmin")
 public class adchangmajorRestController {
-	
-	
-	
-	
-	
+
 
 }

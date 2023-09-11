@@ -17,6 +17,10 @@
             document.querySelector('.btn-search-save').addEventListener('click', ()=>openSearchModal(false))
             document.querySelector('.btn-reset').addEventListener('click', ()=>reset())
             document.querySelector('#paging').innerHTML = "${paging}"
+
+            if ('${searchDto.deptName}' != null || '${searchDto.deptName}' != '') {
+                document.searchFrm.querySelector('input[name="deptName"]').value = '${searchDto.deptName}'
+            }
         })
         
         function save() {

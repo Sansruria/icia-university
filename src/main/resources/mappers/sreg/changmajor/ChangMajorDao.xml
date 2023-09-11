@@ -1,0 +1,23 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.ac.icia.dao.sreg.changmajor.ChangMajorDao">
+
+
+	<select id="getAllfaculty" resultType="UserDto">
+		SELECT
+		faculty_id,faculty_name
+		FROM faculty
+
+	</select>
+
+
+	<!-- 학부의학과 선택쿼리 -->
+
+	<select id="getDepartments" resultType="UserDto">
+	SELECT d.department_id, d.department_name
+	FROM department d INNER JOIN faculty f ON d.faculty_id = f.faculty_id
+	WHERE f.faculty_id = #{facultyId}
+		
+	</select>
+
+</mapper>	
