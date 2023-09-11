@@ -56,7 +56,7 @@
                 <div class="col">
                     <div class="input-group mb-3">
                         <span class="input-group-text p-3 w-25" style="background-color : #F6AB00"><b>이름</b></span>
-                        <input type="text" class="form-control" name="name" value="김얼쑤">
+                        <input type="text" class="form-control" name="name">
                     </div>
                 </div>
             </div>
