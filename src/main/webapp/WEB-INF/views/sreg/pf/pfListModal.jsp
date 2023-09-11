@@ -9,11 +9,11 @@
         let obj = {}
         obj.nowPage = pageNum
         obj.cntPerPage = document.searchFrmModal.querySelector('input[name="cntPerPageModal"]').value
-        obj.deptName = document.searchFrmModal.querySelector('input[name="pfNameModal"]').value
+        obj.name = document.searchFrmModal.querySelector('input[name="pfNameModal"]').value
 
         $.ajax({
             method : "GET",
-            url : '/admin/mm/dept/api/list',
+            url : '/sreg/pf/api/list',
             data : obj
 
         }).done(function(res) {
@@ -31,10 +31,12 @@
         })
     }
 
-    function selected(id, name) {
+    function selected(id, name, deptId, deptName) {
         $('#searchModal').modal('hide')
         document.querySelector('input[name="pfId"]').value = id
         document.querySelector('input[name="pfName"]').value = name
+        document.querySelector('input[name="deptId"]').value = deptId
+        document.querySelector('input[name="deptName"]').value = deptName
     }
 </script>
 
@@ -63,16 +65,18 @@
             <table class="table table-bordered table-hover text-center">
                 <thead class="table-primary">
                     <th>번호</th>
-                    <th>교수번호</th>
+                    <th>학과명</th>
                     <th>교수명</th>
                 </thead>
                 <tbody id="modal-body">
                     <c:forEach var="pf" items="${pfListModal}">
                         <tr>
-                            <td><c:out value="${pf.rnum}"></c:out></td>
-                            <td><c:out value="${pf.pfId}"></c:out></td>
                             <td>
-                                <a href="#" onclick="selected('${pf.pfId}', '${pf.name}')"
+                                <c:out value="${pf.rnum}"></c:out>
+                            </td>
+                            <td><c:out value="${pf.deptName}"></c:out></td>
+                            <td>
+                                <a href="#" onclick="selected('${pf.pfId}', '${pf.name}', '${pf.deptId}', '${pf.deptName}')"
                                    style="coursor:pointer" class="link-offset-2 link-underline link-underline-opacity-0">
                                     <c:out value="${pf.name}"></c:out>
                                 </a>
