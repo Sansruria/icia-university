@@ -6,9 +6,14 @@
 <html>
 <head>
     <title>교수메인</title>
+    <jsp:include page="/WEB-INF/views/layout/head-js.jsp"></jsp:include>
+    <jsp:include page="/WEB-INF/views/layout/head-css.jsp"></jsp:include>
 </head>
 <body>
-    <h1>교수 Main.jsp</h1>
-    <a href="/">메인으로</a>
+    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+    <div class="container">
+        <h1>교수 Main.jsp</h1>
+    </div>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </body>
 </html>

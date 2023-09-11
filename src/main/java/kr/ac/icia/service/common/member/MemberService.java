@@ -52,4 +52,55 @@ public class MemberService {
 		
 	}
 
+	public String findId(MemberDto memberDto) {
+		String foundId = memberDao.findId(memberDto);
+		if (foundId != null || foundId != "") {
+			return foundId;
+		}
+
+		return null;
+	}
+
+	public String findPw(MemberDto memberDto) {
+		memberDto = kindOfPerson(memberDto); // 교수인지 학생인지 구분하는 작업
+		boolean isExist = memberDao.findPw(memberDto);
+		if (isExist) {
+			MemberDto updateMember;
+			if (memberDto.getTableName().equals("pf")) {
+				updateMember = memberDao.findPfInfoById(memberDto.getUserId());
+			} else {
+				updateMember = memberDao.findStInfoById(memberDto.getUserId());
+			}
+
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String[] splitPassword = updateMember.getRrn().split("-");
+			updateMember.setPassword(passwordEncoder.encode(splitPassword[1]));
+			updateMember.setTableName(memberDto.getTableName());
+			updateMember.setColumnName(memberDto.getColumnName());
+			boolean result = memberDao.resetPw(updateMember);
+
+			if (result) {
+				return "비밀번호가 초기화되었습니다.\n초기화된 비밀번호는 주민번호뒷자리입니다.";
+			} else {
+				return null;
+			}
+		}
+
+		return null;
+	}
+
+	public MemberDto kindOfPerson(MemberDto memberDto) {
+		String isPf = memberDto.getUserId().substring(0,1);
+		if (isPf.equals("P") || memberDto.getUserId().equals("admin")) {
+//			교수일 때
+			memberDto.setTableName("pf");
+			memberDto.setColumnName("pf_id");
+		} else {
+//			학생일 때
+			memberDto.setTableName("st");
+			memberDto.setColumnName("st_id");
+		}
+		return memberDto;
+	}
+
 }

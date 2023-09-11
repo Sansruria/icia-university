@@ -7,6 +7,31 @@
         SELECT password FROM ${tableName} WHERE ${columnName} = #{userId}
     </select>
 
+    <select id="findId" parameterType="kr.ac.icia.dto.common.member.MemberDto" resultType="String">
+        SELECT
+            userId,
+            name,
+            rrn
+        FROM (
+            SELECT st_id AS userId, st_name AS name, rrn FROM st
+            UNION
+            SELECT pf_id, pf_name, rrn FROM pf)
+        WHERE rrn = #{rrn} AND name = #{name}
+    </select>
+
+    <select id="findPw" parameterType="kr.ac.icia.dto.common.member.MemberDto">
+        SELECT COUNT(*) FROM ${tableName}
+                        WHERE rrn = #{rrn}
+                              AND
+                              <if test="tableName == 'st'">
+                                  st_id = #{userId}
+                              </if>
+
+                              <if test="tableName == 'pf'">
+                                  pf_id = #{userId}
+                              </if>
+    </select>
+
     <select id="findStInfoById" parameterType="String" resultType="kr.ac.icia.dto.common.member.MemberDto">
         SELECT
             st.st_id as userId,
@@ -41,5 +66,9 @@
         JOIN department d ON d.department_id = pf.department_id
         WHERE pf.pf_id = #{userId}
     </select>
+
+    <update id="resetPw" parameterType="kr.ac.icia.dto.common.member.MemberDto">
+        UPDATE ${tableName} SET password = #{password} WHERE ${columnName} = #{userId}
+    </update>
 
 </mapper>
