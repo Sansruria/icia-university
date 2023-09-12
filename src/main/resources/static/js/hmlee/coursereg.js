@@ -134,20 +134,21 @@ $(document).ready(function() {
 	/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	*/
 
 	document.getElementById('courseRegisterButton').addEventListener('click', function() {
-		// 현재 세션의 ArrayList를 가져옵니다 (어떻게 구현했는지에 따라 다름)
+		// 현재 세션의 ArrayList를 가져옵니다. (구현 방법에 따라 다름)
 		const finalCourseList = fetchSessionArrayList();
 
-		// AJAX를 통해 서버로 ArrayList를 전송합니다
+		// 서버에 AJAX를 통해 ArrayList를 전송합니다.
 		$.ajax({
-			url: "'/course/coursereg/oper/finalapply",
+			url: "/course/coursereg/oper/finalapply",
 			type: "POST",
 			contentType: "application/json",
 			data: JSON.stringify(finalCourseList),
 			success: function(response) {
 				alert(response);
+				// TODO: 세션을 지우거나 UI를 업데이트하여 등록이 성공했음을 표시합니다.
 			},
 			error: function(err) {
-				alert("error: " + err);
+				alert("오류: " + err);
 			}
 		});
 	});

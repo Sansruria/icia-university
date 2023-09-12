@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpSession;
 import kr.ac.icia.dto.course.CourseRegisterDto;
 import kr.ac.icia.dto.course.FilteringDto;
 import kr.ac.icia.dto.course.FilterringSearchListDto;
+import kr.ac.icia.exception.course.CourseFullException;
 import kr.ac.icia.service.course.CourseService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -80,19 +81,20 @@ public class CourseOperController {
 		}
 	}
 
-
 	@PostMapping("/finalapply")
 	public ResponseEntity<String> finalApply(@RequestBody List<CourseRegisterDto> CRDto) {
 		try {
 			boolean result = cSer.finalApply(CRDto);
 			if (result) {
-				return new ResponseEntity<>("수강신청 성공", HttpStatus.OK);
+				return new ResponseEntity<>("수강 신청 성공", HttpStatus.OK);
 			} else {
-				return new ResponseEntity<>("수강신청 실패", HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>("수강 신청 실패", HttpStatus.BAD_REQUEST);
 			}
+		} catch (CourseFullException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
 		} catch (Exception e) {
-			return new ResponseEntity<>("서버 에러", HttpStatus.INTERNAL_SERVER_ERROR);
+			// 예외를 로그합니다.
+			return new ResponseEntity<>("서버 오류", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
 }

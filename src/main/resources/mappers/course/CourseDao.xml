@@ -52,6 +52,12 @@
 		COURSE_ID=#{courseId}
 	</select>
 
+	<!-- 시퀀스의 현재값을 가져오는 쿼리 -->
+	<!-- 수강신청 테이블에서 (REQ_COURSE_ID) PK컬럼에 사용하려고 만든 course_request_seq 사용  -->
+	<select id="getLastSequenceNumber" resultType="int">
+		SELECT course_request_seq.CURRVAL FROM dual
+	</select>
+
 	<!-- 강의를 신청하는 쿼리 -->
 	<insert id="finalApply" parameterType="CourseRegisterDto">
 		INSERT INTO COURSE_REGISTER

@@ -11,6 +11,7 @@ import kr.ac.icia.dao.course.CourseDao;
 import kr.ac.icia.dto.course.CourseRegisterDto;
 import kr.ac.icia.dto.course.FilteringDto;
 import kr.ac.icia.dto.course.FilterringSearchListDto;
+import kr.ac.icia.exception.course.CourseFullException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -35,10 +36,12 @@ public class CourseService {
 		return cDao.filteringSearch(filterConditionMap);
 	}
 
-
 	// 수강 신청 최종 처리 함수
 	@Transactional
 	public boolean finalApply(List<CourseRegisterDto> CRDto) throws Exception {
+		// 데이터 유효성 검사
+		// TODO: CRDto 검증
+
 		// 마지막으로 사용된 시퀀스 번호를 가져옵니다.
 		int sequence = cDao.getLastSequenceNumber();
 
@@ -46,14 +49,14 @@ public class CourseService {
 			// 등록된 학생 수를 확인합니다. (최대 30명)
 			int count = cDao.getStudentCount(course.getCourse_id());
 			if (count >= 30) {
-				throw new Exception("이미 30명 이상이 이 강의를 신청했습니다.");
+				throw new CourseFullException(course.getCourse_id() + " 강의가 만석입니다.");
 			}
 
 			// 시퀀스를 기반으로 새로운 PK를 생성합니다. (CR1, CR2, ...)
 			String newPk = "CR" + (++sequence);
 			course.setReg_course_id(newPk);
 
-			// 학생 수를 1 증가시킵니다.
+			// 학생 수를 1명 증가시킵니다.
 			course.setReq_st_count(String.valueOf(count + 1));
 
 			// DB에 삽입합니다.
