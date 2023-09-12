@@ -113,15 +113,6 @@
 						<div class="row">
 							<div class="col">
 								<div class="input-group mb-3">
-									<span class="input-group-text p-3">수강신청최대인원</span>
-									<span class="border p-3" style="width: 314px;"><c:out value="${courseHistoryDto.limitMaxCount}"></c:out></span>
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col">
-								<div class="input-group mb-3">
 									<span class="input-group-text w-25 p-3">학년</span>
 									<span class="w-75 border p-3"><c:out value="${courseHistoryDto.grade}"></c:out></span>
 								</div>
@@ -162,6 +153,15 @@
 									<span class="w-75 border p-3">
 										<c:out value="${courseHistoryDto.courseStartTime}"></c:out>~<c:out value="${courseHistoryDto.courseEndTime}"></c:out>
 									</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col">
+								<div class="input-group mb-3">
+									<span class="input-group-text p-3 w-50">수강신청최대인원</span>
+									<span class="border p-3 w-50"><c:out value="${courseHistoryDto.limitMaxCount}"></c:out></span>
 								</div>
 							</div>
 						</div>

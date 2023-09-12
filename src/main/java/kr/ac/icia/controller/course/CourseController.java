@@ -23,9 +23,4 @@ public class CourseController {
 		return "course/courseReg";
 	}
 
-	@GetMapping("/reg")
-	public String list(Model model) {
-		return "course/reg/courseRegList";
-	}
-
 }

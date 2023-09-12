@@ -17,4 +17,6 @@ public class PersonInfoDto {
 	private String email;   // 이메일
 	private String profile;	// 프로필
 	private String national;// 국적
+	private String grade;   // 학년
+	private String semester;// 학기
 }

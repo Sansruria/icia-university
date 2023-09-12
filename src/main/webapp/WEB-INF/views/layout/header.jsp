@@ -75,6 +75,7 @@
                                 <li><a class="dropdown-item" href="/course/courseevreg/list">강의평가</a></li>
                                 <li><a class="dropdown-item" href="/course/courseev/list">강의평가조회</a></li>
                                 <li><a class="dropdown-item" href="/course/syllabusreg/oper/list">수업계획서 등록</a></li>
+                                <li><a class="dropdown-item" href="/course/reg">수강신청(오세훈)</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -83,12 +84,12 @@
                                 시스템
                             </a>
                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/admin/mm/course/history">수강내역관리</a></li>
                                 <li><a class="dropdown-item" href="/sreg/st">학생관리</a></li>
                                 <li><a class="dropdown-item" href="/sreg/pf">교수관리</a></li>
                                 <li><a class="dropdown-item" href="/admin/mm/deptline">학과계열관리</a></li>
                                 <li><a class="dropdown-item" href="/admin/mm/faculty">학부관리</a></li>
                                 <li><a class="dropdown-item" href="/admin/mm/dept">학과관리</a></li>
-                                <li><a class="dropdown-item" href="/admin/mm/course/history">수강내역관리</a></li>
                             </ul>
                         </li>
                     </ul>
