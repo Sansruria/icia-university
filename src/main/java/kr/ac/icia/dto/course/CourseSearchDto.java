@@ -1,4 +1,4 @@
-package kr.ac.icia.dto.admin.mm.course;
+package kr.ac.icia.dto.course;
 
 import kr.ac.icia.dto.common.Paging;
 import lombok.Getter;
@@ -14,6 +14,8 @@ public class CourseSearchDto extends Paging {
     private String courseDivision;// 이수구분
     private String deptName;      // 학과명
     private String pfName;        // 교수명
+    private String stGrade;   // 학생학년
+    private String stSemester;// 학생학기
 
     public CourseSearchDto(int total, int nowPage, int cntPerPage, CourseSearchDto searchDto) {
         super(total, nowPage, cntPerPage);
@@ -22,5 +24,7 @@ public class CourseSearchDto extends Paging {
         this.courseDivision = searchDto.getCourseDivision();
         this.deptName = searchDto.getDeptName();
         this.pfName = searchDto.getPfName();
+        this.stGrade = searchDto.getStGrade();
+        this.stSemester = searchDto.getStSemester();
     }
 }

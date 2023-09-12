@@ -1,7 +1,7 @@
 package kr.ac.icia.service.admin.mm.course.history;
 
 import kr.ac.icia.dao.admin.mm.course.history.CourseHistoryDao;
-import kr.ac.icia.dto.admin.mm.course.CourseSearchDto;
+import kr.ac.icia.dto.course.CourseSearchDto;
 import kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

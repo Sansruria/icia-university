@@ -1,6 +1,6 @@
 package kr.ac.icia.dao.admin.mm.course.history;
 
-import kr.ac.icia.dto.admin.mm.course.CourseSearchDto;
+import kr.ac.icia.dto.course.CourseSearchDto;
 import kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto;
 import org.apache.ibatis.annotations.Mapper;
 

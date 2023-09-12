@@ -3,7 +3,7 @@
 
 <mapper namespace="kr.ac.icia.dao.admin.mm.course.history.CourseHistoryDao">
 
-    <select id="findByCondition" parameterType="kr.ac.icia.dto.admin.mm.course.CourseSearchDto" resultType="kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto">
+    <select id="findByCondition" parameterType="kr.ac.icia.dto.course.CourseSearchDto" resultType="kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto">
         SELECT * FROM (SELECT rownum AS rnum, a.* FROM (SELECT
                                                             s.course_id       AS courseId,
                                                             s.department_id   AS deptId,
@@ -49,7 +49,7 @@
         WHERE rnum BETWEEN #{start} AND #{end}
     </select>
 
-    <select id="findAllCount" parameterType="kr.ac.icia.dto.admin.mm.course.CourseSearchDto" resultType="Integer">
+    <select id="findAllCount" parameterType="kr.ac.icia.dto.course.CourseSearchDto" resultType="Integer">
         SELECT COUNT(*) FROM (SELECT s.course_id       AS courseId,
                                      s.department_id   AS deptId,
                                      d.department_name AS deptName,

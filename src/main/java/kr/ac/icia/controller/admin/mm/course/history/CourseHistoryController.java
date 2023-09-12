@@ -1,6 +1,6 @@
 package kr.ac.icia.controller.admin.mm.course.history;
 
-import kr.ac.icia.dto.admin.mm.course.CourseSearchDto;
+import kr.ac.icia.dto.course.CourseSearchDto;
 import kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto;
 import kr.ac.icia.service.admin.mm.course.history.CourseHistoryService;
 import lombok.RequiredArgsConstructor;
