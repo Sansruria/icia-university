@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.ac.icia.dao.course.reg.CourseRegDao">
+
+	<select id="findByCondition" parameterType="kr.ac.icia.dto.course.CourseSearchDto" resultType="kr.ac.icia.dto.course.reg.CourseRegDto">
+		SELECT
+			course_id         AS courseId,
+			department_id     AS deptId,
+			pf_id             AS pfId,
+			course_division   AS courseDivision,
+			course_name       AS courseName,
+			limit_max_count   AS limitMaxCount,
+			credit,
+			grade,
+			semester,
+			course_day        AS courseDay,
+			course_start_time AS courseStartTime,
+			course_end_time   AS courseEndTime,
+			create_date       AS createDate
+		FROM subject
+		WHERE grade = #{grade} AND semester = #{semester}
+	</select>
+
+</mapper>
