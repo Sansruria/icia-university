@@ -8,7 +8,9 @@ import lombok.Setter;
 public class CourseDto {
     private int rnum;
     private String deptId;          // 학과번호
+    private String deptName;        // 학과명
     private String pfId;            // 교수번호
+    private String pfName;          // 교수명
     private String courseId;        // 수강내역번호
     private String courseName;      // 수강명
     private String courseDivision;  // 이수구분

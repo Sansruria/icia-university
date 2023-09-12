@@ -20,4 +20,7 @@ public class CourseRegService {
         return courseRegDao.findByCondition(courseSearchDto);
     }
 
+    public Integer findAllCount(CourseSearchDto searchDto) {
+        return courseRegDao.findAllCount(searchDto);
+    }
 }

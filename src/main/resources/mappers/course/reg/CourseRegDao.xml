@@ -4,22 +4,85 @@
 <mapper namespace="kr.ac.icia.dao.course.reg.CourseRegDao">
 
 	<select id="findByCondition" parameterType="kr.ac.icia.dto.course.CourseSearchDto" resultType="kr.ac.icia.dto.course.reg.CourseRegDto">
-		SELECT
-			course_id         AS courseId,
-			department_id     AS deptId,
-			pf_id             AS pfId,
-			course_division   AS courseDivision,
-			course_name       AS courseName,
-			limit_max_count   AS limitMaxCount,
-			credit,
-			grade,
-			semester,
-			course_day        AS courseDay,
-			course_start_time AS courseStartTime,
-			course_end_time   AS courseEndTime,
-			create_date       AS createDate
-		FROM subject
-		WHERE grade = #{grade} AND semester = #{semester}
+		SELECT * FROM (SELECT rownum AS rnum, a.* FROM (SELECT
+															s.course_id         AS courseId,
+															s.department_id     AS deptId,
+															d.department_name   AS deptName,
+															s.pf_id             AS pfId,
+															pf.pf_name          AS pfName,
+															s.course_division   AS courseDivision,
+															s.course_name       AS courseName,
+															s.limit_max_count   AS limitMaxCount,
+															s.credit,
+															s.grade,
+															s.semester,
+															s.course_day        AS courseDay,
+															s.course_start_time AS courseStartTime,
+															s.course_end_time   AS courseEndTime,
+															s.create_date       AS createDate
+														FROM subject s
+															 JOIN department d ON d.department_id = s.department_id
+															 JOIN pf ON pf.pf_id = s.pf_id
+														WHERE grade = #{grade} AND semester = #{semester}
+
+														<if test="courseId != null and courseId != ''">
+															AND s.course_id LIKE '%'||#{courseId}||'%'
+														</if>
+
+														<if test="courseName != null and courseName != ''">
+															AND s.course_name LIKE '%'||#{courseName}||'%'
+														</if>
+
+														<if test="courseDivision != null and courseDivision != ''">
+															AND s.course_division LIKE '%'||#{courseDivision}||'%'
+														</if>
+
+														<if test="deptName != null and deptName != ''">
+															AND d.department_name LIKE '%'||#{deptName}||'%'
+														</if>
+
+														<if test="pfName != null and pfName != ''">
+															AND pf.pf_name LIKE '%'||#{pfName}||'%'
+														</if>
+
+														ORDER BY s.create_date DESC) a)
+		WHERE rnum BETWEEN #{start} AND #{end}
+	</select>
+
+	<select id="findAllCount" parameterType="kr.ac.icia.dto.course.CourseSearchDto" resultType="Integer">
+		SELECT COUNT(*) FROM (SELECT s.course_id       AS courseId,
+									s.department_id   AS deptId,
+									d.department_name AS deptName,
+									s.pf_id           AS pfId,
+									pf.pf_name        AS pfName,
+									s.course_division AS courseDivision,
+									s.course_name     AS courseName
+								FROM subject s
+									JOIN pf ON pf.pf_id = s.pf_id
+									JOIN department d ON d.department_id = s.department_id
+								WHERE 1 = 1
+
+								<if test="courseId != null and courseId != ''">
+									AND s.course_id LIKE '%'||#{courseId}||'%'
+								</if>
+
+								<if test="courseName != null and courseName != ''">
+									AND s.course_name LIKE '%'||#{courseName}||'%'
+								</if>
+
+								<if test="courseDivision != null and courseDivision != ''">
+									AND s.course_division LIKE '%'||#{courseDivision}||'%'
+								</if>
+
+								<if test="deptName != null and deptName != ''">
+									AND d.department_name LIKE '%'||#{deptName}||'%'
+								</if>
+
+								<if test="pfName != null and pfName != ''">
+									AND pf.pf_name LIKE '%'||#{pfName}||'%'
+								</if>
+
+								)
 	</select>
 
 </mapper>
