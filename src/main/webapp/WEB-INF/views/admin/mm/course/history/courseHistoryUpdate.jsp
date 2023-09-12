@@ -11,15 +11,61 @@
     <script>
         document.addEventListener("DOMContentLoaded", function(){
             document.querySelector('.btn-cancle').addEventListener('click', ()=>cancle())
-            document.querySelector('.btn-save').addEventListener('click', ()=>save())
+            document.querySelector('.btn-update').addEventListener('click', ()=>update())
             document.querySelector('.btn-search').addEventListener('click', ()=>openSearchModal())
+
+            const courseStartTime = document.querySelectorAll('select[name="courseStartTime"]')
+            const courseStartHour = courseStartTime[0]
+            const courseStartMin = courseStartTime[1]
+
+            const courseEndTime = document.querySelectorAll('select[name="courseEndTime"]')
+            const courseEndHour = courseEndTime[0]
+            const courseEndMin = courseEndTime[1]
+
+            const dtoStartTime = '${courseHistoryDto.courseStartTime}'
+            const dtoStartHour = dtoStartTime.slice(0, 2)
+            const dtoStartMin = dtoStartTime.slice(3, 5)
+
+            const dtoEndTime = '${courseHistoryDto.courseEndTime}'
+            const dtoEndHour = dtoEndTime.slice(0, 2)
+            const dtoEndMin = dtoEndTime.slice(3, 5)
+
+            // 시작시
+            for (const option of courseStartHour.options) {
+                if (option.value == dtoStartHour) {
+                    option.selected = true
+                }
+            }
+
+            // 시작분
+            for (const option of courseStartMin.options) {
+                if (option.value == dtoStartMin) {
+                    option.selected = true
+                }
+            }
+
+            // 종료시
+            for (const option of courseEndHour.options) {
+                if (option.value == dtoEndHour) {
+                    option.selected = true
+                }
+            }
+
+            // 종료분
+            for (const option of courseEndMin.options) {
+                if (option.value == dtoEndMin) {
+                    option.selected = true
+                }
+            }
+
         })
 
         function cancle() {
-            location.href='/admin/mm/course/history'
+            const courseId = document.querySelector('input[name="courseId"]').value
+            location.href='/admin/mm/course/history/detail/' + courseId
         }
 
-        function save() {
+        function update() {
             let courseStartTime = document.frm.querySelectorAll('select[name="courseStartTime"]')
             courseStartTime = courseStartTime[0].value + ":" + courseStartTime[1].value
 
@@ -31,8 +77,8 @@
             obj.courseEndTime = courseEndTime
 
             $.ajax({
-                method : 'PUT',
-                url : '/admin/mm/course/history/api/write',
+                method : 'PATCH',
+                url : '/admin/mm/course/history/api/update',
                 data : obj
 
             }).done(function(res) {
@@ -40,7 +86,8 @@
                 location.href = '/admin/mm/course/history'
 
             }).fail(function(res) {
-                console.log(res)
+                console.log(res.responseJSON.trace)
+                console.log(res.responseText)
             })
         }
 
@@ -60,14 +107,15 @@
                     <div class="p-4">
 
                         <form name="frm">
-                            <input type="hidden" name="pfId" readonly>
-                            <input type="hidden" name="deptId" readonly>
+                            <input type="hidden" name="pfId" value="<c:out value="${courseHistoryDto.pfId}"></c:out>">
+                            <input type="hidden" name="deptId" value="<c:out value="${courseHistoryDto.deptId}"></c:out>">
+                            <input type="hidden" name="courseId" value="<c:out value="${courseHistoryDto.courseId}"></c:out>">
 
                             <div class="row">
                                 <div class="col">
                                     <div class="input-group mb-3">
                                         <span class="input-group-text w-25 p-3">학과명</span>
-                                        <input type="text" class="form-control" name="deptName" placeholder="교수선택시 자동으로 등록됩니다" readonly>
+                                        <input type="text" class="form-control" name="deptName" placeholder="교수선택시 자동으로 등록됩니다" value="<c:out value="${courseHistoryDto.deptName}"></c:out>" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +124,7 @@
                                 <div class="col">
                                     <div class="input-group mb-3">
                                         <span class="input-group-text w-25 p-3">교수명</span>
-                                        <input type="text" class="form-control" name="pfName" readonly>
+                                        <input type="text" class="form-control" name="pfName" value="<c:out value="${courseHistoryDto.pfName}"></c:out>" readonly>
                                         <button type="button" class="btn btn-primary btn-search"
                                                 data-bs-toggle="modal" data-bs-target="#searchModal">찾아보기</button>
                                     </div>
@@ -88,15 +136,15 @@
                                     <div class="input-group mb-3 justify-content-between">
                                         <span class="input-group-text w-25 p-3">이수구분</span>
                                         <div class="form-check form-check-inline p-3">
-                                            <input class="form-check-input" type="radio" name="courseDivision" id="majorRequired" value="MR">
+                                            <input class="form-check-input" type="radio" name="courseDivision" id="majorRequired" value="MR" <c:if test="${courseHistoryDto.courseDivision eq 'MR'}">checked</c:if>>
                                             <label class="form-check-label" for="majorRequired">전공필수</label>
                                         </div>
                                         <div class="form-check form-check-inline p-3">
-                                            <input class="form-check-input" type="radio" name="courseDivision" id="selectMajor" value="SM">
+                                            <input class="form-check-input" type="radio" name="courseDivision" id="selectMajor" value="SM" <c:if test="${courseHistoryDto.courseDivision eq 'SM'}">checked</c:if>>
                                             <label class="form-check-label" for="selectMajor">전공선택</label>
                                         </div>
                                         <div class="form-check form-check-inline p-3">
-                                            <input class="form-check-input" type="radio" name="courseDivision" id="culture" value="CU">
+                                            <input class="form-check-input" type="radio" name="courseDivision" id="culture" value="CU" <c:if test="${courseHistoryDto.courseDivision eq 'CU'}">checked</c:if>>
                                             <label class="form-check-label" for="culture">교양</label>
                                         </div>
                                     </div>
@@ -107,7 +155,7 @@
                                 <div class="col">
                                     <div class="input-group mb-3">
                                         <span class="input-group-text w-25 p-3">과목명</span>
-                                        <input type="text" class="form-control" name="courseName">
+                                        <input type="text" class="form-control" name="courseName" value="<c:out value="${courseHistoryDto.courseName}"></c:out>">
                                     </div>
                                 </div>
                             </div>
@@ -117,18 +165,18 @@
                                     <div class="input-group mb-3">
                                         <span class="input-group-text p-3">학년</span>
                                         <select name="grade" class="form-select">
-                                            <option value="1학년">1학년</option>
-                                            <option value="2학년">2학년</option>
-                                            <option value="3학년">3학년</option>
-                                            <option value="4학년">4학년</option>
+                                            <option value="1학년" <c:if test="${courseHistoryDto.grade eq '1학년'}">selected</c:if>>1학년</option>
+                                            <option value="2학년" <c:if test="${courseHistoryDto.grade eq '2학년'}">selected</c:if>>2학년</option>
+                                            <option value="3학년" <c:if test="${courseHistoryDto.grade eq '3학년'}">selected</c:if>>3학년</option>
+                                            <option value="4학년" <c:if test="${courseHistoryDto.grade eq '4학년'}">selected</c:if>>4학년</option>
                                         </select>
                                         <span class="input-group-text p-3">학기</span>
                                         <select name="semester" id="" class="form-select">
-                                            <option value="1학기">1학기</option>
-                                            <option value="2학기">2학기</option>
+                                            <option value="1학기" <c:if test="${courseHistoryDto.semester eq '1학기'}">selected</c:if>>1학기</option>
+                                            <option value="2학기" <c:if test="${courseHistoryDto.semester eq '2학기'}">selected</c:if>>2학기</option>
                                         </select>
                                         <span class="input-group-text p-3">학점</span>
-                                        <input type="text" class="form-control" name="credit" value="3">
+                                        <input type="text" class="form-control" name="credit" value="<c:out value="${courseHistoryDto.credit}"></c:out>">
                                     </div>
                                 </div>
                             </div>
@@ -138,14 +186,14 @@
                                     <div class="input-group mb-3">
                                         <span class="input-group-text w-25 p-3">요일</span>
                                         <select name="courseDay" class="form-select">
-                                            <option value="월">월</option>
-                                            <option value="화">화</option>
-                                            <option value="수">수</option>
-                                            <option value="목">목</option>
-                                            <option value="금">금</option>
+                                            <option value="월" <c:if test="${courseHistoryDto.courseDay eq '월'}">selected</c:if>>월</option>
+                                            <option value="화" <c:if test="${courseHistoryDto.courseDay eq '화'}">selected</c:if>>화</option>
+                                            <option value="수" <c:if test="${courseHistoryDto.courseDay eq '수'}">selected</c:if>>수</option>
+                                            <option value="목" <c:if test="${courseHistoryDto.courseDay eq '목'}">selected</c:if>>목</option>
+                                            <option value="금" <c:if test="${courseHistoryDto.courseDay eq '금'}">selected</c:if>>금</option>
                                         </select>
                                         <span class="input-group-text p-3">수강최대신청인원</span>
-                                        <input type="text" class="form-control" name="limitMaxCount">
+                                        <input type="text" class="form-control" name="limitMaxCount" value="<c:out value="${courseHistoryDto.limitMaxCount}"></c:out>">
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +257,7 @@
             <div class="row mt-4 text-end">
                 <div class="col">
                     <button type="button" class="btn btn-secondary btn-cancle">취소</button>
-                    <button type="button" class="btn btn-primary btn-save">등록</button>
+                    <button type="button" class="btn btn-primary btn-update">수정</button>
                 </div>
             </div>
         </div>

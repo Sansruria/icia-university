@@ -27,7 +27,7 @@ public class StService {
 		int count = findAllCount(searchDto)+1;
 
 		for (StDto dto : stList) {
-			dto.setRnum(count - dto.getRnum()); ;
+			dto.setRnum(count - dto.getRnum());
 			dto.setGender(dto.getGender().equals("1") ? "남" : "여");
 		}
 		return stList;

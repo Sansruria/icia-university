@@ -14,7 +14,7 @@
             document.querySelector('.btn-save').addEventListener('click', ()=>location.href='/sreg/st/write')
             document.querySelector('.btn-search').addEventListener('click', ()=>search())
             document.querySelector('.btn-reset').addEventListener('click', ()=>reset())
-            document.querySelector('#paging').innerHTML = "${paging}";
+            document.querySelector('#paging').innerHTML = "${paging}"
 
             if ('${searchDto.stId}' != null || '${searchDto.stId}' != '') {
                 document.searchFrm.querySelector('input[name="stId"]').value = '${searchDto.stId}'

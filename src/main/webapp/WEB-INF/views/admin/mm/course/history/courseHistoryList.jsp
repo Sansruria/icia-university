@@ -12,7 +12,70 @@
     <script>
         document.addEventListener("DOMContentLoaded", function(){
             document.querySelector('.btn-save').addEventListener('click', ()=>location.href='/admin/mm/course/history/write')
+            document.querySelector('.btn-search').addEventListener('click', ()=>search())
+            document.querySelector('.btn-reset').addEventListener('click', ()=>reset())
+            document.querySelector('#paging').innerHTML = "${paging}"
+
+            if ('${searchDto.courseId}' != null || '${searchDto.courseId}' != '') {
+                document.searchFrm.querySelector('input[name="courseId"]').value = '${searchDto.courseId}'
+            }
+
+            if ('${searchDto.pfName}' != null || '${searchDto.pfName}' != '') {
+                document.searchFrm.querySelector('input[name="pfName"]').value = '${searchDto.pfName}'
+            }
+
+            if ('${searchDto.deptName}' != null || '${searchDto.deptName}' != '') {
+                document.searchFrm.querySelector('input[name="deptName"]').value = '${searchDto.deptName}'
+            }
+
+            if ('${searchDto.courseName}' != null || '${searchDto.courseName}' != '') {
+                document.searchFrm.querySelector('input[name="courseName"]').value = '${searchDto.courseName}'
+            }
+
+            if ('${searchDto.courseDivision}' != null || '${searchDto.courseDivision}' != '') {
+                const courseDivision = document.searchFrm.querySelector('select[name="courseDivision"]')
+                for (const option of courseDivision.options) {
+                    if (option.value == '${searchDto.courseDivision}') {
+                        option.selected = true
+                    }
+                }
+            }
         })
+
+        function search() {
+            document.searchFrm.submit()
+        }
+
+
+        function selectedPage(pageNum) {
+            document.searchFrm.querySelector('input[name="nowPage"]').value = pageNum
+            search()
+        }
+
+        function prev() {
+            document.searchFrm.querySelector('input[name="nowPage"]').value = '${searchDto.startPage - 1 }'
+            search()
+        }
+
+        function next() {
+            document.searchFrm.querySelector('input[name="nowPage"]').value = '${searchDto.endPage + 1 }'
+            search()
+        }
+
+        function reset() {
+            document.searchFrm.reset()
+            search()
+        }
+
+        function detail(id) {
+            location.href = '/admin/mm/course/history/detail/' + id
+        }
+
+        function selChange() {
+            const sel = document.getElementById('cntPerPage').value
+            document.searchFrm.querySelector('input[name="cntPerPage"]').value = sel
+            search()
+        }
     </script>
 </head>
 
@@ -25,21 +88,18 @@
                 <div class="card-body">
 
                     <div class="row ">
-                        <form name="searchFrm" action="/sreg/st" method="GET">
+                        <form name="searchFrm" action="/admin/mm/course/history" method="GET">
                             <input type="hidden" name="nowPage" value="<c:out value="${searchDto.startPage}"></c:out>">
                             <input type="hidden" name="cntPerPage" value="<c:out value="${searchDto.cntPerPage}"></c:out>">
-
-
-
 
                             <div class="row">
                                 <div class="col-3">
                                     <div class="form-floating">
-                                        <select class="form-select" id="courseDivision">
-                                            <option selected>전체</option>
-                                            <option value="1">전공필수</option>
-                                            <option value="2">전공선택</option>
-                                            <option value="3">교양</option>
+                                        <select class="form-select" id="courseDivision" name="courseDivision">
+                                            <option value="" selected>전체</option>
+                                            <option value="MR">전공필수</option>
+                                            <option value="SM">전공선택</option>
+                                            <option value="CU">교양</option>
                                         </select>
                                         <label for="courseDivision">이수구분</label>
                                     </div>
@@ -56,8 +116,8 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="couserId" name="couserId" placeholder="검색할 학수번호를 입력해주세요.">
-                                        <label for="couserId">학수번호</label>
+                                        <input type="text" class="form-control" id="courseId" name="courseId" placeholder="검색할 학수번호를 입력해주세요.">
+                                        <label for="courseId">학수번호</label>
                                     </div>
                                 </div>
 
@@ -128,6 +188,29 @@
                                 </thead>
 
                                 <tbody>
+                                    <c:forEach var="course" items="${courseHistoryList}">
+                                        <tr>
+                                            <td><c:out value="${course.rnum}"></c:out></td>
+                                            <td><c:out value="${course.courseId}"></c:out></td>
+                                            <td>
+                                                <c:if test="${course.courseDivision eq 'MR'}">전공필수</c:if>
+                                                <c:if test="${course.courseDivision eq 'SM'}">전공선택</c:if>
+                                                <c:if test="${course.courseDivision eq 'CU'}">교양</c:if>
+                                            </td>
+                                            <td><c:out value="${course.deptName}"></c:out></td>
+                                            <td>
+                                                <a href="#" onclick="detail('<c:out value="${course.courseId}"></c:out>')"
+                                                   class="link-offset-2 link-underline link-underline-opacity-0">
+                                                    <c:out value="${course.courseName}"></c:out>
+                                                </a>
+                                            </td>
+                                            <td><c:out value="${course.pfName}"></c:out></td>
+                                            <td>
+                                                <c:out value="${course.courseDay}"></c:out>&nbsp;<c:out value="${course.courseStartTime}"></c:out>~<c:out value="${course.courseEndTime}"></c:out>
+                                            </td>
+                                            <td><c:out value="${course.limitMaxCount}"></c:out></td>
+                                        </tr>
+                                    </c:forEach>
                                 </tbody>
                             </table>
                         </div>

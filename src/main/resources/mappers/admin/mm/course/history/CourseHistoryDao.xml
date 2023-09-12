@@ -3,17 +3,87 @@
 
 <mapper namespace="kr.ac.icia.dao.admin.mm.course.history.CourseHistoryDao">
 
-<!--    <select id="findByCondition" parameterType="" resultType="">-->
-<!--        -->
-<!--    </select>-->
+    <select id="findByCondition" parameterType="kr.ac.icia.dto.admin.mm.course.CourseSearchDto" resultType="kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto">
+        SELECT * FROM (SELECT rownum AS rnum, a.* FROM (SELECT
+                                                            s.course_id       AS courseId,
+                                                            s.department_id   AS deptId,
+                                                            d.department_name AS deptName,
+                                                            s.pf_id           AS pfId,
+                                                            pf.pf_name        AS pfName,
+                                                            s.course_division AS courseDivision,
+                                                            s.course_name     AS courseName,
+                                                            s.limit_max_count AS limitMaxCount,
+                                                            s.credit          AS credit,
+                                                            s.grade,
+                                                            s.semester,
+                                                            s.course_day        AS courseDay,
+                                                            s.course_start_time AS courseStartTime,
+                                                            s.course_end_time   AS courseEndTime,
+                                                            s.create_date       AS createDate
+                                                        FROM subject s
+                                                                 JOIN pf ON pf.pf_id = s.pf_id
+                                                                 JOIN department d ON d.department_id = s.department_id
+                                                        WHERE 1=1
 
-<!--    <select id="findAllCount" parameterType="" resultType="Integer">-->
-<!--        SELECT COUNT(*) FROM subject WHERE 1=1-->
-<!--    </select>-->
-<!--    -->
-<!--    <select id="detail" parameterType="" resultType="">-->
-<!--        SELECT * FROM subject-->
-<!--    </select>-->
+                                                        <if test="courseId != null and courseId != ''">
+                                                            AND s.course_id LIKE '%'||#{courseId}||'%'
+                                                        </if>
+
+                                                        <if test="courseName != null and courseName != ''">
+                                                            AND s.course_name LIKE '%'||#{courseName}||'%'
+                                                        </if>
+
+                                                        <if test="courseDivision != null and courseDivision != ''">
+                                                            AND s.course_division LIKE '%'||#{courseDivision}||'%'
+                                                        </if>
+
+                                                        <if test="deptName != null and deptName != ''">
+                                                            AND d.department_name LIKE '%'||#{deptName}||'%'
+                                                        </if>
+
+                                                        <if test="pfName != null and pfName != ''">
+                                                            AND pf.pf_name LIKE '%'||#{pfName}||'%'
+                                                        </if>
+
+                                                        ORDER BY s.create_date DESC) a)
+        WHERE rnum BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="findAllCount" parameterType="kr.ac.icia.dto.admin.mm.course.CourseSearchDto" resultType="Integer">
+        SELECT COUNT(*) FROM (SELECT s.course_id       AS courseId,
+                                     s.department_id   AS deptId,
+                                     d.department_name AS deptName,
+                                     s.pf_id           AS pfId,
+                                     pf.pf_name        AS pfName,
+                                     s.course_division AS courseDivision,
+                                     s.course_name     AS courseName
+                             FROM subject s
+                                     JOIN pf ON pf.pf_id = s.pf_id
+                                     JOIN department d ON d.department_id = s.department_id
+                             WHERE 1 = 1
+
+                             <if test="courseId != null and courseId != ''">
+                                 AND s.course_id LIKE '%'||#{courseId}||'%'
+                             </if>
+
+                             <if test="courseName != null and courseName != ''">
+                                 AND s.course_name LIKE '%'||#{courseName}||'%'
+                             </if>
+
+                             <if test="courseDivision != null and courseDivision != ''">
+                                 AND s.course_division LIKE '%'||#{courseDivision}||'%'
+                             </if>
+
+                             <if test="deptName != null and deptName != ''">
+                                 AND d.department_name LIKE '%'||#{deptName}||'%'
+                             </if>
+
+                             <if test="pfName != null and pfName != ''">
+                                 AND pf.pf_name LIKE '%'||#{pfName}||'%'
+                             </if>
+
+                             )
+    </select>
     
     <insert id="write" parameterType="kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto">
         INSERT INTO subject (
@@ -28,7 +98,8 @@
                 semester,
                 course_day,
                 course_start_time,
-                course_end_time)
+                course_end_time,
+                create_date)
         VALUES (
                 #{courseId},
                 #{deptId},
@@ -41,29 +112,67 @@
                 #{semester},
                 #{courseDay},
                 #{courseStartTime},
-                #{courseEndTime}
+                #{courseEndTime},
+                DEFAULT
                )
     </insert>
+
+    <select id="detail" parameterType="String" resultType="kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto">
+        SELECT
+            s.course_id       AS courseId,
+            s.department_id   AS deptId,
+            d.department_name AS deptName,
+            s.pf_id           AS pfId,
+            pf.pf_name        AS pfName,
+            s.course_division AS courseDivision,
+            s.course_name     AS courseName,
+            s.limit_max_count AS limitMaxCount,
+            s.credit          AS credit,
+            s.grade,
+            s.semester,
+            s.course_day        AS courseDay,
+            s.course_start_time AS courseStartTime,
+            s.course_end_time   AS courseEndTime,
+            s.create_date       AS createDate
+        FROM subject s
+                 JOIN pf ON pf.pf_id = s.pf_id
+                 JOIN department d ON d.department_id = s.department_id
+        WHERE s.course_id = #{corseId}
+    </select>
+
+
+        <select id="findLastNum" parameterType="kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto" resultType="Integer">
+                SELECT * FROM (
+                              SELECT SUBSTR(course_id, 10, 2) AS courseId
+                              FROM subject
+                              WHERE department_id LIKE '%' || #{deptId}  || '%'
+                                    AND
+                                    UPPER(course_division) LIKE '%' || UPPER(#{courseDivision}) || '%'
+                              ORDER BY create_date DESC)
+                WHERE rownum = 1
+        </select>
     
-<!--    <update id="update" parameterType="">-->
-<!--        UPDATE-->
-<!--            subject-->
-<!--        SET-->
-<!--            department_id = #{deptId},-->
-<!--            pf_id = #{pfId},-->
-<!--            course_division = #{courseDivision},-->
-<!--            course_name = #{courseName},-->
-<!--            limit_max_count = #{limitMaxCount},-->
-<!--            credit = #{credit},-->
-<!--            course_day = #{course},-->
-<!--            course_start_time = #{courseStartTime},-->
-<!--            course_end_time = #{courseEndTime}-->
-<!--        WHERE-->
-<!--            course_id = #{courseId}-->
-<!--    </update>-->
-<!--    -->
-<!--    <delete id="delete" parameterType="String">-->
-<!--        DELETE FROM subjcet WHERE course_id = #{courseId}-->
-<!--    </delete>-->
+    <update id="update" parameterType="kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto">
+        UPDATE
+            subject
+        SET
+            department_id = #{deptId},
+            pf_id = #{pfId},
+            course_division = #{courseDivision},
+            course_name = #{courseName},
+            limit_max_count = #{limitMaxCount},
+            grade = #{grade},
+            credit = #{credit},
+            semester = #{semester},
+            course_day = #{courseDay},
+            course_start_time = #{courseStartTime},
+            course_end_time = #{courseEndTime}
+        WHERE
+            course_id = #{courseId}
+    </update>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM subject WHERE course_id = #{courseId}
+    </delete>
 
 </mapper>

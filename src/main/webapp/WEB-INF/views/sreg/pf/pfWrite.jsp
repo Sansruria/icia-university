@@ -19,22 +19,22 @@
 		function cancle() {
 			location.href='/sreg/pf'
 		}
-	     
+
 	    function save() {
 			let obj = $('form[name="frm"]').serializeObject()
 			const rrn = document.querySelector('#frontRrn').value + "-" + document.querySelector('#backRrn').value
 			obj.rrn = rrn
             console.log(obj)
-            
+
             $.ajax({
                 method : 'PUT',
                 url : '/sreg/pf/api/write',
                 data : obj
-                
+
             }).done(function(res) {
                 alert(res)
                 location.href = '/sreg/pf'
-                
+
             }).fail(function(res) {
 				console.log(res.responseJSON.trace)
                 console.log(res.responseText)
