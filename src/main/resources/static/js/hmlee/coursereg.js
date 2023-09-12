@@ -133,24 +133,35 @@ $(document).ready(function() {
 
 	/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	*/
 
-	document.getElementById('courseRegisterButton').addEventListener('click', function() {
-		// 현재 세션의 ArrayList를 가져옵니다. (구현 방법에 따라 다름)
-		const finalCourseList = fetchSessionArrayList();
+	// 세션에서 최종 수강 신청 목록을 검색하는 함수
+	const fetchSessionArrayList = function() {
+		return JSON.parse(sessionStorage.getItem('finalCourseList')) || [];
+	};
 
-		// 서버에 AJAX를 통해 ArrayList를 전송합니다.
+	// 버튼 클릭 이벤트 설정
+	$("#finalApplyButton").click(function() {
+		 console.log("최종 수강신청 버튼 클릭됨"); //
+		console.log("버튼 클릭됨");  // 디버깅 줄
+		// 세션에서 최종 수강 신청 목록을 가져와 저장
+		const finalCourseList = fetchSessionArrayList();
+		console.log("최종 수강 목록:", finalCourseList);  // 디버깅 줄
+
+		// 서버에 AJAX 요청을 보내서 최종 수강 신청을 처리
 		$.ajax({
 			url: "/course/coursereg/oper/finalapply",
 			type: "POST",
 			contentType: "application/json",
 			data: JSON.stringify(finalCourseList),
 			success: function(response) {
+				console.log("성공 응답:", response);  // 디버깅 줄
 				alert(response);
-				// TODO: 세션을 지우거나 UI를 업데이트하여 등록이 성공했음을 표시합니다.
 			},
 			error: function(err) {
+				console.log("오류 응답:", err);  // 디버깅 줄
 				alert("오류: " + err);
 			}
 		});
 	});
+
 
 });

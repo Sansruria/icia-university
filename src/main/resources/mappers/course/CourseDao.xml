@@ -48,7 +48,7 @@
 	<!-- 등록된 학생 수를 검색하는 쿼리 -->
 	<select id="getStudentCount" parameterType="string"
 		resultType="int">
-		SELECT COUNT(*) FROM COURSE_REGISTER WHERE
+		SELECT COUNT(*) FROM COURSE_REQUEST WHERE
 		COURSE_ID=#{courseId}
 	</select>
 
@@ -60,7 +60,7 @@
 
 	<!-- 강의를 신청하는 쿼리 -->
 	<insert id="finalApply" parameterType="CourseRegisterDto">
-		INSERT INTO COURSE_REGISTER
+		INSERT INTO COURSE_REQUEST
 		(
 		REQ_COURSE_ID, COURSE_ID, ST_ID,
 		REQ_GRADE, REQ_SEMESTER, REQ_COURSE_DIVISION,

@@ -83,18 +83,24 @@ public class CourseOperController {
 
 	@PostMapping("/finalapply")
 	public ResponseEntity<String> finalApply(@RequestBody List<CourseRegisterDto> CRDto) {
+		System.out.println("서버에 요청 도달함");
 		try {
+			// 최종 수강 신청 로직 실행
 			boolean result = cSer.finalApply(CRDto);
 			if (result) {
+				// 수강 신청 성공시 HTTP 상태 코드 200 (OK)와 함께 메시지 반환
 				return new ResponseEntity<>("수강 신청 성공", HttpStatus.OK);
 			} else {
+				// 실패시 HTTP 상태 코드 400 (BAD_REQUEST)와 함께 메시지 반환
 				return new ResponseEntity<>("수강 신청 실패", HttpStatus.BAD_REQUEST);
 			}
 		} catch (CourseFullException e) {
+			// 수업 정원 초과시 오류 발생, HTTP 상태 코드 403 (FORBIDDEN) 반환
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
 		} catch (Exception e) {
-			// 예외를 로그합니다.
+			// 그 외 예외 발생시 서버 오류로 간주, HTTP 상태 코드 500 반환
 			return new ResponseEntity<>("서버 오류", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
 }
