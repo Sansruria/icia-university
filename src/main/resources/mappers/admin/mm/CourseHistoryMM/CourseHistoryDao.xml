@@ -3,36 +3,50 @@
 
 <mapper namespace="kr.ac.icia.dao.admin.mm.coursehistory.CourseHistoryDao">
 
-	<insert id="write" parameterType="kr.ac.icia.dto.course.CourseHistoryMMDto">
+<select id="list" resultType ="CourseHistoryMMDto">
+select 
+    s.department_id,
+    d.department_name,
+    s.pf_id,
+    pf.pf_name
+    
+from subject s
+    join department d on d.department_id = s.department_id
+    join pf on pf.pf_id = s.pf_id;
+select * from st;
+
+</select>
+<!-- 등록 -->
+	<insert id="write">
+<!-- 	컬럼이름 -->
 		INSERT INTO subject(
 		course_id,
-		pf_name,
-		course_name,
+		pf_id,
 		department_id,
+		course_name,
 		grade,
 		semester,
+		credit,
 		course_division,
-		course_time,
+		course_day,
+		course_start_time,
+		course_end_time,
 		limit_max_count
 		)
 		VALUES(
-		#{COURSE_ID},
-		#{pf_name},
-		#{course_name},
-		#{department_id},
+		#{course_id},
+		#{pfId},
+		#{deptId},
+		#{deptName},
 		#{grade},
 		#{semester},
+		#{credit},
 		#{course_division},
-		#{course_time},
+		#{course_day},
+		#{course_start_time},
+		#{course_end_time},
 		#{limit_max_count}
 		)
 	</insert>
-<!-- 	<insert id="write" parameterType="kr.ac.icia.dto.course.CourseHistoryMMDto"> -->
-<!-- 		INSERT All( -->
-<!-- 		into DEPARTMENT values ({deptName}) -->
-<!-- 		into subject values({course_name},{course_division}, -->
-<!-- 		{course_time},{limit_max_count}) -->
-<!-- 		select * from dual; -->
-		
-<!-- 	</insert> -->
+<!-- 등록 -->
 </mapper>
