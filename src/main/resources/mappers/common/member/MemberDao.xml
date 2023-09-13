@@ -40,6 +40,8 @@
             st.rrn,
             st.st_name AS name,
             st.gender,
+            st.grade,
+            st.semester,
             st.address,
             st.email,
             st.profile,
