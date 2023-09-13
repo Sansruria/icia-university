@@ -3,7 +3,7 @@
 
 <mapper namespace="kr.ac.icia.dao.admin.mm.course.history.CourseHistoryDao">
 
-    <select id="findByCondition" parameterType="kr.ac.icia.dto.course.CourseSearchDto" resultType="kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto">
+    <select id="findByCondition" parameterType="kr.ac.icia.dto.course.CourseSearchDto" resultType="kr.ac.icia.dto.course.CourseDto">
         SELECT * FROM (SELECT rownum AS rnum, a.* FROM (SELECT
                                                             s.course_id       AS courseId,
                                                             s.department_id   AS deptId,
@@ -85,7 +85,7 @@
                              )
     </select>
     
-    <insert id="write" parameterType="kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto">
+    <insert id="write" parameterType="kr.ac.icia.dto.course.CourseDto">
         INSERT INTO subject (
                 course_id,
                 department_id,
@@ -117,7 +117,7 @@
                )
     </insert>
 
-    <select id="detail" parameterType="String" resultType="kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto">
+    <select id="detail" parameterType="String" resultType="kr.ac.icia.dto.course.CourseDto">
         SELECT
             s.course_id       AS courseId,
             s.department_id   AS deptId,
@@ -141,9 +141,9 @@
     </select>
 
 
-        <select id="findLastNum" parameterType="kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto" resultType="Integer">
+        <select id="findLastNum" parameterType="kr.ac.icia.dto.course.CourseDto" resultType="Integer">
                 SELECT * FROM (
-                              SELECT SUBSTR(course_id, 10, 2) AS courseId
+                              SELECT SUBSTR(course_id, 8, 2) AS courseId
                               FROM subject
                               WHERE department_id LIKE '%' || #{deptId}  || '%'
                                     AND
@@ -152,7 +152,7 @@
                 WHERE rownum = 1
         </select>
     
-    <update id="update" parameterType="kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto">
+    <update id="update" parameterType="kr.ac.icia.dto.course.CourseDto">
         UPDATE
             subject
         SET

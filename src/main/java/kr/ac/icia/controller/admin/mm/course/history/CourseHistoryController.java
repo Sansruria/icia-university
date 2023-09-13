@@ -1,7 +1,7 @@
 package kr.ac.icia.controller.admin.mm.course.history;
 
+import kr.ac.icia.dto.course.CourseDto;
 import kr.ac.icia.dto.course.CourseSearchDto;
-import kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto;
 import kr.ac.icia.service.admin.mm.course.history.CourseHistoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +43,7 @@ public class CourseHistoryController {
         }
 
         searchDto = new CourseSearchDto(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), searchDto);
-        ArrayList<CourseHistoryDto> courseHistoryList = courseHistoryService.findByCondition(searchDto);
+        ArrayList<CourseDto> courseHistoryList = courseHistoryService.findByCondition(searchDto);
         model.addAttribute("searchDto", searchDto);
         model.addAttribute("paging", searchDto.makePagingHtml());
         model.addAttribute("courseHistoryList", courseHistoryList);

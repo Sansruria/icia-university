@@ -1,8 +1,8 @@
 package kr.ac.icia.service.admin.mm.course.history;
 
 import kr.ac.icia.dao.admin.mm.course.history.CourseHistoryDao;
+import kr.ac.icia.dto.course.CourseDto;
 import kr.ac.icia.dto.course.CourseSearchDto;
-import kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +14,18 @@ public class CourseHistoryService {
 
     private final CourseHistoryDao courseHistoryDao;
 
-    public ArrayList<CourseHistoryDto> findByCondition(CourseSearchDto searchDto) {
-        ArrayList<CourseHistoryDto> courseHistoryList = courseHistoryDao.findByCondition(searchDto);
+    public ArrayList<CourseDto> findByCondition(CourseSearchDto searchDto) {
+        ArrayList<CourseDto> courseHistoryList = courseHistoryDao.findByCondition(searchDto);
         int count = findAllCount(searchDto)+1;
 
-        for (CourseHistoryDto dto : courseHistoryList) {
+        for (CourseDto dto : courseHistoryList) {
             dto.setRnum(count - dto.getRnum());
         }
         return courseHistoryList;
     }
 
-    public String write(CourseHistoryDto courseHistoryDto) {
-        Integer lastNum = courseHistoryDao.findLastNum(courseHistoryDto);
+    public String write(CourseDto courseDto) {
+        Integer lastNum = courseHistoryDao.findLastNum(courseDto);
         String numbering = "";
 
         // 조회 결과가 없을 경우에 0으로 초기화
@@ -41,11 +41,11 @@ public class CourseHistoryService {
             numbering += ++lastNum;
         }
 
-        String courseId = courseHistoryDto.getDeptId();
-               courseId += courseHistoryDto.getCourseDivision();
+        String courseId = courseDto.getDeptId();
+               courseId += courseDto.getCourseDivision();
                courseId += numbering;
-        courseHistoryDto.setCourseId(courseId);
-        boolean result = courseHistoryDao.write(courseHistoryDto);
+        courseDto.setCourseId(courseId);
+        boolean result = courseHistoryDao.write(courseDto);
         if (result) {
             return "수강내역을 등록하였습니다.";
         }
@@ -53,8 +53,8 @@ public class CourseHistoryService {
         return "수강내역등록에 실패하였습니다.";
     }
 
-    public String update(CourseHistoryDto courseHistoryDto) {
-        boolean result = courseHistoryDao.update(courseHistoryDto);
+    public String update(CourseDto courseDto) {
+        boolean result = courseHistoryDao.update(courseDto);
         if (result) {
             return "수강내역을 수정하였습니다.";
         }
@@ -66,7 +66,7 @@ public class CourseHistoryService {
         return courseHistoryDao.findAllCount(searchDto);
     }
 
-    public CourseHistoryDto detail(String courseId) {
+    public CourseDto detail(String courseId) {
         return courseHistoryDao.detail(courseId);
     }
 

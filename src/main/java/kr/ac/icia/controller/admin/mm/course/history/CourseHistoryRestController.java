@@ -1,6 +1,6 @@
 package kr.ac.icia.controller.admin.mm.course.history;
 
-import kr.ac.icia.dto.admin.mm.course.history.CourseHistoryDto;
+import kr.ac.icia.dto.course.CourseDto;
 import kr.ac.icia.service.admin.mm.course.history.CourseHistoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +15,13 @@ public class CourseHistoryRestController {
     private final CourseHistoryService courseHistoryService;
 
     @PutMapping("/write")
-    public String write(CourseHistoryDto courseHistoryDto) {
-        return courseHistoryService.write(courseHistoryDto);
+    public String write(CourseDto courseDto) {
+        return courseHistoryService.write(courseDto);
     }
 
     @PatchMapping("/update")
-    public String update(CourseHistoryDto courseHistoryDto) {
-        return courseHistoryService.update(courseHistoryDto);
+    public String update(CourseDto courseDto) {
+        return courseHistoryService.update(courseDto);
     }
 
     @DeleteMapping("/delete/{id}")
