@@ -23,26 +23,30 @@
 														FROM subject s
 															 JOIN department d ON d.department_id = s.department_id
 															 JOIN pf ON pf.pf_id = s.pf_id
-														WHERE grade = #{grade} AND semester = #{semester}
+															 LEFT OUTER JOIN course_request req ON req.course_id = s.course_id
+														WHERE
+														    s.grade = #{grade} AND s.semester = #{semester}
+														  AND
+															s.course_id NOT IN (SELECT course_id FROM course_request WHERE st_id = (SELECT st_id FROM st WHERE st_id = #{stId}))
 
 														<if test="courseId != null and courseId != ''">
-															AND s.course_id LIKE '%'||#{courseId}||'%'
+															AND UPPER(s.course_id) LIKE '%'||UPPER(#{courseId})||'%'
 														</if>
 
 														<if test="courseName != null and courseName != ''">
-															AND s.course_name LIKE '%'||#{courseName}||'%'
+															AND UPPER(s.course_name) LIKE '%'||UPPER(#{courseName})||'%'
 														</if>
 
 														<if test="courseDivision != null and courseDivision != ''">
-															AND s.course_division LIKE '%'||#{courseDivision}||'%'
+															AND UPPER(s.course_division) LIKE '%'||UPPER(#{courseDivision})||'%'
 														</if>
 
 														<if test="deptName != null and deptName != ''">
-															AND d.department_name LIKE '%'||#{deptName}||'%'
+															AND UPPER(d.department_name) LIKE '%'||UPPER(#{deptName})||'%'
 														</if>
 
 														<if test="pfName != null and pfName != ''">
-															AND pf.pf_name LIKE '%'||#{pfName}||'%'
+															AND UPPER(pf.pf_name) LIKE '%'||UPPER(#{pfName})||'%'
 														</if>
 
 														ORDER BY s.create_date DESC) a)
@@ -60,29 +64,34 @@
 								FROM subject s
 									JOIN pf ON pf.pf_id = s.pf_id
 									JOIN department d ON d.department_id = s.department_id
-								WHERE 1 = 1
+								WHERE s.grade = #{grade} AND s.semester = #{semester}
 
 								<if test="courseId != null and courseId != ''">
-									AND s.course_id LIKE '%'||#{courseId}||'%'
+									AND UPPER(s.course_id) LIKE '%'||UPPER(#{courseId})||'%'
 								</if>
 
 								<if test="courseName != null and courseName != ''">
-									AND s.course_name LIKE '%'||#{courseName}||'%'
+									AND UPPER(s.course_name) LIKE '%'||UPPER(#{courseName})||'%'
 								</if>
 
 								<if test="courseDivision != null and courseDivision != ''">
-									AND s.course_division LIKE '%'||#{courseDivision}||'%'
+									AND UPPER(s.course_division) LIKE '%'||UPPER(#{courseDivision})||'%'
 								</if>
 
 								<if test="deptName != null and deptName != ''">
-									AND d.department_name LIKE '%'||#{deptName}||'%'
+									AND UPPER(d.department_name) LIKE '%'||UPPER(#{deptName})||'%'
 								</if>
 
 								<if test="pfName != null and pfName != ''">
-									AND pf.pf_name LIKE '%'||#{pfName}||'%'
+									AND UPPER(pf.pf_name) LIKE '%'||UPPER(#{pfName})||'%'
 								</if>
 
 								)
 	</select>
+
+	<insert id="applyCourse" parameterType="kr.ac.icia.dto.course.reg.CourseRegDto">
+		INSERT INTO course_request (req_course_id, course_id, st_id)
+		VALUES (#{reqCourseId}, #{courseId}, #{stId})
+	</insert>
 
 </mapper>

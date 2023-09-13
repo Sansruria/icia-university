@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -22,5 +23,16 @@ public class CourseRegService {
 
     public Integer findAllCount(CourseSearchDto searchDto) {
         return courseRegDao.findAllCount(searchDto);
+    }
+
+    public String applyCourse(CourseRegDto courseRegDto) {
+        courseRegDto.setReqCourseId(UUID.randomUUID().toString());
+        boolean result = courseRegDao.applyCourse(courseRegDto);
+
+        if (result) {
+            return "수강신청되었습니다.";
+        }
+
+        return "수강신청에 실패하였습니다.";
     }
 }

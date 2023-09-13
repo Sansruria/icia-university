@@ -12,4 +12,6 @@ public interface CourseRegDao {
     public ArrayList<CourseRegDto> findByCondition(CourseSearchDto courseSearchDto);
 
     public Integer findAllCount(CourseSearchDto searchDto);
+
+    boolean applyCourse(CourseRegDto courseRegDto);
 }
