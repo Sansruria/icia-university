@@ -184,7 +184,7 @@
                                                     <button type="submit" class="btn btn-primary btn-save">신청</button>
                                                 </form>
                                             </td>
-                                            <td><c:out value="${course.grade}"></c:out>/<c:out value="${course.semester}"></c:out></td>
+                                            <td><c:out value="${course.grade}"></c:out>학년/<c:out value="${course.semester}"></c:out>학기</td>
                                             <td>
                                                 <c:if test="${course.courseDivision eq 'MR'}">전공필수</c:if>
                                                 <c:if test="${course.courseDivision eq 'SM'}">전공선택</c:if>

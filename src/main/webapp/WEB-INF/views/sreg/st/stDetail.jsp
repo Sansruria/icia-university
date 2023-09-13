@@ -120,7 +120,7 @@
 								<div class="col">
 									<div class="input-group mb-3">
 										<span class="input-group-text w-25 p-3">학년</span>
-										<span class="w-75 border p-3"><c:out value="${stDto.grade}"></c:out></span>
+										<span class="w-75 border p-3"><c:out value="${stDto.grade}"></c:out>학년</span>
 									</div>
 								</div>
 							</div>
@@ -129,7 +129,7 @@
 								<div class="col">
 									<div class="input-group mb-3">
 										<span class="input-group-text w-25 p-3">학기</span>
-										<span class="w-75 border p-3"><c:out value="${stDto.semester}"></c:out></span>
+										<span class="w-75 border p-3"><c:out value="${stDto.semester}"></c:out>학기</span>
 									</div>
 								</div>
 							</div>

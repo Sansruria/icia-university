@@ -140,17 +140,14 @@
         WHERE s.course_id = #{corseId}
     </select>
 
-
-        <select id="findLastNum" parameterType="kr.ac.icia.dto.course.CourseDto" resultType="Integer">
-                SELECT * FROM (
-                              SELECT SUBSTR(course_id, 8, 2) AS courseId
-                              FROM subject
-                              WHERE department_id LIKE '%' || #{deptId}  || '%'
-                                    AND
-                                    UPPER(course_division) LIKE '%' || UPPER(#{courseDivision}) || '%'
-                              ORDER BY create_date DESC)
-                WHERE rownum = 1
-        </select>
+    <select id="findLastNum" parameterType="kr.ac.icia.dto.course.CourseDto" resultType="Integer">
+        SELECT * FROM (
+                      SELECT SUBSTR(course_id, 8, 2) AS courseId
+                      FROM subject
+                      WHERE course_id LIKE '%' || #{deptId} || UPPER(#{courseDivision})  || '%'
+                      ORDER BY create_date DESC)
+        WHERE rownum = 1
+    </select>
     
     <update id="update" parameterType="kr.ac.icia.dto.course.CourseDto">
         UPDATE

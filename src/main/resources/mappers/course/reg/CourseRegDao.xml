@@ -25,8 +25,8 @@
 															 JOIN pf ON pf.pf_id = s.pf_id
 															 LEFT OUTER JOIN course_request req ON req.course_id = s.course_id
 														WHERE
-														    s.grade = #{grade} AND s.semester = #{semester}
-														  AND
+														    s.grade <![CDATA[ <= ]]> #{grade} AND s.semester <![CDATA[ <= ]]> #{semester}
+														    AND
 															s.course_id NOT IN (SELECT course_id FROM course_request WHERE st_id = (SELECT st_id FROM st WHERE st_id = #{stId}))
 
 														<if test="courseId != null and courseId != ''">
@@ -64,7 +64,7 @@
 								FROM subject s
 									JOIN pf ON pf.pf_id = s.pf_id
 									JOIN department d ON d.department_id = s.department_id
-								WHERE s.grade = #{grade} AND s.semester = #{semester}
+								WHERE s.grade <![CDATA[ <= ]]> #{grade} AND s.semester <![CDATA[ <= ]]> #{semester}
 
 								<if test="courseId != null and courseId != ''">
 									AND UPPER(s.course_id) LIKE '%'||UPPER(#{courseId})||'%'

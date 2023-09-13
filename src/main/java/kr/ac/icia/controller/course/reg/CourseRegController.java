@@ -35,9 +35,20 @@ public class CourseRegController {
             , @RequestParam(value="cntPerPage", required = false) String cntPerPage) {
 
         MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
-        searchDto.setStId(memberInfo.getUserId());
-        searchDto.setGrade(memberInfo.getGrade());
-        searchDto.setSemester(memberInfo.getSemester());
+
+        if (memberInfo != null) {
+            String isPf = memberInfo.getUserId().substring(0,1);
+            if (isPf.equals("P") || memberInfo.getUserId().equals("admin")) {
+                return "course/reg/courseRegList";
+            } else {
+                searchDto.setStId(memberInfo.getUserId());
+                searchDto.setGrade(memberInfo.getGrade());
+                searchDto.setSemester(memberInfo.getSemester());
+            }
+
+        } else {
+            return "course/reg/courseRegList";
+        }
 
         int total = courseRegService.findAllCount(searchDto);
 
