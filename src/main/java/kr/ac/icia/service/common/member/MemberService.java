@@ -89,6 +89,10 @@ public class MemberService {
 		return null;
 	}
 
+	public MemberDto findStInfoById(String stId) {
+		return memberDao.findStInfoById(stId);
+	}
+
 	public MemberDto kindOfPerson(MemberDto memberDto) {
 		String isPf = memberDto.getUserId().substring(0,1);
 		if (isPf.equals("P") || memberDto.getUserId().equals("admin")) {

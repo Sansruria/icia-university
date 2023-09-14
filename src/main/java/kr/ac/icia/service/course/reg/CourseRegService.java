@@ -26,9 +26,13 @@ public class CourseRegService {
     }
 
     public String applyCourse(CourseRegDto courseRegDto) {
+        if (courseRegDto.getReqCourseId() != null) {
+            courseRegDto.setReapply("Y");
+            courseRegDao.reapplyCourse(courseRegDto);
+        }
+
         courseRegDto.setReqCourseId(UUID.randomUUID().toString());
         boolean result = courseRegDao.applyCourse(courseRegDto);
-
         if (result) {
             return "수강신청되었습니다.";
         }

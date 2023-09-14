@@ -6,6 +6,7 @@ import kr.ac.icia.dto.common.member.MemberDto;
 import kr.ac.icia.dto.course.CourseDto;
 import kr.ac.icia.dto.course.CourseSearchDto;
 import kr.ac.icia.dto.course.reg.CourseRegDto;
+import kr.ac.icia.service.common.member.MemberService;
 import kr.ac.icia.service.course.reg.CourseRegService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,9 @@ public class CourseRegController {
     @Autowired
     private final CourseRegService courseRegService;
 
+    @Autowired
+    private final MemberService memberService;
+
     @GetMapping("/reg")
     public String list(Model model, HttpSession session, CourseSearchDto searchDto
             , @RequestParam(value="nowPage", required = false) String nowPage
@@ -41,9 +45,10 @@ public class CourseRegController {
             if (isPf.equals("P") || memberInfo.getUserId().equals("admin")) {
                 return "course/reg/courseRegList";
             } else {
-                searchDto.setStId(memberInfo.getUserId());
-                searchDto.setGrade(memberInfo.getGrade());
-                searchDto.setSemester(memberInfo.getSemester());
+                MemberDto stInfo = memberService.findStInfoById(memberInfo.getUserId());
+                searchDto.setStId(stInfo.getUserId());
+                searchDto.setGrade(stInfo.getGrade());
+                searchDto.setSemester(stInfo.getSemester());
             }
 
         } else {
@@ -72,12 +77,23 @@ public class CourseRegController {
         return "course/reg/courseRegList";
     }
 
-    @PostMapping("/req/apply")
-    public String applyCourse(@RequestParam("reqCourseId") String reqCourseId, RedirectAttributes rttr, HttpSession session) {
+    @PostMapping("/reg/apply")
+    public String applyCourse(@RequestParam("applyCourseId") String applyCourseId,
+                              @RequestParam(value = "reqCourseId", required = false) String reqCourseId,
+                              RedirectAttributes rttr, HttpSession session) {
         MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
+        MemberDto stInfo = memberService.findStInfoById(memberInfo.getUserId());
+
         CourseRegDto courseRegDto = new CourseRegDto();
-        courseRegDto.setCourseId(reqCourseId);
-        courseRegDto.setStId(memberInfo.getUserId());
+        courseRegDto.setCourseId(applyCourseId);
+        courseRegDto.setStId(stInfo.getUserId());
+        courseRegDto.setGrade(stInfo.getGrade());
+        courseRegDto.setSemester(stInfo.getSemester());
+
+        if (reqCourseId != null) {
+            courseRegDto.setReqCourseId(reqCourseId);
+        }
+
         String msg = courseRegService.applyCourse(courseRegDto);
         rttr.addFlashAttribute("msg", msg);
 

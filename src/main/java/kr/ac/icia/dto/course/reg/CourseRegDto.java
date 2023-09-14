@@ -11,4 +11,7 @@ public class CourseRegDto extends CourseDto {
     private String stId;
     private String grade;
     private String semester;
+    private String reqGrade;
+    private String reqSemester;
+    private String reapply = "N";
 }

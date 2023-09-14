@@ -14,4 +14,6 @@ public interface CourseRegDao {
     public Integer findAllCount(CourseSearchDto searchDto);
 
     boolean applyCourse(CourseRegDto courseRegDto);
+
+    boolean reapplyCourse(CourseRegDto courseRegDto);
 }

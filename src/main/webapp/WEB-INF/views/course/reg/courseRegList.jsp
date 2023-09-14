@@ -179,10 +179,20 @@
                                     <c:forEach var="course" items="${courseRegList}">
                                         <tr>
                                             <td>
-                                                <form name="frm" action="/course/req/apply" method="POST">
-                                                    <input type="hidden" name="reqCourseId" value="<c:out value="${course.courseId}"></c:out>">
-                                                    <button type="submit" class="btn btn-primary btn-save">신청</button>
-                                                </form>
+                                                <c:if test="${empty course.reqGrade && empty course.reqSemester}">
+                                                    <form name="frm" action="/course/reg/apply" method="POST">
+                                                        <input type="hidden" name="applyCourseId" value="<c:out value="${course.courseId}"></c:out>">
+                                                        <button type="submit" class="btn btn-primary">신청</button>
+                                                    </form>
+                                                </c:if>
+
+                                                <c:if test="${not empty course.reqGrade && not empty course.reqSemester && course.reapply eq 'N'}">
+                                                    <form name="frm" action="/course/reg/apply" method="POST">
+                                                        <input type="hidden" name="reqCourseId" value="<c:out value="${course.reqCourseId}"></c:out>">
+                                                        <input type="hidden" name="applyCourseId" value="<c:out value="${course.courseId}"></c:out>">
+                                                        <button type="submit" class="btn btn-primary">재수강</button>
+                                                    </form>
+                                                </c:if>
                                             </td>
                                             <td><c:out value="${course.grade}"></c:out>학년/<c:out value="${course.semester}"></c:out>학기</td>
                                             <td>

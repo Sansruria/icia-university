@@ -19,15 +19,19 @@
 															s.course_day        AS courseDay,
 															s.course_start_time AS courseStartTime,
 															s.course_end_time   AS courseEndTime,
-															s.create_date       AS createDate
+															s.create_date       AS createDate,
+															req.req_course_id   AS reqCourseId,
+															req.req_grade       AS reqGrade,
+															req.req_semester    AS reqSemester,
+															req.reapply
 														FROM subject s
 															 JOIN department d ON d.department_id = s.department_id
 															 JOIN pf ON pf.pf_id = s.pf_id
-															 LEFT OUTER JOIN course_request req ON req.course_id = s.course_id
+															 LEFT OUTER JOIN course_request req ON req.st_id = #{stId} AND req.course_id = s.course_id
 														WHERE
-														    s.grade <![CDATA[ <= ]]> #{grade} AND s.semester <![CDATA[ <= ]]> #{semester}
-														    AND
-															s.course_id NOT IN (SELECT course_id FROM course_request WHERE st_id = (SELECT st_id FROM st WHERE st_id = #{stId}))
+															req.reapply IS NULL OR req.reapply <![CDATA[ <> ]]> 'Y'
+															OR
+															req.req_grade <![CDATA[ <> ]]> #{grade} OR req.req_semester <![CDATA[ <> ]]> #{semester}
 
 														<if test="courseId != null and courseId != ''">
 															AND UPPER(s.course_id) LIKE '%'||UPPER(#{courseId})||'%'
@@ -49,7 +53,18 @@
 															AND UPPER(pf.pf_name) LIKE '%'||UPPER(#{pfName})||'%'
 														</if>
 
-														ORDER BY s.create_date DESC) a)
+														ORDER BY
+
+														    <if test='semester == "1"'>
+														    	CASE WHEN s.grade = #{grade} THEN 1 END,
+															</if>
+
+															<if test='semester == "2"'>
+																CASE WHEN s.grade = #{grade} AND s.semester = '2' THEN 1
+																     WHEN s.grade = #{grade} AND s.semester = '1' THEN 2 END,
+															</if>
+
+														    s.grade, s.semester, s.course_division) a)
 		WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
 
@@ -64,7 +79,11 @@
 								FROM subject s
 									JOIN pf ON pf.pf_id = s.pf_id
 									JOIN department d ON d.department_id = s.department_id
-								WHERE s.grade <![CDATA[ <= ]]> #{grade} AND s.semester <![CDATA[ <= ]]> #{semester}
+									LEFT OUTER JOIN course_request req ON req.st_id = #{stId} AND req.course_id = s.course_id
+								WHERE
+									req.reapply IS NULL OR req.reapply <![CDATA[ <> ]]> 'Y'
+									OR
+									req.req_grade <![CDATA[ <> ]]> #{grade} OR req.req_semester <![CDATA[ <> ]]> #{semester}
 
 								<if test="courseId != null and courseId != ''">
 									AND UPPER(s.course_id) LIKE '%'||UPPER(#{courseId})||'%'
@@ -90,8 +109,12 @@
 	</select>
 
 	<insert id="applyCourse" parameterType="kr.ac.icia.dto.course.reg.CourseRegDto">
-		INSERT INTO course_request (req_course_id, course_id, st_id)
-		VALUES (#{reqCourseId}, #{courseId}, #{stId})
+		INSERT INTO course_request (req_course_id, course_id, st_id, req_grade, req_semester, reapply, create_date)
+		VALUES (#{reqCourseId}, #{courseId}, #{stId}, #{grade}, #{semester}, #{reapply}, DEFAULT)
 	</insert>
+
+	<update id="reapplyCourse" parameterType="kr.ac.icia.dto.course.reg.CourseRegDto">
+		UPDATE course_request SET reapply = #{reapply} WHERE req_course_id = #{reqCourseId}
+	</update>
 
 </mapper>
