@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 public class DropOutDto {
 	private String register_change_id; //학적변경번호
 	private String st_id; //학번
-	private String c_reason; //변경시유
+	private String c_reason; //변경사유
 	private String a_status; //승인상태
 	private String r_date; //신청일자
 	private String reg_st_name; //학생이름

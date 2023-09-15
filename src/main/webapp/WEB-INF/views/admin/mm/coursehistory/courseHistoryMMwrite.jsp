@@ -19,7 +19,8 @@
 		})
 		//찾아보기 버튼
 		$('.btn-search').click(function(){
-			search();
+// 			search();
+			openSearchModal();
 		})
 // 		$('.btn-search').click(()=>search())
 		//등록 버튼
@@ -28,43 +29,29 @@
 		})
 	});
 	
-	function submit() {
-		let obj = $('form[name="frm"]').serializeObject()
-		const course_time = document.querySelector('input[name="course_start_period"]').value
-		+ "~" + document.querySelector('input[name="course_end_period"]').value
-		obj.course_time = course_time
-        console.log(obj)
+// 	function submit() {
+// 		let obj = $('form[name="frm"]').serializeObject()
+// 		const course_time = document.querySelector('input[name="course_start_period"]').value
+// 		+ "~" + document.querySelector('input[name="course_end_period"]').value
+// 		obj.course_time = course_time
+//         console.log(obj)
         
-        $.ajax({
-            method : "Post",
-            url : '/admin/mm/coursehistory/api/write',
-            data : obj
+//         $.ajax({
+//             method : "Post",
+//             url : '/admin/mm/coursehistory/api/write',
+//             data : obj
             
-        }).done(function(res) {//성공 했을떄
-            alert(res)
-            location.href = '/admin/mm/courselist/list'
+//         }).done(function(res) {//성공 했을떄
+//             alert(res)
+//             location.href = '/admin/mm/courselist/list'
             
-        }).fail(function(res) {//실패 했을떄
-            console.log(res)
-        })
-	}
+//         }).fail(function(res) {//실패 했을떄
+//             console.log(res)
+//         })
+// 	}
 	
-	function search() {//찾아보기 했을떄
-		$.ajax({
-		    method : "GET",
-		    url : '/admin/mm/dept/api/list'
-		    
-		}).done(function(res) {//성공 했을떄
-		    document.querySelector("#modal-body").innerHTML = res
-		    
-		}).fail(function(res) {//실패 했을떄
-		    console.log(res)
-		})
-	}
-	function selected(id, name) {
-	    $('#searchModal').modal('hide')//모달참 숨기기()
-        document.querySelector('#deptId').value = id//학과명안에 id속성이 같아야 입력가능
-        document.querySelector('#deptName').value = name
+	function openSearchModal() {
+		$('.modal-content').load('/admin/mm/dept/modal/list')
 	}
 	// 	등록	
 </script>
@@ -76,6 +63,14 @@
 		<form name="frm" method="POST" action="/admin/mm/coursehistory/write">
 			<div class="form-control"
 				style="padding: 10px; font-size: 14px; width: 40%; margin: 0 auto; text-align: center;">
+				<div class="col">
+					<label for="inputSubject" class="form-label">학수번호</label> 
+					<input type="text" id="inputSubject" name="course_id" class="form-control" value="<c:out value="${CourseHistoryMMDto.course_id}"></c:out>">
+				</div>
+				<div class="col">
+					<label for="inputSubject" class="form-label">교수명</label> 
+					<input type="text" id="inputSubject" name="pf_name" class="form-control" value="<c:out value="${CourseHistoryMMDto.pf_name}"></c:out>">
+				</div>
 				<div class="col">
 					<label for="inputSubject" class="form-label">과목명</label> 
 					<input type="text" id="inputSubject" name="course_name" class="form-control" value="<c:out value="${CourseHistoryMMDto.course_name}"></c:out>">
@@ -105,7 +100,6 @@
 					<label for="inputDepartment" class="form-label">수강신청최대인원</label> <input
 						type="text" id="inputDepartment" class="form-control" name="limit_max_count" value="<c:out value="${CourseHistoryMMDto.limit_max_count}"></c:out>">
 				</div>
-	
 				<div class="row">
 					<div class="col text-end">
 						<button type="button" class="btn btn-secondary" id="btn-close">←취소</button>
@@ -113,41 +107,24 @@
 	<!-- 					document.querySelector('#btn-close') // id 선택자 -->
 	<!-- 					document.querySelector('input[name="name"]') // name 선택자  -->
 	<!-- 					document.querySelector("input[name='name']") // name 선택자  -->
-						<button type="button" class="btn btn-primary btn-save">📖등록</button>
+<!-- 						<button type="button" class="btn btn-primary btn-save">📖등록</button> -->
+							<input type="submit" class="btn btn-primary btn-save" value="📖등록">
 					</div>
 				</div>
 			</div>
-			<input type="submit" class="btn btn-primary" value="전송">
+			
 		</form>
 	</div>
 	
 	<!-- Search Modal -->
-    <div class="modal fade" id="searchModal" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="searchModalLabel">학과명</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          
-          <div class="modal-body">
-            <div class="row">
-                <div class="col">번호</div>
-                <div class="col">학과번호</div>
-                <div class="col">학과명</div>
-            </div>
-            
-            <div id="modal-body"></div>
-          </div>
-          
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary btn-close-searchModal" data-bs-dismiss="modal">닫기</button>
-          </div>
-        </div>
-      </div>
-    </div>
-<!--     end Search Modal -->
+	<div class="modal fade" id="searchModal" data-bs-backdrop="static" data-bs-keyboard="false"
+		 tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			</div>
+		</div>
+	</div>
+	<!-- end Search Modal -->
 	
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 	
