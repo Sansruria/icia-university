@@ -1,100 +1,145 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>전과신청메인</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/css/ysyoo/style.css">
-    <script defer src="/js/ysyoo/changmajor.js" type="text/javascript"></script>
-    
-    <jsp:include page="/WEB-INF/views/layout/head-js.jsp"></jsp:include>
-    <jsp:include page="/WEB-INF/views/layout/head-css.jsp"></jsp:include>
+	<meta charset="UTF-8">
+	<title>전과신청메인</title>
+	<jsp:include page="/WEB-INF/views/layout/head-js.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/layout/head-css.jsp"></jsp:include>
+	<script defer src="/js/ysyoo/changmajor.js" type="text/javascript"></script>
 </head>
+
 <body>
-    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
-    <div id="head_bar">
-        <div class="one">2023년도 2학기 전과신청</div>
-        <div class="ttt">이름</div>
-        <div class="ttt_1">${memberInfo.name}</div>
-        <div class="ttt">학번</div>
-        <div class="ttt_1">${memberInfo.userId}</div>
-        <div class="ttt">학과</div>
-        <div class="ttt_1">${memberInfo.deptName}</div>
-    </div>
-   
-    <table border="1" id="first_list">
-        <tr class="tr" id="chk_append">
-            <th>학과계열</th>
-            <th>
-                <select name="departmentLineId" id="departmentLineSelect">
-                    <option value="">선택</option>
-                    <c:forEach items="${departmentLineList}" var="department_line">
-                        <option value="${department_line.department_line_id}">${department_line.department_line_name}</option>
-                    </c:forEach>
-                </select>
-            </th>
-            <th>학부</th>
-            <th>
-                <select name="facultyId" id="facultySelect">
-                    <option value="">선택</option>
-                    <c:forEach items="${facultyList}" var="f">
-                        <option value="${f.faculty_id}">${f.faculty_name}</option>
-                    </c:forEach>
-                </select>
-            </th>
-            <class id="changMajorTableBody">
-            <th colspan="2">
-                <input type="button" id="searchButton" value="목록담기">
-            </th>
-        </tr>
-        <colgroup>
-            <col class="col_w60">
-            <col class="col_w60">
-            <col class="col_w100">
-            <col class="col_w70">
-        </colgroup>
-        <!-- 테이블 헤더 -->
-        <thead>
-            <tr class="first last">
-                <th scope="col">학년/학기</th>
-                <th scope="col">학과계열</th>
-                <th scope="col">학과</th>
-                <th scope="col">선택</th>
-            </tr>
-        </thead>
-        <!-- js파일 table append에 조회된 데이터 삽입-->
-        <tr id="add_1" class="temp_1">
-            <td class="deltd_1" colspan="4">조회된 데이터 없음</td>
-        </tr>
-    </table>
-    
-    <div class="temp_bar2">
-        <table border="1" id="last_list">
-            <tr class="tr" id="chk_append">
-                <th>과정</th>
-                <th>학과(부)</th>
-                <th>승인</th>
-            </tr>
-            <tr id="add_1" class="temp_2">
-                <td class="deltd_1" colspan="2">조회된 데이터 없음</td>
-                <td>0</td>
-            </tr>
-            <tr id="add_2" class="temp_3">
-                <td class="deltd_2" colspan="2">조회된 데이터 없음</td>
-                <td>0</td>
-            </tr>
-        </table>
-    </div>
-<!--     <div class="mnext_btn"> -->
-<!--         <a href="/stchangm/majorupdat/list" class="btn-link"> -->
-<!--             <button type="button">신청하기</button> -->
-        </a>
-    </div>
-    
-    <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+	
+	<div class="row" style="background:#094a9a">
+		<div class="col text-white text-center fs-3 p-4">2023년도 2학기 전과신청</div>
+	</div>
+	
+	<div class="container">
+	
+		<div class="row">
+            <div class="col">
+                <div class="input-group py-3">
+                    <span class="input-group-text p-3">학년</span>
+                    <input class="form-control" type="text" value="<c:out value="${memberInfo.deptName}"></c:out>" readonly>
+                    
+                    <span class="input-group-text p-3">학기</span>
+                    <input class="form-control" type="text" value="<c:out value="${memberInfo.name}"></c:out>" readonly>
+                    
+                    <span class="input-group-text p-3">학점</span>
+                    <input class="form-control" type="text" value="<c:out value="${memberInfo.userId}"></c:out>" readonly>
+                </div>
+            </div>
+        </div>
+		
+		<div class="row mb-3">
+			<div class="col">
+				<div class="input-group">
+					<span class="input-group-text p-3 w-25">학과계열</span>
+					<select name="departmentLineId" id="departmentLineSelect" class="form-select">
+	                    <option value="">선택</option>
+	                    <c:forEach items="${departmentLineList}" var="department_line">
+	                        <option value="${department_line.department_line_id}">${department_line.department_line_name}</option>
+	                    </c:forEach>
+	                </select>
+				</div>
+			</div>
+			
+			<div class="col">
+				<div class="input-group">
+					<span class="input-group-text p-3 w-25">학부</span>
+					<select name="facultyId" id="facultySelect" class="form-select">
+	                    <option value="">선택</option>
+	                    <c:forEach items="${facultyList}" var="f">
+	                        <option value="${f.faculty_id}">${f.faculty_name}</option>
+	                    </c:forEach>
+	                </select>
+				</div>
+			</div>
+			
+			<div class="col d-flex align-items-center">
+				<input type="submit" class="btn btn-primary" value="목록담기">
+			</div>
+		</div> <!-- row end -->
+		
+		<div class="row">
+			<div class="col mb-2 fs-3">신청목록</div>
+		</div>		
+		
+		<div class="row mb-3">
+			<div class="card">
+				<div class="card-body py-4">
+					<div class="row">
+						<div class="table-responsive text-center">
+	                        <table class="table table-bordered align-middle">
+	                            <thead class="table-primary">
+	                                <tr>
+	                                    <th>학년/학기</th>
+	                                    <th>학과계열</th>
+	                                    <th>학부</th>
+	                                    <th>학과</th>
+	                                </tr>
+	                            </thead>
+	
+	                            <tbody>
+		                            <tr>
+						                <td colspan="4">조회된 데이터가 없습니다</td>
+						            </tr>
+	                            </tbody>
+	                        </table>
+	                    </div>
+					</div>
+					
+					<div class="row text-end">
+						<a href="/stchangm/majorupdat/list">
+							<button type="button" class="btn btn-primary">신청하기</button>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col mb-2 fs-3">신청내역</div>
+		</div>	
+		
+		<div class="row">
+			<div class="card">
+				<div class="card-body py-4">
+					<div class="row">
+						<div class="table-responsive text-center">
+	                        <table class="table table-bordered align-middle">
+	                            <thead class="table-primary">
+	                                <tr>
+	                                    <th>학년/학기</th>
+	                                    <th>학과계열</th>
+	                                    <th>학부</th>
+	                                    <th>학과</th>
+	                                </tr>
+	                            </thead>
+	
+	                            <tbody>
+		                            <tr>
+						                <td colspan="4">조회된 데이터가 없습니다</td>
+						            </tr>
+		                            <tr>
+						                <td colspan="4">조회된 데이터가 없습니다</td>
+						            </tr>
+	                            </tbody>
+	                        </table>
+	                    </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </body>
+
 </html>
