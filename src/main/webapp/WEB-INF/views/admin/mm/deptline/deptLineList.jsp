@@ -191,7 +191,7 @@
                         <div class="row">
                             <div class="mb-3 text-lg-end">
                                 <button type="button"
-                                   class="input-group-text btn waves-effect waves-light btn-primary btn-save">
+                                   class="input-group-text btn btn-primary btn-save">
                                     <i class="mdi mdi-clipboard-edit me-1"></i>저장
                                 </button>
                             </div>
