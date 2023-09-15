@@ -1,6 +1,7 @@
 package kr.ac.icia.controller.common.member;
 
 import jakarta.servlet.http.HttpSession;
+
 import kr.ac.icia.dto.common.member.MemberDto;
 import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,13 @@ import org.springframework.stereotype.Controller;
 
 import kr.ac.icia.service.common.member.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 public class MemberController {
@@ -31,6 +35,8 @@ public class MemberController {
 
 		if (memberInfo != null) {
 			session.setAttribute("memberInfo", memberInfo);
+			session.setAttribute("ST_ID", memberInfo.getUserId()); // session에 st_id 저장
+			log.info("세션에 저장된 ST_ID: " + session.getAttribute("ST_ID"));
 
 			String isPf = memberDto.getUserId().substring(0,1);
 			if (isPf.equals("P")) {

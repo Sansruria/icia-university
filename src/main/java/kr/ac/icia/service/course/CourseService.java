@@ -28,11 +28,13 @@ public class CourseService {
 
 	// 선택한 학부 기반으로 학과 데이터 가져오기
 	public List<FilteringDto> filtering(String facultyId) {
+		// 필요한 경우 stId 사용하는 코드 추가
 		return cDao.filtering(facultyId);
 	}
 
 	// 필터링된 수강신청(수강신청 테이블이 아닌 과목 테이블)할 리스트 가져오기
 	public List<FilterringSearchListDto> filteringSearch(Map<String, String> filterConditionMap) {
+		// 필요한 경우 filterConditionMap.get("stId") 사용하는 코드 추가
 		return cDao.filteringSearch(filterConditionMap);
 	}
 
@@ -42,17 +44,24 @@ public class CourseService {
 		// 데이터 유효성 검사
 		// TODO: CRDto 검증
 
-		// 마지막으로 사용된 시퀀스 번호를 가져옵니다.
-		int sequence = cDao.getLastSequenceNumber();
+		// 마지막으로 사용된 시퀀스 번호를 가져오기
+		// 만약 마지막 시퀀스 번호가 null이거나 0이라면 기본값으로 0을 설정
+		Integer lastSequence = cDao.getLastSequenceNumber();
+		int sequence = lastSequence != null ? lastSequence : 0;
 
 		for (CourseRegisterDto course : CRDto) {
-			// 등록된 학생 수를 확인합니다. (최대 30명)
+			// 등록된 학생 수를 확인합니다.
 			int count = cDao.getStudentCount(course.getCourse_id());
-			if (count >= 30) {
+
+			// 해당 강의의 최대 학생 수를 확인합니다.
+			int maxCount = cDao.getMaxStudentLimitForCourse(course.getCourse_id());
+
+			// 현재 등록된 학생 수가 최대 학생 수 이상이면 예외를 발생시킵니다.
+			if (count >= maxCount) {
 				throw new CourseFullException(course.getCourse_id() + " 강의가 만석입니다.");
 			}
 
-			// 시퀀스를 기반으로 새로운 PK를 생성합니다. (CR1, CR2, ...)
+			// 시퀀스를 기반으로 새로운 PK를 생성합니다. (예: CR1, CR2, ...)
 			String newPk = "CR" + (++sequence);
 			course.setReg_course_id(newPk);
 

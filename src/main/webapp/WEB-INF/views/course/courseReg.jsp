@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="/css/hmlee/coursereg.css">
 </head>
 
-<body>
+<body onload="initializeSession()">
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 
 	<div class="container">
