@@ -11,5 +11,4 @@ public class MemberDto extends PersonInfoDto {
 	private String status; // 학적상태
 	private String columnName;
 	private String tableName;
-
 }

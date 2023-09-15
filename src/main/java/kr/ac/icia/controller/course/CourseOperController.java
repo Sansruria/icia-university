@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import kr.ac.icia.dto.course.CourseRegisterDto;
 import kr.ac.icia.dto.course.FilteringDto;
@@ -54,8 +51,8 @@ public class CourseOperController {
 	@PostMapping("/apply")
 	public ResponseEntity<String> addCourse(@RequestBody FilterringSearchListDto FSLDto) {
 		try {
-			List<FilterringSearchListDto> courseRegList = (List<FilterringSearchListDto>) session
-					.getAttribute("courseRegList");
+			List<FilterringSearchListDto> courseRegList = (List<FilterringSearchListDto>) 
+					session.getAttribute("courseRegList");
 			if (courseRegList == null) {
 				courseRegList = new ArrayList<>();
 			}
@@ -71,8 +68,8 @@ public class CourseOperController {
 	@PostMapping("/cancel")
 	public ResponseEntity<String> cancelCourse(@RequestBody FilterringSearchListDto FSLDto) {
 		try {
-			List<FilterringSearchListDto> courseRegList = (List<FilterringSearchListDto>) session
-					.getAttribute("courseRegList");
+			List<FilterringSearchListDto> courseRegList = (List<FilterringSearchListDto>)
+					session.getAttribute("courseRegList");
 			if (courseRegList != null) {
 				courseRegList.remove(FSLDto);
 				session.setAttribute("courseRegList", courseRegList);
