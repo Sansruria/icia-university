@@ -28,27 +28,25 @@
 	}
 }
 </style>
-
 </head>
-
 <body>
-	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
-
+	<!-- Navigation-->
+	<nav class="navbar navbar-expand-lg navbar-light bg-light"
+		th:replace="/fragment/navigation :: menu(${user})"></nav>
 
 	<div class="container-fluid mt-3">
 		<div class="row">
-			<!-- 사이드 바 -->
+
+			<!-- SIDE BAR -->
 			<nav id="sidebarMenu"
-				class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-				<!-- 사이드 바 내용 -->
-			</nav>
+				class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
+				th:replace="/fragment/navigation :: side(${user})"></nav>
 
 			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 				<div
 					class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-					<h1 class="h2">admin 전과조회페이지</h1>
+					<h1 class="h2">전과신청목록페이지</h1>
 				</div>
-
 				<div class="table-responsive">
 					<table class="table table-striped table-sm">
 						<thead>
@@ -56,37 +54,31 @@
 								<th scope="col">#</th>
 								<th scope="col">이름</th>
 								<th scope="col">학번</th>
-								<th scope="col">전과학과</th>
-								<th scope="col">승인상태</th>
+								<th scope="col">전과신청학과</th>
 								<th scope="col">Email</th>
+								<th scope="col">승인상태</th>
 								<th scope="col">승인하기</th>
 							</tr>
 						</thead>
 						<tbody>
-
-							<form action="/user/updateStatus" method="post">
-								<input type="hidden" name="id" value="cm"> 
-								<label for="status">전과신청내역</label>
-							<td>${cm.rnun}</td>
-							<td>${cm.st_name}"</td>
-							<td>${cm.st_id}"</td>
-							<td>${cm.deptname}"</td>
-							<th><select name="role_a" id="role_aSelect">
-									<option value="1">전과승인</option>
-									<option value="2">전과보류</option>
-							</select></th>
-							<td>${cm.email}"</td>
-							<td>
-
+							<tr th:each="users : ${userList}">
+								<form th:action="@{/user/change/{id}(id=${users.id})}"
+									method="post" class="d-flex">
+									<td th:text="${users.rnum}"></td>
+									<td th:text="${users.st_name}"></td>
+									<td th:text="${users.st_id}"></td>
+									<td th:text="${users.department_name}"></td>
+									<td th:text="${users.email}"></td>
+									<td><select name="ad_status">
+											<option value="1">전과승인</option>
+											<option value="0">전과보류</option>
+									</select></td>
+									<td>
+										<button class="btn btn-outline-dark flex-shrink-0"
+											type="submitForm()">저장</button>
+									</td>
 								</form>
-
-
-								<button class="btn btn-outline-dark flex-shrink-0" type="submit">
-									업데이트</button>
-							</td>
-
-
-
+							</tr>
 						</tbody>
 					</table>
 				</div>

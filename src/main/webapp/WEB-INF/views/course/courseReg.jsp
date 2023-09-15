@@ -73,10 +73,7 @@
 										</span>
 									</dd>
 								</dl>
-
 							</li>
-
-
 							<!-- 검색 버튼과 초기화 버튼 -->
 							<li class="search_resetBtn">
 								<!-- 검색 버튼 -->
