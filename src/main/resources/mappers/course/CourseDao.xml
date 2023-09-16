@@ -52,10 +52,18 @@
 		COURSE_ID=#{courseId}
 	</select>
 
-	<!-- 시퀀스의 현재값을 가져오는 쿼리 -->
-	<!-- 수강신청 테이블에서 (REQ_COURSE_ID) PK컬럼에 사용하려고 만든 course_request_seq 사용  -->
+	<!-- 마지막으로 사용된 시퀀스 번호를 가져옵니다. -->
+	<!-- 수강신청 테이블에서 (REQ_COURSE_ID) PK컬럼에 사용하려고 만든 course_request_seq 사용 -->
 	<select id="getLastSequenceNumber" resultType="int">
-		SELECT course_request_seq.CURRVAL FROM dual
+		SELECT
+		MAX(CAST(SUBSTR(REQ_COURSE_ID, 3) AS INT)) FROM COURSE_REQUEST
+	</select>
+
+	<!-- 특정 강의의 최대 학생 수를 가져옵니다. -->
+	<select id="getMaxStudentLimitForCourse" parameterType="string"
+		resultType="int">
+		SELECT LIMIT_MAX_COUNT FROM SUBJECT WHERE COURSE_ID =
+		#{courseId}
 	</select>
 
 	<!-- 강의를 신청하는 쿼리 -->
@@ -63,13 +71,16 @@
 		INSERT INTO COURSE_REQUEST
 		(
 		REQ_COURSE_ID, COURSE_ID, ST_ID,
-		REQ_GRADE, REQ_SEMESTER, REQ_COURSE_DIVISION,
+		REQ_GRADE,
+		REQ_SEMESTER, REQ_COURSE_DIVISION,
 		REQ_CREDIT,
-		REQ_COURSE_NAME, REQ_PF_NAME,
+		REQ_COURSE_NAME,
+		REQ_PF_NAME,
 		REQ_COURSE_TIME, REQ_ST_COUNT
 		)
 		VALUES
-		<foreach collection="list" item="course" separator=",">
+		<foreach collection="list" item="course" separator=","
+			open="(" close=")">
 			(
 			#{course.reg_course_id}, #{course.course_id}, #{course.req_st_id},
 			#{course.req_grade}, #{course.req_semester},

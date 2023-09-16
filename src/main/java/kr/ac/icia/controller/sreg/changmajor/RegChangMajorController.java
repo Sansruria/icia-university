@@ -10,19 +10,15 @@ import kr.ac.icia.dto.sreg.changmajor.UserDto;
 import kr.ac.icia.service.sreg.changmajor.changmajorService;
 import lombok.extern.slf4j.Slf4j;
 
-
 //학적 <전과> 페이지컨트롤러
 @Slf4j
-@RequestMapping("/sreg") 
+@RequestMapping("/sreg")
 @Controller
 public class RegChangMajorController {
 
-	
 	@Autowired
 	private changmajorService cSer;
-	
-	
-	
+
 	// 전과메인페이지
 	@GetMapping("/stchangm")
 	public String changeMajorPage() {
@@ -30,29 +26,18 @@ public class RegChangMajorController {
 		return "sreg/changm/majormain";
 	}
 
-	
-	
 	// 전과신청페이지로 이동- 데이터조회요청접수
 	@GetMapping("/stchangm/update")
 	public String showUpdatePage(Model model) {
-	    List<UserDto> facultyList = cSer.getAllfaculty();
-	    model.addAttribute("facultyList", facultyList);
-	    log.info("전과신청 메인페이지..");
-	    return "sreg/changm/majorupdate";
-	}
-
-	
-	
-	// 전공신청 목록을 담으면 어쩌구..
-	@GetMapping("/stchangm/majorupdate")
-	public String Majorcart() {
-		return "sreg/changm/requestlist";
-
+		List<UserDto> departmentLineList = cSer.getAllfaculty();
+		model.addAttribute("departmentLineList", departmentLineList);
+		log.info("전과신청 메인페이지..");
+		return "sreg/changm/majorupdate";
 	}
 
 //전과신청조회페이지로 이동
 	@GetMapping("/stchangm/majorupdat/list")
-	public String changeMlist(){
+	public String finalchangmajorList() {
 		return "sreg/changm/requestlist";
 	}
 }

@@ -3,21 +3,21 @@
 <mapper namespace="kr.ac.icia.dao.sreg.changmajor.ChangMajorDao">
 
 
+	<!-- 학부(faculty)의전체 불러오기 -->
 	<select id="getAllfaculty" resultType="UserDto">
-		SELECT
-		faculty_id,faculty_name
-		FROM faculty
-
+		SELECT department_line_id,
+		department_line_name
+		FROM department_line
 	</select>
 
 
-	<!-- 학부의학과 선택쿼리 -->
-
-	<select id="getDepartments" resultType="UserDto">
-	SELECT d.department_id, d.department_name
-	FROM department d INNER JOIN faculty f ON d.faculty_id = f.faculty_id
-	WHERE f.faculty_id = #{facultyId}
-		
+	<!-- 학부(faculty)를 선택하면 학과(department)를 불러오는 쿼리 -->
+	<select id="getFaculty" resultType="UserDto">
+		SELECT f.faculty_id,f.faculty_name
+		FROM faculty f INNER JOIN department_line d ON
+		d.department_line_id = f.department_line_id
+		WHERE f.department_line_id = #{departmentLineId}
 	</select>
+
 
 </mapper>	

@@ -57,15 +57,15 @@
 			<tr>
 				<th class="table-primary align-middle">학과계열명</th>
 				<td>
-					<div class="row">
-						<div class="col">
-							<input type="text" name="deptLineName" id="updateDeptLineName" class="form-control" value="<c:out value="${facultyDto.deptLineName}"></c:out>" readonly>
-						</div>
-						<div class="col">
-							<button type="button" class="btn btn-primary btn-search-update"
+                    <div class="row">
+                    	<div class="col">
+                            <div class="input-group">
+                                <input type="text" name="deptLineName" id="updateDeptLineName" class="form-control" value="<c:out value="${facultyDto.deptLineName}"></c:out>" readonly>
+                            	<button type="button" class="btn btn-primary btn-search-update"
 									data-bs-toggle="modal" data-bs-target="#searchModal">찾아보기</button>
-						</div>
-					</div>
+                            </div>
+                        </div>
+                    </div>
 				</td>
 			</tr>
 			<tr>
