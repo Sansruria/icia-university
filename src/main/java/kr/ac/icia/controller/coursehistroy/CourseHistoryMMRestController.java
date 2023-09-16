@@ -32,9 +32,11 @@ public class CourseHistoryMMRestController {
 		
 		return "redirect:/admin/mm/courselist/write";
 	}
-//	//목록
-//	@GetMapping("/list")
-//	public String {
-//		
-//	}
+	/*
+	 * //목록
+	 * 
+	 * @GetMapping("/list") public String list() {
+	 * 
+	 * return "/admin/mm/courselist/list"; }
+	 */
 }

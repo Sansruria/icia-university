@@ -9,6 +9,7 @@
 <title>수강내역 등록</title>
 <jsp:include page="/WEB-INF/views/layout/head-js.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/views/layout/head-css.jsp"></jsp:include>
+<script src="/js/sjpark/coursehistory.js" type="text/javascript"></script>
 
 <script>
 	$(document).ready(function() {
@@ -27,12 +28,12 @@
 			// 			search();
 			openpfModal();
 		})
-		// 		$('.btn-search').click(()=>search())
+		$('.btn-search').click(()=>search())
 		//등록 버튼
 		$('.btn-save').click(function() {
-			save();
-		})
-	});
+ 			save(); //save란 메소드를 실행
+ 			fetchDataAndPopulateTable();
+ 	    });
 
 	function openSearchModal() {
 		$('.modal-content').load('/sreg/pf/modal/list')
@@ -58,6 +59,7 @@
 	//             console.log(res)
 	//         })
 	// 	}
+		});
 </script>
 </head>
 
@@ -65,9 +67,9 @@
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 	<div class="container">
 		<form name="frm" method="POST" action="/admin/mm/coursehistory/write">
-			<input type="hidden" name="pfId" readonly>
-			<input type="hidden" name="deptId" readonly>
-			
+			<input type="hidden" name="pfId" readonly> <input
+				type="hidden" name="deptId" readonly>
+
 			<div class="form-control"
 				style="padding: 10px; font-size: 14px; width: 40%; margin: 0 auto; text-align: center;">
 				<div class="col">
@@ -77,34 +79,34 @@
 						value="<c:out value="${CourseHistoryMMDto.course_id}"></c:out>">
 				</div>
 				<div class="row">
-				<div class="col">
-					<div class="input-group mb-3">
-						<span class="input-group-text w-25 p-3">교수명</span> <input
-							type="text" class="form-control" name="pfName" readonly
-							value="<c:out value="${CourseHistoryMMDto.pf_name}"></c:out>">	
-						<button type="button" class="btn btn-primary btn-search"
-							data-bs-toggle="modal" data-bs-target="#searchModal">찾아보기</button>
+					<div class="col">
+						<div class="input-group mb-3">
+							<span class="input-group-text w-25 p-3">교수명</span> <input
+								type="text" class="form-control" name="pfName" readonly
+								value="<c:out value="${CourseHistoryMMDto.pf_name}"></c:out>">
+							<button type="button" class="btn btn-primary btn-search"
+								data-bs-toggle="modal" data-bs-target="#searchModal">찾아보기</button>
+						</div>
 					</div>
 				</div>
-			</div>
 				<div class="row">
-				<div class="col">
-					<div class="input-group mb-3">
-						<span class="input-group-text w-25 p-3">학과명</span> <input
-							type="text" class="form-control" name="deptName"
-							placeholder="교수선택시 자동으로 등록됩니다" readonly
-							value="<c:out value="${CourseHistoryMMDto.deptName}"></c:out>">
+					<div class="col">
+						<div class="input-group mb-3">
+							<span class="input-group-text w-25 p-3">학과명</span> <input
+								type="text" class="form-control" name="deptName"
+								placeholder="교수선택시 자동으로 등록됩니다" readonly
+								value="<c:out value="${CourseHistoryMMDto.deptName}"></c:out>">
+						</div>
 					</div>
 				</div>
-			</div>
-<!-- 				<div class="col mb-2"> -->
-<!-- 										<label for="inputDepartment" class="form-label">학과명</label> <input -->
-<!-- 											type="hidden" id="deptId" name="deptId" class="form-control" -->
-<%-- 											value="<c:out value="${stDto.deptId}"></c:out>" readonly> --%>
-<!-- 										<input type="text" id="deptName" name="deptName" -->
-<!-- 											class="form-control" -->
-<%-- 											value="<c:out value="${stDto.deptName}"></c:out>" readonly> --%>
-<!-- 				</div> -->
+				<!-- 				<div class="col mb-2"> -->
+				<!-- 										<label for="inputDepartment" class="form-label">학과명</label> <input -->
+				<!-- 											type="hidden" id="deptId" name="deptId" class="form-control" -->
+				<%-- 											value="<c:out value="${stDto.deptId}"></c:out>" readonly> --%>
+				<!-- 										<input type="text" id="deptName" name="deptName" -->
+				<!-- 											class="form-control" -->
+				<%-- 											value="<c:out value="${stDto.deptName}"></c:out>" readonly> --%>
+				<!-- 				</div> -->
 				<div class="col">
 					<label for="inputSubject" class="form-label">이수구분</label> <input
 						type="text" id="inputSubject" name="course_division"

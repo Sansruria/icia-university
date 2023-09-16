@@ -12,11 +12,11 @@ public class CourseHistorySearchListDto {
 	private String course_division; //이수구분
 	private String deptName; //학과명
 	private String course_name; //과목명
-	private String pfId; //교수명
+	private String pfname; //교수명
 	//수강요일에 수강시가 종료 월 8:00~15:00 만들것
 	private String course_day; // 수강요일
 	private String course_start_time;//수강시작기간 x
 	private String course_end_time;//수강종료기간 x
 	private int limit_max_count;//수강최대인원 x
-	private int recruitment; //모집현황
+//	private int recruitment; //모집현황
 }
