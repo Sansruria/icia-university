@@ -51,8 +51,8 @@ public class CourseOperController {
 	@PostMapping("/apply")
 	public ResponseEntity<String> addCourse(@RequestBody FilterringSearchListDto FSLDto) {
 		try {
-			List<FilterringSearchListDto> courseRegList = (List<FilterringSearchListDto>) 
-					session.getAttribute("courseRegList");
+			List<FilterringSearchListDto> courseRegList = (List<FilterringSearchListDto>) session
+					.getAttribute("courseRegList");
 			if (courseRegList == null) {
 				courseRegList = new ArrayList<>();
 			}
@@ -68,8 +68,8 @@ public class CourseOperController {
 	@PostMapping("/cancel")
 	public ResponseEntity<String> cancelCourse(@RequestBody FilterringSearchListDto FSLDto) {
 		try {
-			List<FilterringSearchListDto> courseRegList = (List<FilterringSearchListDto>)
-					session.getAttribute("courseRegList");
+			List<FilterringSearchListDto> courseRegList = (List<FilterringSearchListDto>) session
+					.getAttribute("courseRegList");
 			if (courseRegList != null) {
 				courseRegList.remove(FSLDto);
 				session.setAttribute("courseRegList", courseRegList);
@@ -80,39 +80,38 @@ public class CourseOperController {
 		}
 	}
 
+	// 최종 수강 신청
 	@PostMapping("/finalapply")
-	public ResponseEntity<String> finalApply(@RequestBody List<CourseRegisterDto> CRDto, HttpSession session) { // HttpSession
-																																																			// 주입하기
-		log.info("서버에 요청이 도착했습니다.");
-		log.info("CRDto: " + CRDto);
+	public ResponseEntity<String> finalApply(@RequestBody List<CourseRegisterDto> CRDto, HttpSession session) {
+		System.out.println("서버에 요청이 도착했습니다. (Controller)");
+	    log.info("서버에 요청이 도착했습니다.");
+	    System.out.println("컨트롤러에서 받은 CRDto: " + CRDto);
+		log.info("컨트롤러에서 받은 CRDto: " + CRDto);
 
 		try {
 			String stId = (String) session.getAttribute("ST_ID");
 
-			// 디버깅: 세션의 "ST_ID" 속성이 null 이거나 빈 문자열인지 확인
 			if (stId == null || stId.isEmpty()) {
 				log.error("ST_ID가 누락되었습니다.");
 				return ResponseEntity.badRequest().body("ST_ID가 누락되었습니다.");
 			}
 
 			for (CourseRegisterDto course : CRDto) {
-				course.setReq_st_id(stId); // 각 과목 등록 데이터에 대해 ST_ID 설정
+				course.setReq_st_id(stId);
 			}
 
 			// 최종 수강 신청 로직 실행
-			boolean result = cSer.finalApply(CRDto);
-			if (result) {
-				// 수강 신청이 성공적이면 HTTP 상태 코드 200 (OK)와 함께 메시지 반환
-				return new ResponseEntity<>("수강 신청 성공", HttpStatus.OK);
-			} else {
-				// 실패시 HTTP 상태 코드 400 (BAD_REQUEST)와 함께 메시지 반환
-				return new ResponseEntity<>("수강 신청 실패", HttpStatus.BAD_REQUEST);
-			}
+			List<CourseRegisterDto> updatedCRDto = cSer.finalApply(CRDto);
+
+			// 여기서 updatedCRDto로 필요한 작업 수행
+			session.setAttribute("finalCourseRegList", updatedCRDto); // 세션에 최종 수강 신청 목록을 저장
+			System.out.println("컨트롤러에서 처리 후 CRDto: " + updatedCRDto);
+			log.info("컨트롤러에서 처리 후 CRDto: " + updatedCRDto);
+
+			return new ResponseEntity<>("수강 신청 성공", HttpStatus.OK);
 		} catch (CourseFullException e) {
-			// 수강 정원 초과시 오류 발생, HTTP 상태 코드 403 (FORBIDDEN) 반환
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
 		} catch (Exception e) {
-			// 그 외의 다른 예외가 발생하면 서버 오류로 간주하고 HTTP 상태 코드 500 반환
 			return new ResponseEntity<>("서버 오류", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

@@ -40,12 +40,16 @@ public class CourseService {
 
 	// 수강 신청 최종 처리 함수
 	@Transactional
-	public boolean finalApply(List<CourseRegisterDto> CRDto) throws Exception {
+	public List<CourseRegisterDto> finalApply(List<CourseRegisterDto> CRDto) throws Exception {
+		System.out.println("서버에 요청이 도착했습니다. (Service)");
+		log.info("서버에 요청이 도착했습니다.");
+		System.out.println("서비스에서 처리 전 CRDto: " + CRDto);
+		log.info("서비스에서 처리 전 CRDto: " + CRDto);
+
 		// 데이터 유효성 검사
 		// TODO: CRDto 검증
 
 		// 마지막으로 사용된 시퀀스 번호를 가져오기
-		// 만약 마지막 시퀀스 번호가 null이거나 0이라면 기본값으로 0을 설정
 		Integer lastSequence = cDao.getLastSequenceNumber();
 		int sequence = lastSequence != null ? lastSequence : 0;
 
@@ -71,7 +75,11 @@ public class CourseService {
 			// DB에 삽입합니다.
 			cDao.finalApply(course);
 		}
-		return true;
+
+		log.info("서비스에서 처리 후 CRDto: " + CRDto);
+		System.out.println("서비스에서 처리 후 CRDto: " + CRDto);
+
+		return CRDto;
 	}
 
 }

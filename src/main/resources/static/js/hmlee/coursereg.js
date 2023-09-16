@@ -43,6 +43,7 @@ $(document).ready(function() {
 				'departmentId': departmentId
 			},
 			success: function(response) {
+				console.log("Response:", response); // Debugging: 응답 확인
 				console.log("Response:", response);
 				let table = $("#courseRegTableBody");
 				table.empty(); // 기존 내용을 지움
@@ -75,14 +76,25 @@ $(document).ready(function() {
 		updateNoDataMessage(courseRegStatusTable);
 	};
 
-	// 데이터가 없을 때, '데이터 없음.' 텍스트를 업데이트하는 함수
 	const updateNoDataMessage = function(tableElement) {
-		if (tableElement.find('tr:not([data-hidden=true]):visible').length === 0) {
-			tableElement.append('<tr class="first last"><td class="NO_RESULT first last" colspan="8">데이터가 없습니다.</td></tr>');
-		} else {
-			tableElement.find('.NO_RESULT').parent().remove();
+		let noDataMessageElement = tableElement.find('td:contains("조회된 데이터가 없습니다")').parent();
+
+		// 보이는 행과 숨겨진 행의 개수를 구합니다.
+		let visibleRows = tableElement.find('tr:not([data-hidden=true]):visible').length;
+		let hiddenRows = tableElement.find('tr[data-hidden=true]').length;
+
+		// "조회된 데이터가 없습니다" 메시지가 이미 있다면 그것을 먼저 지웁니다.
+		if (noDataMessageElement.length > 0) {
+			noDataMessageElement.remove();
 		}
+
+		// 실제로 보이는 행이 없을 경우에만 "조회된 데이터가 없습니다" 메시지를 추가합니다.
+		if (visibleRows === 0) {
+			tableElement.append('<tr><td colspan="8">조회된 데이터가 없습니다</td></tr>');
+		}
+
 	};
+
 
 	// '신청' 버튼을 클릭하면 실행되는 함수
 	$(document).on('click', '.applyButton', function() {
@@ -105,6 +117,11 @@ $(document).ready(function() {
 			rowElement.attr("data-hidden", "true"); // 행을 숨겨진 것으로 표시
 			rowElement.hide(); // 행 숨기기
 
+			// 행을 숨긴 후에 "조회된 데이터가 없습니다" 메시지의 상태를 업데이트합니다.
+			const tableElement = rowElement.closest('#courseRegTableBody');
+			console.log("tableElement:", tableElement);  // 디버깅을 위해 로그를 출력
+			updateNoDataMessage(tableElement);
+
 			storedCourses.push(rowData); // 배열에 데이터 추가
 			sessionStorage.setItem('finalCourseList', JSON.stringify(storedCourses)); // 세션 스토리지에 데이터 저장
 
@@ -119,8 +136,6 @@ $(document).ready(function() {
 			});
 		}
 	});
-
-
 
 	// '취소' 버튼을 클릭하면 실행되는 함수
 	$(document).on('click', '.cancelButton', function() {
@@ -177,6 +192,7 @@ $(document).ready(function() {
 	$("#courseRegisterButton").click(function() {
 		// 세션에서 최종 수강신청 목록 가져와서 저장
 		const finalCourseList = fetchSessionArrayList();
+
 		// 수강신청 목록이 비어있는 경우 사용자에게 알림
 		if (finalCourseList.length === 0) {
 			alert("수강신청 목록이 비어 있습니다.");

@@ -62,7 +62,8 @@
 	<!-- 특정 강의의 최대 학생 수를 가져옵니다. -->
 	<select id="getMaxStudentLimitForCourse" parameterType="string"
 		resultType="int">
-		SELECT LIMIT_MAX_COUNT FROM SUBJECT WHERE COURSE_ID = #{courseId}
+		SELECT LIMIT_MAX_COUNT FROM SUBJECT WHERE COURSE_ID =
+		#{courseId}
 	</select>
 
 	<!-- 강의를 신청하는 쿼리 -->
@@ -78,7 +79,8 @@
 		REQ_COURSE_TIME, REQ_ST_COUNT
 		)
 		VALUES
-		<foreach collection="list" item="course" separator=",">
+		<foreach collection="list" item="course" separator=","
+			open="(" close=")">
 			(
 			#{course.reg_course_id}, #{course.course_id}, #{course.req_st_id},
 			#{course.req_grade}, #{course.req_semester},

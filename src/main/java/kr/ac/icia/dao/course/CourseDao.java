@@ -25,7 +25,7 @@ public interface CourseDao {
 	int getStudentCount(String courseId);
 
 	// 마지막으로 사용된 시퀀스 번호를 가져옵니다.
-	int getLastSequenceNumber();
+	Integer getLastSequenceNumber();
 
 	/// 수강 신청 정보를 삽입합니다.
 	int finalApply(CourseRegisterDto CRDto);
