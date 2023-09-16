@@ -2,10 +2,10 @@ package kr.ac.icia.service.sreg.changmajor;
 
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import kr.ac.icia.dao.sreg.changmajor.ChangMajorDao;
+import kr.ac.icia.dto.sreg.changmajor.ChangApplyDto;
 import kr.ac.icia.dto.sreg.changmajor.UserDto;
 
 @Service
@@ -23,13 +23,23 @@ public class changmajorService {
 	public List<UserDto> getFaculty(String departmet_line_id) {
 		return cDao.getFaculty(departmet_line_id);
 	}
-	
-	//목록담기리스트 
+
+	// 목록담기리스트
 	public List<UserDto> SearchList(Map<String, String> searcConditionMap) {
 		return cDao.SearchList(searcConditionMap);
 	}
-	
-	
-	}
-	
 
+	// 신청버튼
+
+	public void applyForMajor(ChangApplyDto CADto) {
+		cDao.applyForMajor(CADto);
+
+	}
+
+	// 취소버튼
+	public void deleteDept(ChangApplyDto CADto) {
+		cDao.deleteDept(CADto);
+
+	}
+
+}

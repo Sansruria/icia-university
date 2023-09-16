@@ -56,7 +56,7 @@ public class FacultyRestController {
 //
 //		return facultyList;
 //	}
-//
+
 	
 	// 상세
 	@GetMapping("/detail/{id}")

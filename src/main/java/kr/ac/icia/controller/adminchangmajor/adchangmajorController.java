@@ -17,10 +17,12 @@ public class adchangmajorController {
 	@Autowired
 	UserService uSer;
 
+	// 전과학생로 이동
 	@GetMapping("/changm")
 	public String showadminchagm() {
 		log.info("전과관리승인페이지...");
 		return "admin/mm/changmajor/adminpage";
 
-	}	
+	}
+
 }

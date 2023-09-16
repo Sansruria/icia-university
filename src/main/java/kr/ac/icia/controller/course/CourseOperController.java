@@ -49,8 +49,8 @@ public class CourseOperController {
 	@PostMapping("/apply")
 	public ResponseEntity<String> addCourse(@RequestBody FilterringSearchListDto FSLDto) {
 		try {
-			List<FilterringSearchListDto> courseRegList = (List<FilterringSearchListDto>) 
-					session.getAttribute("courseRegList");
+			List<FilterringSearchListDto> courseRegList = (List<FilterringSearchListDto>) session
+					.getAttribute("courseRegList");
 			if (courseRegList == null) {
 				courseRegList = new ArrayList<>();
 			}
@@ -66,8 +66,8 @@ public class CourseOperController {
 	@PostMapping("/cancel")
 	public ResponseEntity<String> cancelCourse(@RequestBody FilterringSearchListDto FSLDto) {
 		try {
-			List<FilterringSearchListDto> courseRegList = (List<FilterringSearchListDto>)
-					session.getAttribute("courseRegList");
+			List<FilterringSearchListDto> courseRegList = (List<FilterringSearchListDto>) session
+					.getAttribute("courseRegList");
 			if (courseRegList != null) {
 				courseRegList.remove(FSLDto);
 				session.setAttribute("courseRegList", courseRegList);

@@ -3,6 +3,8 @@ package kr.ac.icia.dao.sreg.changmajor;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
+
+import kr.ac.icia.dto.sreg.changmajor.ChangApplyDto;
 import kr.ac.icia.dto.sreg.changmajor.UserDto;
 
 @Mapper
@@ -16,7 +18,9 @@ public interface ChangMajorDao {
 	List<UserDto> getFaculty(String departmet_line_id);
 	//목록담기
 	List<UserDto> SearchList(Map<String, String> searcConditionMap);
+	//신청버튼
+	void applyForMajor(ChangApplyDto cADto);
+	//취소버튼
+	void deleteDept(ChangApplyDto cADto);
 	
-
-
 }

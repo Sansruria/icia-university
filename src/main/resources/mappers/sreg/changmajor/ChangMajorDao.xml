@@ -13,11 +13,47 @@
 
 	<!-- 학부(faculty)를 선택하면 학과(department)를 불러오는 쿼리 -->
 	<select id="getFaculty" resultType="UserDto">
-		SELECT f.faculty_id,f.faculty_name
-		FROM faculty f INNER JOIN department_line d ON
-		d.department_line_id = f.department_line_id
-		WHERE f.department_line_id = #{departmentLineId}
+		SELECT
+		f.faculty_id,f.faculty_name
+		FROM faculty f INNER JOIN department_line d
+		ON d.department_line_id = f.department_line_id
+		WHERE
+		f.department_line_id = #{departmentLineId}
 	</select>
 
 
-</mapper>	
+	<!-- 학부/학과(계열)이 선택된 학과 출력시키는 쿼리 -->
+	<select id="SearchList" resultType="UserDto">
+		SELECT d.semester,
+		dl.department_line_name, f.faculty_name, d.department_name
+		FROM
+		department d INNER JOIN department_line dl ON d.department_line_id
+		=dl.department_line_id
+		INNER JOIN faculty f ON d.faculty_id =
+		f.faculty_id
+		WHERE d.department_line_id = #{departmentLineId} AND
+		d.faculty_id = #{facultyId}
+	</select>
+
+
+	<!-- 학부/학과(계열)이 선택된 학과 출력시키는 쿼리 -->
+
+	<insert id="insertDept" parameterType="ChangApplyDto">
+
+		INSERT INTO insertDept(semester, department_line_name, faculty_name,
+		department_name)
+		VALUES (#{semester}, #{departmentLineName}, #{facultyName},
+		#{departmentName})
+
+	</insert>
+
+	<delete id="deleteDept" parameterType="ChangApplyDto">
+		DELETE FROM applications
+		WHERE semester = #{semester}
+		AND department_line_name = #{departmentLineName}
+		AND faculty_name = #{facultyName}
+		AND department_name = #{departmentName}
+	</delete>
+
+</mapper>
+
