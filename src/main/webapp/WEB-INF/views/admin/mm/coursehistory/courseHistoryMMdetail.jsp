@@ -12,16 +12,23 @@
     <script>
 		document.addEventListener("DOMContentLoaded", function(){
 			document.querySelector('.btn-cancle').addEventListener('click', ()=>cancle())
-			document.querySelector('.btn-update').addEventListener('click', ()=>location.href='/admin/mm/coursehistory/courseHistoryMMupdate/')
+			document.querySelector('.btn-update').addEventListener('click', ()=>update())
+			document.querySelector('.btn-delete').addEventListener('click', ()=>del())
 		})
 
 		function cancle() {
 			location.href='/admin/mm/courselist/list'
 		}
 		
+		//경로는 감
 		function update(){
-			/* const id = document.querySelector('#coursehId').value */ 
-			location.href = '/admin/mm/coursehistory/courseHistoryMMupdate'
+			const id = document.querySelector('#coursehId').value 
+			location.href = '/admin/mm/coursehistory/courseHistoryMMupdate/' + id
+		}
+		
+		function del() {
+			const id = document.querySelector("#coursehId").value
+			location.href='/admin/mm/coursehistory/courseHistoryMMdelete/' + id
 		}
 	</script>
 	
@@ -36,6 +43,7 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="p-4">
+					<input type="hidden" id="coursehId" value="${detail.course_id}">
 
 						<div class="row">
 							<div class="col">
@@ -87,15 +95,6 @@
 								<div class="input-group mb-3">
 									<span class="input-group-text w-25 p-3">학기</span>
 									<span class="w-75 border p-3"><c:out value="${detail.semester}"></c:out></span>
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col">
-								<div class="input-group mb-3">
-									<span class="input-group-text w-25 p-3">교수번호</span>
-									<span class="w-75 border p-3"><c:out value="${detail.pf_id}"></c:out></span>
 								</div>
 							</div>
 						</div>

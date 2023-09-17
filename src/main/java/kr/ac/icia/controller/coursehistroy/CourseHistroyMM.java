@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.ac.icia.dto.course.CourseHistoryMMDto;
 import kr.ac.icia.dto.course.CourseHistorySearchListDto;
+import kr.ac.icia.dto.course.CourseHistorySearchListDto2;
 import kr.ac.icia.service.admin.mm.coursehistory.CourseHistoryService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,9 +64,23 @@ public class CourseHistroyMM {
 	
 	
 //  수정화면
-	@GetMapping("/admin/mm/coursehistory/courseHistoryMMupdate")
-	 public String update()  {
+	@GetMapping("/admin/mm/coursehistory/courseHistoryMMupdate/{id}")
+	 public String update(@PathVariable("id")String coursehId, Model model)  {
+		model.addAttribute("detail", courseHistoryService.detail(coursehId));
 		return "admin/mm/coursehistory/courseHistoryMMUpdate";
 	}
+	
+	@PostMapping("/admin/mm/coursehistory/courseHistoryMMupdate")
+	public String doUpdate(CourseHistorySearchListDto2 couserCourseHistorySearchListDto) {
+		courseHistoryService.update(couserCourseHistorySearchListDto);
+		return "redirect:/admin/mm/courselist/list";
+	}
+	
+	@GetMapping("/admin/mm/coursehistory/courseHistoryMMdelete/{id}")
+	public String delete(@PathVariable("id") String id) {
+		courseHistoryService.delete(id);
+		return "redirect:/admin/mm/courselist/list";
+	}
+	
 
 }

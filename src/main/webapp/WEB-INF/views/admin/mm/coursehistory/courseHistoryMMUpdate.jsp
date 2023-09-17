@@ -6,15 +6,24 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>양식</title>
+	<title>수강내역 수정</title>
     <jsp:include page="/WEB-INF/views/layout/head-js.jsp"></jsp:include>
     <jsp:include page="/WEB-INF/views/layout/head-css.jsp"></jsp:include>
     <script>
+	    document.addEventListener("DOMContentLoaded", function(){
+		    document.querySelector('.btn-update').addEventListener('click', ()=>update())
+		    document.querySelector('.btn-close').addEventListener('click', ()=>cancle())
+	    })
+    
+   		function cancle() {
+			location.href='/admin/mm/coursehistory/courseHistoryMMdetail'
+		}
+	    
     $(document).ready(function() {
 		// 등록
-		$('#btn-close').click(function() {
-			location.href = '/admin/mm/courselist/list';//등록 취소버튼
-		})
+// 		$('#BTN-CLOSE').CLICK(FUNCTION() {
+// 			LOCATION.HREF = '/ADMIN/MM/COURSEHISTORY/COURSEHISTORYMMDETAIL';//등록 취소버튼
+// 		})
 
 		//찾아보기 버튼
 		$('.btn-search').click(function() {
@@ -26,6 +35,8 @@
 			// 			search();
 			openpfModal();
 		})
+    })
+		
 
 	function openSearchModal() {
 		$('.modal-content').load('/sreg/pf/modal/list')
@@ -42,9 +53,9 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="p-4">
-						<form name="frm" method="POST" action="/admin/mm/coursehistory/update">
-							<input type="hidden" name="pfId" readonly>
-							<input type="hidden" name="deptId" readonly>
+						<form name="frm" method="Post" action="/admin/mm/coursehistory/courseHistoryMMupdate">
+							<input type="hidden" name="pfId" value="${detail.pf_id }" readonly>
+							<input type="hidden" name="deptId" value="${detail.deptId}" readonly>
 
 							<div class="row">
 								<div class="col">
@@ -71,6 +82,15 @@
 									<div class="input-group mb-3">
 										<span class="input-group-text w-25 p-3">학과명</span>
 										<input type="text" class="form-control" name="deptName" value="<c:out value="${detail.deptname}"></c:out>" readonly>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col">
+									<div class="input-group mb-3">
+										<span class="input-group-text w-25 p-3">과목명</span>
+										<input type="text" class="form-control" name="course_name" value="<c:out value="${detail.course_name}"></c:out>">
 									</div>
 								</div>
 							</div>
@@ -149,8 +169,8 @@
 							
 							<div class="row">
 					<div class="col text-end">
-						<button type="button" class="btn btn-secondary" id="btn-close">←취소</button>
-						<input type="submit" class="btn btn-primary btn-save" value="📖등록">
+						<button type="button" class="btn btn-secondary btn-close" id="btn-close">취소</button>
+						<input type="submit" class="btn btn-primary btn-update" value="수정">
 					</div>
 				</div>
 						</form>

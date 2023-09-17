@@ -100,7 +100,15 @@
 								<div class="col">
 									<div class="input-group mb-3">
 										<span class="input-group-text w-25 p-3">학과명</span>
-										<input type="text" class="form-control" name="deptName" readonly>
+										<input type="text" class="form-control" name="deptName" readonly>									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col">
+									<div class="input-group mb-3">
+										<span class="input-group-text w-25 p-3">과목명</span>
+										<input type="text" class="form-control" name="course_name">
 									</div>
 								</div>
 							</div>

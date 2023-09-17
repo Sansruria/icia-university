@@ -114,6 +114,7 @@
 									<td><c:out value="${courseh.course_schedule}"></c:out></td>
 									<td><c:out value="${courseh.limit_max_count}"></c:out></td>
 <%-- 									<td><c:out value="${courseh.status}"></c:out></td> --%>
+
 								</tr>
 							</c:forEach>
 						</tbody>

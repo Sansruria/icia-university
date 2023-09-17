@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.ac.icia.dao.admin.mm.coursehistory.CourseHistoryDao;
 import kr.ac.icia.dto.course.CourseHistoryMMDto;
 import kr.ac.icia.dto.course.CourseHistorySearchListDto;
+import kr.ac.icia.dto.course.CourseHistorySearchListDto2;
 import kr.ac.icia.dto.sreg.common.SregSearchDto;
 import kr.ac.icia.dto.sreg.st.StDto;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +36,7 @@ public class CourseHistoryService {
 	public  CourseHistorySearchListDto detail(String coursehId) {
 		return courseHistoryDao.detail(coursehId);
 	}
-//	public Integer findAllCount(CourseHistoryMMDto courseHistoryMMDto) {
-//		return courseHistoryDao.findAllCount(courseHistoryMMDto);
-//	}
+
 
 //	등록
 	public boolean write(CourseHistoryMMDto courseHistoryMMDto) {
@@ -52,4 +51,20 @@ public class CourseHistoryService {
 
 		return result;
 	}
+//  수정
+	public String update(CourseHistorySearchListDto2 courseHistorySearchListDto) {
+		
+		boolean result = courseHistoryDao.update(courseHistorySearchListDto);
+		
+		if (result) {
+			return "수정에 성공하였습니다";
+		}
+		return "수정에 실패했습니다";
+	}
+
+	public void delete(String id) {
+		courseHistoryDao.delete(id);
+		
+	}
+		
 }

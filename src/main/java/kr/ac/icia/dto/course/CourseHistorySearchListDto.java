@@ -11,9 +11,13 @@ public class CourseHistorySearchListDto {
 	private String rnum;
 	private String course_id; // 학수번호
 	private String course_division; // 이수구분
+	private String deptId; // 학과명
 	private String deptname; // 학과명
 	private String course_name; // 과목명
-	private String pf_name; // 교수명
+	private String pfId; //교수 아이디
+	private String pfName; // 교수명
+	private String pf_id;
+	private String pf_name;
 	// 수강요일에 수강시가 종료 월 8:00~15:00 만들것
 	private String course_day; // 수강요일
 	private String course_start_time;// 수강시작기간 x
@@ -22,5 +26,5 @@ public class CourseHistorySearchListDto {
 	private String course_schedule; // xml 수강요일+수강시작기간+수강종료기간 합친거
 	private String grade; // 학년 o
 	private String semester; // 학기 o
-	private String pf_id; // 교수번호 o
+	private String credit; //학점
 }

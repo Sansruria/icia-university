@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import kr.ac.icia.dto.course.CourseHistoryMMDto;
 import kr.ac.icia.dto.course.CourseHistorySearchListDto;
+import kr.ac.icia.dto.course.CourseHistorySearchListDto2;
 
 @Mapper
 public interface CourseHistoryDao {
@@ -17,5 +18,9 @@ public interface CourseHistoryDao {
 	boolean write(CourseHistoryMMDto courseHistoryMMDto);//추상메소드 
 
 	public CourseHistorySearchListDto detail(String coursehId);
+
+	public boolean update(CourseHistorySearchListDto2 courseHistorySearchListDto);
+
+	public void delete(String id);
 
 }
