@@ -65,111 +65,131 @@
 
 <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
-	<div class="container">
-		<form name="frm" method="POST" action="/admin/mm/coursehistory/write">
-			<input type="hidden" name="pfId" readonly> <input
-				type="hidden" name="deptId" readonly>
+	
+	<div class="container d-flex justify-content-center">
 
-			<div class="form-control"
-				style="padding: 10px; font-size: 14px; width: 40%; margin: 0 auto; text-align: center;">
-				<div class="col">
-					<label for="inputSubject" class="form-label">학수번호</label> <input
-						type="text" id="inputSubject" name="course_id"
-						class="form-control"
-						value="<c:out value="${CourseHistoryMMDto.course_id}"></c:out>">
-				</div>
-				<div class="row">
-					<div class="col">
-						<div class="input-group mb-3">
-							<span class="input-group-text w-25 p-3">교수명</span> <input
-								type="text" class="form-control" name="pfName" readonly
-								value="<c:out value="${CourseHistoryMMDto.pf_name}"></c:out>">
-							<button type="button" class="btn btn-primary btn-search"
-								data-bs-toggle="modal" data-bs-target="#searchModal">찾아보기</button>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<div class="input-group mb-3">
-							<span class="input-group-text w-25 p-3">학과명</span> <input
-								type="text" class="form-control" name="deptName"
-								placeholder="교수선택시 자동으로 등록됩니다" readonly
-								value="<c:out value="${CourseHistoryMMDto.deptName}"></c:out>">
-						</div>
-					</div>
-				</div>
-				<!-- 				<div class="col mb-2"> -->
-				<!-- 										<label for="inputDepartment" class="form-label">학과명</label> <input -->
-				<!-- 											type="hidden" id="deptId" name="deptId" class="form-control" -->
-				<%-- 											value="<c:out value="${stDto.deptId}"></c:out>" readonly> --%>
-				<!-- 										<input type="text" id="deptName" name="deptName" -->
-				<!-- 											class="form-control" -->
-				<%-- 											value="<c:out value="${stDto.deptName}"></c:out>" readonly> --%>
-				<!-- 				</div> -->
-				<div class="col">
-					<label for="inputSubject" class="form-label">이수구분</label> <input
-						type="text" id="inputSubject" name="course_division"
-						class="form-control"
-						value="<c:out value="${CourseHistoryMMDto.course_division}"></c:out>">
-				</div>
-				<div class="col">
-					<label for="inputDepartment" class="form-label">수강요일</label> <input
-						type="text" id="inputendDepartment" class="form-control"
-						name="course_day"
-						value="<c:out value="${CourseHistoryMMDto.course_day}"></c:out>">
-				</div>
-				<div class="col">
-					<label for="inputDepartment" class="form-label">수강시작기간</label> <input
-						type="text" id="inputstartDepartment" name="course_start_time"
-						class="form-control"
-						value="<c:out value="${CourseHistoryMMDto.course_start_time}"></c:out>">
-				</div>
-				<div class="col">
-					<label for="inputDepartment" class="form-label">수강종료기간</label> <input
-						type="text" id="inputendDepartment" class="form-control"
-						name="course_end_time"
-						value="<c:out value="${CourseHistoryMMDto.course_end_time}"></c:out>">
-				</div>
-				<div class="col">
-					<label for="inputDepartment" class="form-label">학년</label> <input
-						type="text" id="inputendDepartment" class="form-control"
-						name="grade"
-						value="<c:out value="${CourseHistoryMMDto.grade}"></c:out>">
-				</div>
-				<div class="col">
-					<label for="inputDepartment" class="form-label">학기</label> <input
-						type="text" id="inputendDepartment" class="form-control"
-						name="semester"
-						value="<c:out value="${CourseHistoryMMDto.semester}"></c:out>">
-				</div>
-				<div class="col">
-					<label for="inputDepartment" class="form-label">학점</label> <input
-						type="text" id="inputendDepartment" class="form-control"
-						name="credit"
-						value="<c:out value="${CourseHistoryMMDto.credit}"></c:out>">
-				</div>
-				<div class="col mb-3">
-					<label for="inputDepartment" class="form-label">수강신청최대인원</label> <input
-						type="text" id="inputDepartment" class="form-control"
-						name="limit_max_count"
-						value="<c:out value="${CourseHistoryMMDto.limit_max_count}"></c:out>">
-				</div>
-				<div class="row">
+		<div class="w-50">
+			<div class="card">
+				<div class="card-body">
+					<div class="p-4">
+						<form name="frm" method="POST" action="/admin/mm/coursehistory/write">
+							<input type="hidden" name="pfId" readonly>
+							<input type="hidden" name="deptId" readonly>
+
+							<div class="row">
+								<div class="col">
+									<div class="input-group mb-3">
+										<span class="input-group-text w-25 p-3">학수번호</span>
+										<input type="text" class="form-control" name="course_id">
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col">
+									<div class="input-group mb-3">
+										<span class="input-group-text w-25 p-3">교수명</span>
+										<input type="text" class="form-control" name="pfName" readonly>
+										<button type="button" class="btn btn-primary btn-search"
+												data-bs-toggle="modal" data-bs-target="#searchModal">찾아보기</button>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col">
+									<div class="input-group mb-3">
+										<span class="input-group-text w-25 p-3">학과명</span>
+										<input type="text" class="form-control" name="deptName" readonly>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col">
+									<div class="input-group mb-3">
+										<span class="input-group-text w-25 p-3">이수구분</span>
+										<input type="text" class="form-control" name="course_division">
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col">
+									<div class="input-group mb-3">
+										<span class="input-group-text w-25 p-3">수강요일</span>
+										<input type="text" class="form-control" name="course_day">
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col">
+									<div class="input-group mb-3">
+										<span class="input-group-text w-25 p-3">수강시작기간</span>
+										<input type="text" class="form-control" name="course_start_time">
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col">
+									<div class="input-group mb-3">
+										<span class="input-group-text w-25 p-3">수강종료기간</span>
+										<input type="text" class="form-control" name="course_end_time">
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col">
+									<div class="input-group mb-3">
+										<span class="input-group-text w-25 p-3">학년</span>
+										<input type="text" class="form-control" name="grade">
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col">
+									<div class="input-group mb-3">
+										<span class="input-group-text w-25 p-3">학기</span>
+										<input type="text" class="form-control" name="semester">
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col">
+									<div class="input-group mb-3">
+										<span class="input-group-text w-25 p-3">학점</span>
+										<input type="text" class="form-control" name="credit">
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col">
+									<div class="input-group mb-3">
+										<span class="input-group-text p-3">수강신청최대인원</span>
+										<input type="text" class="form-control" name="limit_max_count">
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
 					<div class="col text-end">
 						<button type="button" class="btn btn-secondary" id="btn-close">←취소</button>
-						<!-- 					document.querySelector('.btn-close') // class 선택자 -->
-						<!-- 					document.querySelector('#btn-close') // id 선택자 -->
-						<!-- 					document.querySelector('input[name="name"]') // name 선택자  -->
-						<!-- 					document.querySelector("input[name='name']") // name 선택자  -->
-						<!-- 						<button type="button" class="btn btn-primary btn-save">📖등록</button> -->
 						<input type="submit" class="btn btn-primary btn-save" value="📖등록">
 					</div>
 				</div>
+						</form>
+					</div>
+				</div>
 			</div>
+		</div>
 
-		</form>
-	</div>
+    </div> <!-- end Container -->
 
 	<!-- Search Modal -->
 	<div class="modal fade" id="searchModal" data-bs-backdrop="static"
@@ -181,8 +201,6 @@
 	</div>
 	<!-- end Search Modal -->
 
-
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
-
 </body>
 </html>
