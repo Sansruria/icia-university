@@ -55,7 +55,6 @@ function updateTable(departmentLineId, facultyId) {
 	<div class="row" style="background: #094a9a">
 		<div class="col text-white text-center fs-3 p-4">2023년도 2학기 전과신청</div>
 	</div>
-
 	<div class="container">
 
 		<div class="row">
@@ -64,8 +63,6 @@ function updateTable(departmentLineId, facultyId) {
 					<span class="input-group-text p-3">이름</span> <input
 						class="form-control" type="text"
 						value="<c:out value="${memberInfo.name}"></c:out>" readonly>
-
-
 					<span class="input-group-text p-3">학번</span> <input
 						class="form-control" type="text"
 						value="<c:out value="${memberInfo.userId}"></c:out>" readonly>
@@ -168,7 +165,6 @@ function updateTable(departmentLineId, facultyId) {
 									<tr>
 										<td colspan="5">조회된 내역이 없습니다.</td>
 									</tr>
-								
 								</tbody>
 								
 							</table>

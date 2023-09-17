@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
-
 import jakarta.servlet.http.HttpSession;
-import kr.ac.icia.dto.common.member.MemberDto;
 import kr.ac.icia.dto.sreg.changmajor.ChangApplyDto;
 import kr.ac.icia.dto.sreg.changmajor.UserDto;
 import kr.ac.icia.service.sreg.changmajor.changmajorService;
