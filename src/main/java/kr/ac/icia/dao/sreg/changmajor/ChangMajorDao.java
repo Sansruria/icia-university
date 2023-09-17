@@ -1,5 +1,6 @@
 package kr.ac.icia.dao.sreg.changmajor;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,5 +23,7 @@ public interface ChangMajorDao {
 	void applyForMajor(ChangApplyDto cADto);
 	//취소버튼
 	void deleteDept(ChangApplyDto cADto);
+	//전과신청기능
+	void requestChangMajorList(HashMap<String, String> map);
 	
 }

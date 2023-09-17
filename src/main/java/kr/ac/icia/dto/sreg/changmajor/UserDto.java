@@ -21,7 +21,6 @@ public class UserDto {
 	private String department_line_name;// 학과계열번호
 	private String st_name;
 	private String status;// 승인상태
-	private String changmajor;//전과
 	private String email;
 	private int rnum;// 번호
 	private String semester; //학년,학기

@@ -14,11 +14,17 @@
 	<!-- 학부(faculty)를 선택하면 학과(department)를 불러오는 쿼리 -->
 	<select id="getFaculty" resultType="UserDto">
 		SELECT
-		f.faculty_id,f.faculty_name
-		FROM faculty f INNER JOIN department_line d
-		ON d.department_line_id = f.department_line_id
+		dl.department_line_id,
+		dl.department_line_name,
+		f.faculty_id,
+		f.faculty_name,
+		d.department_id,
+		d.department_name
+		FROM department_line dl
+		INNER JOIN faculty f ON f.department_line_id = dl.department_line_id
+		INNER JOIN department d ON d.faculty_id = f.faculty_id
 		WHERE
-		f.department_line_id = #{departmentLineId}
+		dl.department_line_id = #{departmentLineId}
 	</select>
 
 
@@ -40,9 +46,11 @@
 
 	<insert id="insertDept" parameterType="ChangApplyDto">
 
-		INSERT INTO insertDept(semester, department_line_name, faculty_name,
+		INSERT INTO
+		insertDept(semester, department_line_name, faculty_name,
 		department_name)
-		VALUES (#{semester}, #{departmentLineName}, #{facultyName},
+		VALUES (#{semester}, #{departmentLineName},
+		#{facultyName},
 		#{departmentName})
 
 	</insert>
@@ -50,10 +58,17 @@
 	<delete id="deleteDept" parameterType="ChangApplyDto">
 		DELETE FROM applications
 		WHERE semester = #{semester}
-		AND department_line_name = #{departmentLineName}
+		AND department_line_name =
+		#{departmentLineName}
 		AND faculty_name = #{facultyName}
-		AND department_name = #{departmentName}
+		AND
+		department_name = #{departmentName}
 	</delete>
+	<insert id="requestChangMajorList" parameterType="HashMap">
+		INSERT INTO REGISTER(REGISTER_CHANGE_ID, ST_ID, A_STATUS, R_DATE, GRADE, SEMESTER, REG_ST_NAME, REG_CHANGE_STATUS,DEPARTMENT_LINE_NAME,FACULTY_NAME,DEPARTMENT_NAME)
+		VALUES (REG_SEQ.NEXTVAL, #{st_id},#{a_status},default,#{grade},#{semester},#{st_name},#{status},#{department_line_name},#{faculty_name},#{department_name})
+	
+	</insert>
 
 </mapper>
 

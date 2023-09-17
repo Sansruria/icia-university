@@ -30,6 +30,7 @@
 </style>
 </head>
 <body>
+ <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light"
 		th:replace="/fragment/navigation :: menu(${user})"></nav>

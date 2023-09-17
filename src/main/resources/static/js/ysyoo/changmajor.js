@@ -35,34 +35,35 @@ $('#searchButton').click(function() {
 
 
 /*---------update함수-------	*/
-function updateTable(departmentLineId, facultyId) {
-	$.ajax({
-		url: "/sreg/changmajor/rest/getdepart",
-		type: "GET",
-		data: {
-			departmentLineId: departmentLineId,
-			facultyId: facultyId
-		},
-		success: function(data) {
-			// 테이블 갱신 로직
-			let tableBody = $("#st_data_changmajor"); // 테이블의 tbody에 해당하는 id를 지정하세요.
-			tableBody.empty();
-
-			$.each(data, function(indexl, row) {
-				let newRow = $("<tr>");
-				newRow.append("<td>" + row.semester + "</td>");
-				newRow.append("<td>" + row.department_line_name + "</td>");
-				newRow.append("<td>" + row.faculty_name + "</td>");
-				newRow.append("<td>" + row.department_name + "</td>");
-				newRow.append("<td><button class='applyButton' type='button'>신청</button></td>");
-				tableBody.append(newRow);
-			});
-		},
-		error: function(error) {
-			console.error("데이터를 불러오지 못했습니다.", error);
-		}
-	});
-}
+//function updateTable(departmentLineId, facultyId) {
+//	$.ajax({
+//		url: "/sreg/changmajor/rest/getdepart",
+//		type: "GET",
+//		data: {
+//			departmentLineId: departmentLineId,
+//			facultyId: facultyId
+//		},
+//		success: function(data) {
+//			// 테이블 갱신 로직
+//			let tableBody = $("#st_data_changmajor"); // 테이블의 tbody에 해당하는 id를 지정하세요.
+//			tableBody.empty();
+//
+//			$.each(data, function(indexl, row) {
+//				let newRow = $("<tr>");
+//				console.log(row);
+//				newRow.append("<td>" + "${memberInfo.grade}학년"+"/"+"${memberInfo.semester}학기" + "</td>");
+//				newRow.append("<td>" + row.department_line_name + "</td>");
+//				newRow.append("<td>" + row.faculty_name + "</td>");
+//				newRow.append("<td>" + row.department_name + "</td>");
+//				newRow.append("<td><button class='applyButton' type='button'>신청</button></td>");
+//				tableBody.append(newRow);
+//			});
+//		},
+//		error: function(error) {
+//			console.error("데이터를 불러오지 못했습니다.", error);
+//		}
+//	});
+//}
 /*---------신청버튼을 눌렀을때 alert창----*/
 $(document).on('click', '.applyButton', function() {
 	alert("해당 학과를 신청 하시겠습니까? .");
@@ -81,9 +82,9 @@ $(document).on('click', '.applyButton', function() {
 	// 새로운 행을 생성 , 데이터에 새로운행 추가.append(newRow); ,조회된내역제거.remove()
 	let newRow = $("<tr>");
 	newRow.append("<td>" + data.semester + "</td>");
-	newRow.append("<td>" + data.departmentLineName + "</td>");
-	newRow.append("<td>" + data.facultyName + "</td>");
-	newRow.append("<td>" + data.departmentName + "</td>");
+	newRow.append("<td><input type='hidden' name='department_line_name' value='"+ data.departmentLineName +"'>" + data.departmentLineName + "</td>");
+	newRow.append("<td><input type='hidden' name='facultyName' value='"+ data.facultyName +"'>" + data.facultyName + "</td>");
+	newRow.append("<td><input type='hidden' name='departmentName' value='"+ data.departmentName +"'>" + data.departmentName + "</td>");
 	newRow.append("<td><button type='button' class='deleteButton'>삭제</button></td>");
 	$("#apply_table tbody").append(newRow);
 	$("#apply_table tbody tr:contains('조회된 내역이 없습니다.')").remove();
@@ -92,32 +93,25 @@ $(document).on('click', '.applyButton', function() {
 
 /*-------취소버튼실행------------------------*/
 
-$(document).on('click', '.cancelButton', function() {
-    const confirmResult = confirm("취소하시겠습니까?");
+
+$(document).on('click', '.deleteButton', function() {
+    const confirmResult = confirm("이 학과 신청을 삭제하시겠습니까?");
     if (confirmResult) {
         const rowElement = $(this).closest('tr');
-        const rowData = extractRowData(rowElement);
-        rowElement.remove(); 
+        rowElement.remove(); // 해당 행 제거
 
-        // "신청목록" 테이블로 복구하는 코드는 현재 문제 상황에 따라 추가하거나 생략할 수 있습니다.
+        alert("학과 신청이 삭제되었습니다.");
 
-        $.ajax({
-            url: '/sreg/changmajor/cancel', // 경로는 실제 서버 API 경로에 따라 수정해야 함
-            method: 'POST',
-            contentType: 'application/json',
-            success: function(response) {
-                // 응답 처리 로직. 예를 들면 "신청목록" 테이블 업데이트나 메시지 표시 등
-            }
-        });
+        // "조회된 내역이 없습니다." 메시지를 표시하는 로직
+        const applyTableBody = $("#apply_table tbody");
+        if (applyTableBody.children().length === 0) {
+            applyTableBody.append("<tr><td colspan='5'>조회된 내역이 없습니다.</td></tr>");
+        }
     }
 });
 
-// 테이블의 행에서 데이터를 추출하는 함수입니다.
-const extractRowData = function(parentRow) {
-    const rowData = {};
-    rowData.semester = parentRow.find('td').eq(0).text();          // "학년/학기"
-    rowData.departmentLineName = parentRow.find('td').eq(1).text(); // "학과계열"
-    rowData.facultyName = parentRow.find('td').eq(2).text();       // "학부"
-    rowData.departmentName = parentRow.find('td').eq(3).text();    // "학과"
-    return rowData;
-};
+
+
+
+
+

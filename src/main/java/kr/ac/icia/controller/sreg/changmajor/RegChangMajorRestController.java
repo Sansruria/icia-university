@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
+
 import jakarta.servlet.http.HttpSession;
+import kr.ac.icia.dto.common.member.MemberDto;
 import kr.ac.icia.dto.sreg.changmajor.ChangApplyDto;
 import kr.ac.icia.dto.sreg.changmajor.UserDto;
 import kr.ac.icia.service.sreg.changmajor.changmajorService;
@@ -52,4 +55,15 @@ public class RegChangMajorRestController {
 		cSer.deleteDept(CADto);
 		return new ResponseEntity<>("신청 취소가 완료되었습니다.", HttpStatus.OK);
 	}
+	
+	
+
+	@PostMapping("/requestlist")         //화면에서 받아오는 데이터들 
+	public String addToRequestList (@RequestParam String department_line_name,@RequestParam String facultyName, @RequestParam String departmentName, HttpSession session) {
+	    cSer.requestChangMajorList(session,department_line_name,facultyName,departmentName);
+	    
+	    return "redirect:/sreg/stchangm";
+	}
+	
+	
 }
