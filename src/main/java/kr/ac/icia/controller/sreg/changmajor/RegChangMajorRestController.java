@@ -57,13 +57,6 @@ public class RegChangMajorRestController {
 	}
 	
 	
-
-	@PostMapping("/requestlist")         //화면에서 받아오는 데이터들 
-	public String addToRequestList (@RequestParam String department_line_name,@RequestParam String facultyName, @RequestParam String departmentName, HttpSession session) {
-	    cSer.requestChangMajorList(session,department_line_name,facultyName,departmentName);
-	    
-	    return "redirect:/sreg/stchangm";
-	}
 	
 	
 }

@@ -69,5 +69,12 @@ public class changmajorService {
 		map.put("department_name",departmentName);
 		cDao.requestChangMajorList(map);		
 	}
-
+	//학생 신청목록조회
+	public UserDto requestChangMajorList2(HttpSession session) {
+		
+		 MemberDto memberInfo = (MemberDto)session.getAttribute("memberInfo");
+		return cDao.requestChangMajorList2(memberInfo.getUserId());
+	}
+	
+	
 }

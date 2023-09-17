@@ -6,12 +6,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<meta charset="UTF-8">
+<title>전과신청메인</title>
+<jsp:include page="/WEB-INF/views/layout/head-js.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/layout/head-css.jsp"></jsp:include>
+<script defer src="/js/ysyoo/changmajor.js" type="text/javascript"></script>
 <script type="text/javascript">
+
+
+
 function updateTable(departmentLineId, facultyId) {
 	$.ajax({
 		url: "/sreg/changmajor/rest/getdepart",
 		type: "GET",
-		data: {
+		data:{ 
 			departmentLineId: departmentLineId,
 			facultyId: facultyId
 		},
@@ -37,12 +46,8 @@ function updateTable(departmentLineId, facultyId) {
 	});
 }
 </script>
-<meta charset="UTF-8">
-<title>전과신청메인</title>
-<jsp:include page="/WEB-INF/views/layout/head-js.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/views/layout/head-css.jsp"></jsp:include>
-<script defer src="/js/ysyoo/changmajor.js" type="text/javascript"></script>
 </head>
+
 
 <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
@@ -145,7 +150,7 @@ function updateTable(departmentLineId, facultyId) {
 		<div class="row">
 			<div class="card">
 				<div class="card-body py-4">
-				<form method="POST" action="/sreg/changmajor/rest/requestlist">
+				<form method="POST" action="/sreg/requestlist">
 					<div class="row">
 						<div class="table-responsive text-center">
 							<table id="apply_table" class="table table-bordered align-middle">

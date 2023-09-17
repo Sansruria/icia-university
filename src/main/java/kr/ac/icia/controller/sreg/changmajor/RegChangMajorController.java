@@ -5,7 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.servlet.http.HttpSession;
 import kr.ac.icia.dto.sreg.changmajor.UserDto;
 import kr.ac.icia.service.sreg.changmajor.changmajorService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,9 +41,20 @@ public class RegChangMajorController {
 
 //전과신청조회페이지로 이동
 	@GetMapping("/stchangm/update/list")
-	public String finalchangmajorList() {
+	public String finalchangmajorList(HttpSession session, Model model) {
+		model.addAttribute("st_changmajor", cSer.requestChangMajorList2(session)); // 화면에서받는값
 		log.info("전과신청조회페이지!");
 		return "sreg/changm/requestlist";
+	}
+
+//전과신청버튼누르며냐 조회화면이동
+
+	@PostMapping("/requestlist") // 화면에서 받아오는 데이터들
+	public String addToRequestList(@RequestParam String department_line_name, @RequestParam String facultyName,
+			@RequestParam String departmentName, HttpSession session) {
+		cSer.requestChangMajorList(session, department_line_name, facultyName, departmentName);
+
+		return "redirect:/sreg/stchangm/update/list";
 	}
 
 }

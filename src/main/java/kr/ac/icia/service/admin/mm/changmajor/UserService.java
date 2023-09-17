@@ -30,4 +30,12 @@ public class UserService {
 		return uDao.LineSearchList(serchConditionMap);
 	}
 
+	public List<UserDto> findAll(){
+		return uDao.findAll();
+	}
+
+	public void confirm(UserDto userDto) {
+		uDao.confirm(userDto);
+		
+	}
 }

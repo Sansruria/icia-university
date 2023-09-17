@@ -3,7 +3,7 @@ package kr.ac.icia.controller.adminchangmajor;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,25 +25,11 @@ public class adchangmajorRestController {
 		List<UserconfirmDto> userList = uSer.getAllUsers();
 		mv.addObject("userList", userList);
 		return mv;
+		
+		
+	}
 	}
 
-	//전과신청한 목록조회하기
-	@PostMapping("/search")
-	public String sarchChangMajorSt() {
-		
-		
-		
-		
-		return "";
-	}	
 	
 	
-	@PostMapping("/update")
-	public String checkRequest() {
-		
-		
-		
-		return "";
-	}
-}
 

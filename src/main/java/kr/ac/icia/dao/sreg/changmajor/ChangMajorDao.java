@@ -25,5 +25,7 @@ public interface ChangMajorDao {
 	void deleteDept(ChangApplyDto cADto);
 	//전과신청기능
 	void requestChangMajorList(HashMap<String, String> map);
-	
+	//전과신청목록조회
+	UserDto requestChangMajorList2(String st_id);
+
 }

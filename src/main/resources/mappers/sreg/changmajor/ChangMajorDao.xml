@@ -21,10 +21,13 @@
 		d.department_id,
 		d.department_name
 		FROM department_line dl
-		INNER JOIN faculty f ON f.department_line_id = dl.department_line_id
-		INNER JOIN department d ON d.faculty_id = f.faculty_id
+		INNER JOIN faculty f ON
+		f.department_line_id = dl.department_line_id
+		INNER JOIN department d ON
+		d.faculty_id = f.faculty_id
 		WHERE
-		dl.department_line_id = #{departmentLineId}
+		dl.department_line_id =
+		#{departmentLineId}
 	</select>
 
 
@@ -65,10 +68,34 @@
 		department_name = #{departmentName}
 	</delete>
 	<insert id="requestChangMajorList" parameterType="HashMap">
-		INSERT INTO REGISTER(REGISTER_CHANGE_ID, ST_ID, A_STATUS, R_DATE, GRADE, SEMESTER, REG_ST_NAME, REG_CHANGE_STATUS,DEPARTMENT_LINE_NAME,FACULTY_NAME,DEPARTMENT_NAME)
-		VALUES (REG_SEQ.NEXTVAL, #{st_id},#{a_status},default,#{grade},#{semester},#{st_name},#{status},#{department_line_name},#{faculty_name},#{department_name})
-	
+		INSERT INTO
+		REGISTER(REGISTER_CHANGE_ID, ST_ID, A_STATUS, R_DATE, GRADE, SEMESTER,
+		REG_ST_NAME,
+		REG_CHANGE_STATUS,DEPARTMENT_LINE_NAME,FACULTY_NAME,DEPARTMENT_NAME)
+		VALUES (REG_SEQ.NEXTVAL,
+		#{st_id},#{a_status},default,#{grade},#{semester},#{st_name},#{status},#{department_line_name},#{faculty_name},#{department_name})
+
 	</insert>
+
+	<select id="requestChangMajorList2" parameterType="UserDto">
+		SELECT
+		r.st_id,
+		r.reg_st_name,
+		r.department_line_name,
+		r.department_name,
+		r.reg_change_status,
+		r.r_date,
+		r.a_status,
+		dl.department_line_name AS st_department_line_name,
+		d.department_name AS ST_department_name
+		FROM register r
+		JOIN ST ON ST.ST_ID = R.ST_ID
+		JOIN department d ON d.department_id = st.department_id
+		JOIN faculty f ON f.faculty_id = d.faculty_id
+		JOIN department_line dl ON dl.department_line_id = f.department_line_id
+		WHERE st.st_id = #{st_id}
+
+	</select>
 
 </mapper>
 

@@ -19,4 +19,11 @@ public interface UserDao {
 
 	List<UserDto> LineSearchList(Map<String, String> serchConditionMap);
 
+	
+	List<UserDto> findAll();
+
+	void confirm(UserDto userDto);
+	
+	
+	
 }
