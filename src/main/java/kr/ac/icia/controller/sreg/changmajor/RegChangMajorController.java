@@ -36,8 +36,10 @@ public class RegChangMajorController {
 	}
 
 //전과신청조회페이지로 이동
-	@GetMapping("/stchangm/majorupdat/list")
+	@GetMapping("/stchangm/update/list")
 	public String finalchangmajorList() {
+		log.info("전과신청조회페이지!");
 		return "sreg/changm/requestlist";
 	}
+
 }

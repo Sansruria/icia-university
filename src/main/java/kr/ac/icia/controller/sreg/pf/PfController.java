@@ -81,4 +81,33 @@ public class PfController {
 
 		return "sreg/pf/pfUpdate";
 	}
+
+	@GetMapping("/pf/modal/list")
+	public String listModal(Model model, SregSearchDto searchDto
+			, @RequestParam(value="nowPage", required = false) String nowPage
+			, @RequestParam(value="cntPerPage", required = false) String cntPerPage) {
+
+		int total = pfService.findAllCount(searchDto);
+
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "5";
+		}
+		else if (nowPage == null) {
+			nowPage = "1";
+		}
+		else if (cntPerPage == null) {
+			cntPerPage = "5";
+		}
+
+		searchDto = new SregSearchDto(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), searchDto);
+		searchDto.isModal = true;
+		ArrayList<PfDto> pfList = pfService.findByCondition(searchDto);
+		model.addAttribute("searchDto", searchDto);
+		model.addAttribute("paging", searchDto.makePagingHtml());
+		model.addAttribute("pfListModal", pfList);
+
+		return "sreg/pf/pfListModal";
+	}
+
 }
