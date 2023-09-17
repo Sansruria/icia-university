@@ -175,6 +175,9 @@ $(document).ready(function() {
 		rowData.course_name = parentRow.find('td').eq(5).text();     // "과목명"
 		rowData.pf_name = parentRow.find('td').eq(6).text();         // "교수명"
 		rowData.course_time = parentRow.find('td').eq(7).text();     // "강의 시간"
+
+		console.log("테이블에서 추출된 데이터:", rowData); // 추출된 데이터 출력
+
 		return rowData;
 	};
 
@@ -182,11 +185,14 @@ $(document).ready(function() {
 
 	// 세션에서 최종 수강신청 목록을 가져오는 함수
 	const fetchSessionArrayList = function() {
-		return JSON.parse(sessionStorage.getItem('finalCourseList')) || [];
+		const arrayList = JSON.parse(sessionStorage.getItem('finalCourseList')) || [];
+		console.log("세션에서 가져온 최종 수강신청 목록:", arrayList); // 가져온 목록 출력
+		return arrayList;
 	};
 
 	// 세션 스토리지에서 ST_ID 값 가져오기
 	const stIdFromSession = sessionStorage.getItem('ST_ID');
+	console.log("세션에서 가져온 ST_ID 값:", stIdFromSession); // 가져온 ST_ID 값 출력
 
 	// '수강신청' 버튼 클릭 이벤트
 	$("#courseRegisterButton").click(function() {
@@ -205,6 +211,8 @@ $(document).ready(function() {
 			stId: stIdFromSession // 세션 스토리지에서 가져온 ST_ID
 		};
 
+		console.log("서버로 보낼 요청 데이터:", requestData); // 보낼 요청 데이터 출력
+
 		// 서버로 AJAX 요청을 보내서 최종 수강신청 처리
 		$.ajax({
 			url: "/course/coursereg/oper/finalapply", // 올바른 URL 사용
@@ -212,6 +220,7 @@ $(document).ready(function() {
 			contentType: "application/json",
 			data: JSON.stringify(requestData),
 			success: function(response) {
+				console.log("서버 응답:", response); // 서버 응답 출력
 				if (response.status === 'success') { // 응답 상태에 따라 처리
 					alert("수강신청이 완료되었습니다.");
 				} else {
@@ -219,6 +228,7 @@ $(document).ready(function() {
 				}
 			},
 			error: function(err) { // 오류 처리 추가
+				console.log("서버 에러:", err); // 서버 에러 출력
 				alert("오류: " + JSON.stringify(err));
 			}
 		});
