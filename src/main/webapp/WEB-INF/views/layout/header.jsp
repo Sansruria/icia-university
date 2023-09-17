@@ -83,6 +83,7 @@
                                 시스템
                             </a>
                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/admin/mm/changm">전과신청내역</a></li>
                                 <li><a class="dropdown-item" href="/sreg/st">학생관리</a></li>
                                 <li><a class="dropdown-item" href="/sreg/pf">교수관리</a></li>
                                 <li><a class="dropdown-item" href="/admin/mm/deptline">학과계열관리</a></li>
