@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,14 +8,19 @@
 <title>수강관리 페이지</title>
 <jsp:include page="/WEB-INF/views/layout/head-js.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/views/layout/head-css.jsp"></jsp:include>
+<script src="/js/sjpark/coursehistory.js" type="text/javascript"></script>
 
 <script>
-    $(document).ready(function() {
-        // "글쓰기" 버튼 클릭 시 수강내역 등록 페이지로 이동
-        $('#registration').click(function() {
-            window.location.href = '/admin/mm/courselist/write'; // 이동할 페이지의 URL을 설정합니다.
-        });
-    });
+	$(document).ready(function() {
+		// "글쓰기" 버튼 클릭 시 수강내역 등록 페이지로 이동
+		$('#registration').click(function() {
+			window.location.href = '/admin/mm/courselist/write'; // 이동할 페이지의 URL을 설정합니다.
+		});
+	});
+	
+	function detail(id){
+		location.href = '/admin/mm/coursehistory/courseHistoryMMdetail/' + id
+	}
 </script>
 </head>
 <body>
@@ -28,9 +34,9 @@
 				<label for="inputIsugubun" class="form-label">이수구분</label> <select
 					id="inputIsugubun" class="form-select form-select-sm">
 					<option>-전체-</option>
-					<option selected>전공</option>
+					<option selected>전공필수</option>
+					<option>전공선택</option>
 					<option>교양</option>
-					<option>예제2</option>
 				</select>
 			</div>
 			<div class="col-9">
@@ -87,22 +93,30 @@
 								<th>과목명</th>
 								<th>교수명</th>
 								<th>수강기간</th>
-								<th>수강신청최대인원</th>
-								<th>모집현황</th>
+								<th>수강최대신청인원</th>
+<!-- 								<th>모집현황</th> -->
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
+						<tbody id="table-body">
+							<c:forEach var="courseh" items="${list}">
+								<!-- jstl -->
+								<tr>
+									<td><c:out value="${courseh.rnum}"></c:out></td>
+									<td><c:out value="${courseh.course_id}"></c:out></td>
+									<td><c:out value="${courseh.course_division}"></c:out></td>
+									<td><c:out value="${courseh.deptname}"></c:out></td>
+									<td>
+										<a href="#" onclick="detail('<c:out value="${courseh.course_id}"></c:out>')">
+										<c:out value="${courseh.course_name}"></c:out> </a>
+										<!-- a태그 안에 감싸 -->
+									</td>
+									<td><c:out value="${courseh.pf_name}"></c:out></td>
+									<td><c:out value="${courseh.course_schedule}"></c:out></td>
+									<td><c:out value="${courseh.limit_max_count}"></c:out></td>
+<%-- 									<td><c:out value="${courseh.status}"></c:out></td> --%>
+
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>

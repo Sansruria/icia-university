@@ -1,38 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="kr.ac.icia.dao.admin.mm.coursehistory.CourseHistoryDao">
+<mapper
+	namespace="kr.ac.icia.dao.admin.mm.coursehistory.CourseHistoryDao">
 
-	<insert id="write" parameterType="kr.ac.icia.dto.course.CourseHistoryMMDto">
+	<select id="list" resultType="CourseHistorySearchListDto">
+		SELECT
+		ROW_NUMBER() OVER (ORDER BY s.create_date DESC, s.course_id DESC) AS rnum,
+		s.course_id,
+		s.course_division,
+		d.department_name AS deptname,
+		s.course_day || ' ' || s.course_start_time || ' ' || s.course_end_time AS
+		course_schedule,
+		s.course_name,
+		p.pf_name,
+		s.course_day, -- 수강요일
+		s.course_start_time, -- 수강시작기간
+		s.course_end_time, -- 수강종료기간
+		s.limit_max_count
+		FROM subject s
+		JOIN department d ON d.department_id = s.department_id
+		JOIN pf p ON p.pf_id = s.pf_id
+	</select>
+
+	<!-- <select id="findAllCount" resultType="Integer"> -->
+	<!-- SELECT COUNT(*)FROM (select NVL(c.course_id, 'C1')as limit_max_count 
+		from course_request -->
+	<!-- join subject s on course_request.course_id = s.course_id -->
+	<!-- LEFT OUTER JOIN course_request c on s.course_id = c.course_id -->
+	<!-- where limit_max_count >= 30 ); -->
+	<!-- </select> -->
+	<!-- 등록 -->
+	<insert id="write">
+		<!-- 컬럼이름 -->
 		INSERT INTO subject(
 		course_id,
-		pf_name,
-		course_name,
+		pf_id,
 		department_id,
+		department_name,
+		course_name,
 		grade,
 		semester,
+		credit,
 		course_division,
-		course_time,
+		course_day,
+		course_start_time,
+		course_end_time,
 		limit_max_count
 		)
 		VALUES(
-		#{COURSE_ID},
-		#{pf_name},
+		#{course_id},
+		#{pfId},
+		#{deptId},
+		#{deptName},
 		#{course_name},
-		#{department_id},
 		#{grade},
 		#{semester},
+		#{credit},
 		#{course_division},
-		#{course_time},
+		#{course_day},
+		#{course_start_time},
+		#{course_end_time},
 		#{limit_max_count}
 		)
 	</insert>
-<!-- 	<insert id="write" parameterType="kr.ac.icia.dto.course.CourseHistoryMMDto"> -->
-<!-- 		INSERT All( -->
-<!-- 		into DEPARTMENT values ({deptName}) -->
-<!-- 		into subject values({course_name},{course_division}, -->
-<!-- 		{course_time},{limit_max_count}) -->
-<!-- 		select * from dual; -->
-		
-<!-- 	</insert> -->
+	<select id="detail" resultType="CourseHistorySearchListDto">
+		SELECT
+		s.course_id,
+		s.course_name,
+		s.course_division,
+		s.course_day || ' ' || s.course_start_time || ' ' ||
+		s.course_end_time AS course_schedule,
+		s.grade,
+		s.semester,
+		s.pf_id,
+		pf.pf_name,
+		d.department_id AS deptId,
+		d.department_name as deptname,
+		s.course_day,
+		s.course_start_time,
+		s.course_end_time,
+		s.limit_max_count,
+		s.credit
+		FROM subject s
+		JOIN pf ON pf.pf_id = s.pf_id
+		JOIN department d
+		ON d.department_id = s.department_id
+		WHERE course_id =
+		#{coursehId}
+	</select>
+
+	<update id="update"
+		parameterType="kr.ac.icia.dto.course.CourseHistorySearchListDto2">
+		update subject
+		set
+			course_name = #{course_name},
+			course_division = #{course_division},
+			grade = #{grade},
+			semester = #{semester},
+			pf_id = #{pfId},
+			pf_name = #{pfName},
+			department_id = #{deptId},
+			department_name =#{deptName},
+			course_day = #{course_day},
+			course_start_time = #{course_start_time},
+			course_end_time = #{course_end_time},
+			limit_max_count = #{limit_max_count},
+			credit = #{credit}
+		WHERE course_id = #{course_id}
+	</update>
+	<!-- </update> -->
+	
+	<delete id="delete" parameterType="String">
+		DELETE FROM subject WHERE course_id = #{id}
+	</delete>
+
 </mapper>

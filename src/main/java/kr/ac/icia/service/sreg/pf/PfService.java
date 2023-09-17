@@ -2,6 +2,7 @@ package kr.ac.icia.service.sreg.pf;
 
 import kr.ac.icia.dao.sreg.pf.PfDao;
 import kr.ac.icia.dto.admin.mm.common.CampusSearchDto;
+import kr.ac.icia.dto.admin.mm.dept.DeptDto;
 import kr.ac.icia.dto.sreg.common.SregSearchDto;
 import kr.ac.icia.dto.sreg.pf.PfDto;
 import lombok.RequiredArgsConstructor;
@@ -106,6 +107,36 @@ public class PfService {
                 return "영국";
         }
         return null;
+    }
+
+    public String makeListHtml(SregSearchDto searchDto) {
+        String str = "";
+        String prefix = "<td>";
+        String suffix = "</td>";
+
+        int count = findAllCount(searchDto)+1;
+
+        for (PfDto dto : findByCondition(searchDto)) {
+            str += "<tr>";
+            str += prefix;
+            str += count - dto.getRnum();
+            str += suffix;
+
+            str += prefix;
+            str += dto.getDeptName();
+            str += suffix;
+
+            str += prefix;
+            str += "<a href=\"#\" onclick=selected('" + dto.getPfId() + "','" + dto.getName() + "','" + dto.getDeptId() + "','" + dto.getDeptName() +"') "
+                    + "style=\"cursor:pointer\" "
+                    + "class=\"link-offset-2 link-underline link-underline-opacity-0\">";
+            str += dto.getName();
+            str += "</a>";
+            str += suffix;
+            str += "</tr>";
+        }
+
+        return str;
     }
 
 }

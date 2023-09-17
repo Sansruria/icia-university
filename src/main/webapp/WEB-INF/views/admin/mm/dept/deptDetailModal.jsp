@@ -58,15 +58,15 @@
                 <tr>
                     <th class="table-primary align-middle">학부명</th>
                     <td>
-                        <div class="row">
-                            <div class="col">
-                                <input type="text" name="facultyName" class="form-control" value="<c:out value="${deptDto.facultyName}"></c:out>" readonly>
-                            </div>
-                            <div class="col">
-                                <button type="button" class="btn btn-primary btn-search-update"
-                                        data-bs-toggle="modal" data-bs-target="#searchModal">찾아보기</button>
-                            </div>
-                        </div>
+                    	<div class="row">
+	                   		<div class="col">
+	                         <div class="input-group">
+	                            <input type="text" name="facultyName" class="form-control" value="<c:out value="${deptDto.facultyName}"></c:out>" readonly>
+	                            <button type="button" class="btn btn-primary btn-search-update"
+										data-bs-toggle="modal" data-bs-target="#searchModal">찾아보기</button>
+	                         </div>
+	                        </div>
+	                    </div>
                     </td>
                 </tr>
                 <tr>
