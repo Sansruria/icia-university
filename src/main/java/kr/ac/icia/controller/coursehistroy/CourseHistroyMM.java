@@ -33,8 +33,6 @@ public class CourseHistroyMM {
 		System.out.println("CourseHistorySearchListDto " + courseHistoryList);
 		return "admin/mm/coursehistory/courseHistoryMM"; // JSP 파일 이름
 	}
-	
-//	 등록 화면
 	@PostMapping("/admin/mm/coursehistory/write")
 	public String write(CourseHistoryMMDto courseHistoryMMDto, RedirectAttributes rttr) {
 		log.info("dto : {}", courseHistoryMMDto);
@@ -48,7 +46,6 @@ public class CourseHistroyMM {
 		}
 		return "redirect:/admin/mm/courselist/write";
 	}
-	
 	
 //	등록 페이지 이동
 	@GetMapping("/admin/mm/courselist/write")
@@ -70,9 +67,5 @@ public class CourseHistroyMM {
 	 public String update()  {
 		return "admin/mm/coursehistory/courseHistoryMMUpdate";
 	}
-
-	
-
-
 
 }

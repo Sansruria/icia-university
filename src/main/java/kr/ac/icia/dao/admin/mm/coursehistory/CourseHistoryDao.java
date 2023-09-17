@@ -18,5 +18,4 @@ public interface CourseHistoryDao {
 
 	public CourseHistorySearchListDto detail(String coursehId);
 
-
 }

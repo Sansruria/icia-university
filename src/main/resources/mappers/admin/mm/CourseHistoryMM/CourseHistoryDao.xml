@@ -4,33 +4,31 @@
 <mapper
 	namespace="kr.ac.icia.dao.admin.mm.coursehistory.CourseHistoryDao">
 
-	<select id="list" resultType="CourseHistorySearchListDto">
-		SELECT
-		ROW_NUMBER() OVER (ORDER BY
-		s.create_date DESC, s.course_id DESC) AS rnum,
-		s.course_id,
-		s.course_division,
-		d.department_name AS deptName,
-		s.course_name,
-		p.pf_name,
-		s.course_day || ' ' || s.course_start_time || ' ' ||
-		s.course_end_time AS
-		course_schedule,
-		s.limit_max_count
-		FROM subject s
-		JOIN department d ON d.department_id = s.department_id
-		JOIN pf p ON
-		p.pf_id = s.pf_id
-	</select>
+<select id="list" resultType ="CourseHistorySearchListDto">
+ SELECT
+        ROW_NUMBER() OVER (ORDER BY s.create_date DESC, s.course_id DESC) AS rnum,
+        s.course_id,
+        s.course_division,
+        d.department_name AS deptname,
+        s.course_day || ' ' || s.course_start_time || ' ' || s.course_end_time AS course_schedule,
+        s.course_name,
+        p.pf_name,
+        s.course_day, -- 수강요일
+        s.course_start_time, -- 수강시작기간
+        s.course_end_time, -- 수강종료기간
+        s.limit_max_count
+    FROM subject s
+    JOIN department d ON d.department_id = s.department_id
+    JOIN pf p ON p.pf_id = s.pf_id
+</select>
 
-	<!-- <select id="findAllCount" resultType="Integer"> -->
-	<!-- SELECT COUNT(*)FROM (select NVL(c.course_id, 'C1')as limit_max_count 
-		from course_request -->
-	<!-- join subject s on course_request.course_id = s.course_id -->
-	<!-- LEFT OUTER JOIN course_request c on s.course_id = c.course_id -->
-	<!-- where limit_max_count >= 30 ); -->
-	<!-- </select> -->
-	<!-- 등록 -->
+<!-- <select id="findAllCount" resultType="Integer"> -->
+<!-- SELECT COUNT(*)FROM (select NVL(c.course_id, 'C1')as limit_max_count from course_request -->
+<!--        join subject s on course_request.course_id = s.course_id -->
+<!--        LEFT OUTER JOIN course_request c on s.course_id = c.course_id -->
+<!--        where limit_max_count >= 30 ); -->
+<!-- </select> -->
+<!-- 등록 -->
 	<insert id="write">
 		<!-- 컬럼이름 -->
 		INSERT INTO subject(
@@ -66,8 +64,7 @@
 		SELECT
 		s.course_name,
 		s.course_division,
-		s.course_day || ' ' || s.course_start_time || ' ' || s.course_end_time AS
-		course_schedule,
+		s.course_day || ' ' || s.course_start_time || ' ' || s.course_end_time AS course_schedule,
 		s.grade,
 		s.semester,
 		s.pf_id,

@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper
-	namespace="kr.ac.icia.dao.admin.mm.sreg.changmajor.UserDao">
-	<select id="getAllUsers" resultType="kr.ac.icia.dto.admin.mm.sreg.User">
+<mapper namespace="kr.ac.icia.dto.admin.mm.sreg.changmajor.UserDao">
 
-		SELECT *
-		FROM user
-		
-	</select>
+    <select id="getAllUsers" resultType="kr.ac.icia.dto.admin.mm.sreg.UserconfirmDto">
+        SELECT * FROM register
+    </select>
+
+    <update id="updateUserStatus">
+        UPDATE register
+        SET status = #{status}
+        WHERE st_Id = #{st_id}
+    </update>
+
 </mapper>

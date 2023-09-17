@@ -160,15 +160,15 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="facultyName" name="facultyName" placeholder="학부명을 입력해주세요." readonly>
-                                <label for="facultyName">학부명</label>
+                            	<div class="col">
+                                    <div class="input-group mb-3">
+                                        <div class="form-floating">
+	                                        <input type="text" class="form-control" id="facultyName" name="facultyName" placeholder="학부명을 입력해주세요." readonly>
+	                               			<label for="facultyName">학부명</label>
+                                    	</div>
+                                    	<button type="button" class="btn btn-primary btn-search-save"
+                                            data-bs-toggle="modal" data-bs-target="#searchModal">찾아보기</button>
                                     </div>
-                                </div>
-                                <div class="col-4">
-                                    <button type="button" class="btn btn-primary btn-search-save"
-                                        data-bs-toggle="modal" data-bs-target="#searchModal">찾아보기</button>
                                 </div>
                             </div>
                             
@@ -186,7 +186,7 @@
                         <div class="row">
                             <div class="mb-3 text-lg-end">
                                 <button type="button"
-                                   class="input-group-text btn waves-effect waves-light btn-primary btn-save">
+                                   class="input-group-text btn btn-primary btn-save">
                                     <i class="mdi mdi-clipboard-edit me-1"></i>저장
                                 </button>
                             </div>

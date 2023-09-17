@@ -17,10 +17,17 @@ $(document).ready(function() {
 			}
 		});
 	});
-
 	/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	*/
+
+	// 페이지가 로딩되었을 때 세션 초기화
+	function initializeSession() {
+		sessionStorage.removeItem('finalCourseList');
+	}
+
 	// SEARCH 버튼을 클릭했을 때 함수를 실행 (학부, 학과로 필터링한 데이터로 리스트 출력)
 	$("#searchButton").click(function() {
+		// 세션 스토리지 초기화
+		sessionStorage.removeItem('finalCourseList');
 		let facultyId = $("#facultySelect").val();
 		let departmentId = $("#departmentSelect").val();
 		updateTable(facultyId, departmentId);
@@ -36,8 +43,8 @@ $(document).ready(function() {
 				'departmentId': departmentId
 			},
 			success: function(response) {
+				console.log("Response:", response); // Debugging: 응답 확인
 				console.log("Response:", response);
-				// 테이블에 데이터를 추가
 				let table = $("#courseRegTableBody");
 				table.empty(); // 기존 내용을 지움
 
@@ -69,14 +76,25 @@ $(document).ready(function() {
 		updateNoDataMessage(courseRegStatusTable);
 	};
 
-	// 데이터가 없을 때, '데이터 없음.' 텍스트를 업데이트하는 함수
 	const updateNoDataMessage = function(tableElement) {
-		if (tableElement.find('tr:not([data-hidden=true]):visible').length === 0) {
-			tableElement.append('<tr class="first last"><td class="NO_RESULT first last" colspan="8">데이터가 없습니다.</td></tr>');
-		} else {
-			tableElement.find('.NO_RESULT').parent().remove();
+		let noDataMessageElement = tableElement.find('td:contains("조회된 데이터가 없습니다")').parent();
+
+		// 보이는 행과 숨겨진 행의 개수를 구합니다.
+		let visibleRows = tableElement.find('tr:not([data-hidden=true]):visible').length;
+		let hiddenRows = tableElement.find('tr[data-hidden=true]').length;
+
+		// "조회된 데이터가 없습니다" 메시지가 이미 있다면 그것을 먼저 지웁니다.
+		if (noDataMessageElement.length > 0) {
+			noDataMessageElement.remove();
 		}
+
+		// 실제로 보이는 행이 없을 경우에만 "조회된 데이터가 없습니다" 메시지를 추가합니다.
+		if (visibleRows === 0) {
+			tableElement.append('<tr><td colspan="8">조회된 데이터가 없습니다</td></tr>');
+		}
+
 	};
+
 
 	// '신청' 버튼을 클릭하면 실행되는 함수
 	$(document).on('click', '.applyButton', function() {
@@ -84,8 +102,29 @@ $(document).ready(function() {
 		if (confirmResult) {
 			const rowElement = $(this).closest('tr');
 			const rowData = extractRowData(rowElement);
+			let storedCourses = JSON.parse(sessionStorage.getItem('finalCourseList') || "[]");
+
+			// 중복 데이터 체크
+			const isDuplicate = storedCourses.some((course) => {
+				return course.course_id === rowData.course_id;
+			});
+
+			if (isDuplicate) {
+				alert("이미 신청한 강의입니다.");
+				return;
+			}
+
 			rowElement.attr("data-hidden", "true"); // 행을 숨겨진 것으로 표시
 			rowElement.hide(); // 행 숨기기
+
+			// 행을 숨긴 후에 "조회된 데이터가 없습니다" 메시지의 상태를 업데이트합니다.
+			const tableElement = rowElement.closest('#courseRegTableBody');
+			console.log("tableElement:", tableElement);  // 디버깅을 위해 로그를 출력
+			updateNoDataMessage(tableElement);
+
+			storedCourses.push(rowData); // 배열에 데이터 추가
+			sessionStorage.setItem('finalCourseList', JSON.stringify(storedCourses)); // 세션 스토리지에 데이터 저장
+
 			$.ajax({
 				url: '/course/coursereg/oper/apply',
 				method: 'POST',
@@ -105,7 +144,15 @@ $(document).ready(function() {
 			const rowElement = $(this).closest('tr');
 			const rowData = extractRowData(rowElement);
 			rowElement.remove(); // 행 제거
+
+			let storedCourses = JSON.parse(sessionStorage.getItem('finalCourseList') || "[]");
+			storedCourses = storedCourses.filter((course) => {
+				return course.course_id !== rowData.course_id;
+			});
+			sessionStorage.setItem('finalCourseList', JSON.stringify(storedCourses)); // 업데이트된 배열을 세션 스토리지에 다시 저장
+
 			$(`tr[data-id=${rowData.course_id}]`).attr('data-hidden', 'false').show(); // '수강 신청' 테이블에서 해당 ID의 행을 보여줌
+
 			$.ajax({
 				url: '/course/coursereg/oper/cancel',
 				method: 'POST',
@@ -133,35 +180,48 @@ $(document).ready(function() {
 
 	/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	*/
 
-	// 세션에서 최종 수강 신청 목록을 검색하는 함수
+	// 세션에서 최종 수강신청 목록을 가져오는 함수
 	const fetchSessionArrayList = function() {
 		return JSON.parse(sessionStorage.getItem('finalCourseList')) || [];
 	};
 
-	// 버튼 클릭 이벤트 설정
-	$("#finalApplyButton").click(function() {
-		 console.log("최종 수강신청 버튼 클릭됨"); //
-		console.log("버튼 클릭됨");  // 디버깅 줄
-		// 세션에서 최종 수강 신청 목록을 가져와 저장
-		const finalCourseList = fetchSessionArrayList();
-		console.log("최종 수강 목록:", finalCourseList);  // 디버깅 줄
+	// 세션 스토리지에서 ST_ID 값 가져오기
+	const stIdFromSession = sessionStorage.getItem('ST_ID');
 
-		// 서버에 AJAX 요청을 보내서 최종 수강 신청을 처리
+	// '수강신청' 버튼 클릭 이벤트
+	$("#courseRegisterButton").click(function() {
+		// 세션에서 최종 수강신청 목록 가져와서 저장
+		const finalCourseList = fetchSessionArrayList();
+
+		// 수강신청 목록이 비어있는 경우 사용자에게 알림
+		if (finalCourseList.length === 0) {
+			alert("수강신청 목록이 비어 있습니다.");
+			return; // 여기서 함수 종료
+		}
+
+		// ST_ID를 requestData에 추가하기
+		const requestData = {
+			courses: finalCourseList,
+			stId: stIdFromSession // 세션 스토리지에서 가져온 ST_ID
+		};
+
+		// 서버로 AJAX 요청을 보내서 최종 수강신청 처리
 		$.ajax({
-			url: "/course/coursereg/oper/finalapply",
-			type: "POST",
+			url: "/course/coursereg/oper/finalapply", // 올바른 URL 사용
+			type: "POST", // 일관된 HTTP 메서드 사용
 			contentType: "application/json",
-			data: JSON.stringify(finalCourseList),
+			data: JSON.stringify(requestData),
 			success: function(response) {
-				console.log("성공 응답:", response);  // 디버깅 줄
-				alert(response);
+				if (response.status === 'success') { // 응답 상태에 따라 처리
+					alert("수강신청이 완료되었습니다.");
+				} else {
+					alert("수강신청에 실패하였습니다.");
+				}
 			},
-			error: function(err) {
-				console.log("오류 응답:", err);  // 디버깅 줄
-				alert("오류: " + err);
+			error: function(err) { // 오류 처리 추가
+				alert("오류: " + JSON.stringify(err));
 			}
 		});
 	});
-
 
 });

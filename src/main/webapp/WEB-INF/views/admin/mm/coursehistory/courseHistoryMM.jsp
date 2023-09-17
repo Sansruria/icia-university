@@ -17,10 +17,10 @@
 			window.location.href = '/admin/mm/courselist/write'; // 이동할 페이지의 URL을 설정합니다.
 		});
 	});
+	
 	function detail(id){
 		location.href = '/admin/mm/coursehistory/courseHistoryMMdetail/' + id
 	}
-	
 </script>
 </head>
 <body>

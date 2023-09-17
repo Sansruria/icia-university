@@ -1,10 +1,9 @@
 package kr.ac.icia.controller.sreg.pf;
 
-import kr.ac.icia.dto.admin.mm.common.CampusSearchDto;
+
 import kr.ac.icia.dto.sreg.common.SregSearchDto;
 import kr.ac.icia.dto.sreg.pf.PfDto;
 import kr.ac.icia.service.sreg.pf.PfService;
-import kr.ac.icia.service.sreg.st.StService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

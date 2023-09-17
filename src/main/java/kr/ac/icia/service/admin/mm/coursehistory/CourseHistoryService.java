@@ -35,6 +35,9 @@ public class CourseHistoryService {
 	public  CourseHistorySearchListDto detail(String coursehId) {
 		return courseHistoryDao.detail(coursehId);
 	}
+//	public Integer findAllCount(CourseHistoryMMDto courseHistoryMMDto) {
+//		return courseHistoryDao.findAllCount(courseHistoryMMDto);
+//	}
 
 //	등록
 	public boolean write(CourseHistoryMMDto courseHistoryMMDto) {

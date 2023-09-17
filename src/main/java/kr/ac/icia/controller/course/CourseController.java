@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import kr.ac.icia.dto.course.FilteringDto;
 import kr.ac.icia.service.course.CourseService;
 import lombok.extern.slf4j.Slf4j;
