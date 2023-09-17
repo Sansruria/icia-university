@@ -24,7 +24,5 @@ public class CourseHistoryMMDto  {
 	private String semester; //학기 o 
 	private int limit_max_count;//수강최대인원 x
 	
-	
-	
 	}
 
