@@ -12,16 +12,80 @@
 <script src="/js/sjpark/coursehistory.js" type="text/javascript"></script>
 
 <script>
-	$(document).ready(function() {
-		// "글쓰기" 버튼 클릭 시 수강내역 등록 페이지로 이동
-		$('#registration').click(function() {
-			window.location.href = '/admin/mm/courselist/write'; // 이동할 페이지의 URL을 설정합니다.
-		});
-	});
 
-	function detail(id) {
-		location.href = '/admin/mm/coursehistory/courseHistoryMMdetail/' + id
-	}
+// 	$(document).ready(function() {
+// 		// "글쓰기" 버튼 클릭 시 수강내역 등록 페이지로 이동
+// 		$('#registration').click(function() {
+// 			window.location.href = '/admin/mm/courselist/write'; // 이동할 페이지의 URL을 설정합니다.
+// 		});
+// 	});
+
+// 	function detail(id) {
+// 		location.href = '/admin/mm/coursehistory/courseHistoryMMdetail/' + id
+// 	}
+
+
+ // '과목명' 클릭 시 실행할 함수
+    function detail(id) {
+        location.href = '/admin/mm/coursehistory/courseHistoryMMdetail/' + id;
+    }
+
+    // 검색 버튼 클릭 시 실행할 함수
+        // 검색 기능을 수행하는 코드를 여기에 작성
+        // 필터링, 서버 요청 등 검색 로직을 추가하세요.
+        function search() {
+    // 검색 조건 가져오기
+    const courseName = document.getElementById('course_name').value;
+    const courseDivision = document.getElementById('course_division').value;
+    const deptName = document.getElementById('deptName').value;
+    const pfName = document.getElementById('pfName').value;
+
+    // AJAX 요청을 사용하여 서버에 검색 요청 전송
+    // 서버에서 검색 결과를 받아와서 화면에 표시하는 코드를 작성하세요.
+    // 예를 들어, jQuery를 사용한 AJAX 요청 예시는 아래와 같습니다.
+    $.ajax({
+        type: 'GET',
+        url: '/admin/mm/courselist/search', // 검색을 처리할 서버 URL로 수정
+        data: {
+            course_name: courseName,
+            course_division: courseDivision,
+            deptName: deptName,
+            pfName: pfName
+        },
+        success: function (response) {
+            // 검색 결과를 화면에 표시하는 코드를 작성
+            // response 변수에 서버에서 받아온 데이터가 들어옵니다.
+        },
+        error: function (error) {
+            // 오류 처리
+        }
+    });
+}
+    }
+
+    // DOMContentLoaded 이벤트 핸들러
+    document.addEventListener("DOMContentLoaded", function() {
+        // "글쓰기" 버튼 클릭 시 수강내역 등록 페이지로 이동
+        $('#registration').click(function() {
+            window.location.href = '/admin/mm/courselist/write';
+        });
+
+        // '과목명' 클릭 이벤트 리스너 등록
+        const courseNameLinks = document.querySelectorAll('.course-name-link');
+        courseNameLinks.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const courseId = this.getAttribute('data-course-id');
+                detail(courseId);
+            });
+        });
+
+        // 검색 버튼 클릭 이벤트 리스너 등록
+        document.querySelector('.btn-search').addEventListener('click', function() {
+            search();
+        });
+    });
+	
 </script>
 </head>
 <body>
@@ -62,7 +126,7 @@
 								</div>
 								<br>
 								<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-									<button class="btn btn-primary me-md-2" type="submit">🡼검색</button>
+									<button type="button" class="btn btn-primary btn-search" >🡼검색</button>
 									<button type="button" class="btn btn-secondary btn-reset">초기화</button>
 								</div>
 							</div>
@@ -107,8 +171,7 @@
 									<td><c:out value="${courseh.pf_name}"></c:out></td>
 									<td><c:out value="${courseh.course_schedule}"></c:out></td>
 									<td><c:out value="${courseh.limit_max_count}"></c:out></td>
-									<%-- 									<td><c:out value="${courseh.status}"></c:out></td> --%>
-
+									<%--<td><c:out value="${courseh.status}"></c:out></td> --%>
 								</tr>
 							</c:forEach>
 						</tbody>

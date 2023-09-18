@@ -34,6 +34,7 @@ public class CourseHistroyMM {
 		System.out.println("CourseHistorySearchListDto " + courseHistoryList);
 		return "admin/mm/coursehistory/courseHistoryMM"; // JSP 파일 이름
 	}
+	
 	@PostMapping("/admin/mm/coursehistory/write")
 	public String write(CourseHistoryMMDto courseHistoryMMDto, RedirectAttributes rttr) {
 		log.info("dto : {}", courseHistoryMMDto);
@@ -70,12 +71,14 @@ public class CourseHistroyMM {
 		return "admin/mm/coursehistory/courseHistoryMMUpdate";
 	}
 	
+//  수정	
 	@PostMapping("/admin/mm/coursehistory/courseHistoryMMupdate")
 	public String doUpdate(CourseHistorySearchListDto2 couserCourseHistorySearchListDto) {
 		courseHistoryService.update(couserCourseHistorySearchListDto);
 		return "redirect:/admin/mm/courselist/list";
 	}
 	
+//  삭제
 	@GetMapping("/admin/mm/coursehistory/courseHistoryMMdelete/{id}")
 	public String delete(@PathVariable("id") String id) {
 		courseHistoryService.delete(id);
