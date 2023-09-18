@@ -73,5 +73,9 @@
     <update id="resetPw" parameterType="kr.ac.icia.dto.common.member.MemberDto">
         UPDATE ${tableName} SET password = #{password} WHERE ${columnName} = #{userId}
     </update>
+    
+    <update id="profileUpload" parameterType="kr.ac.icia.dto.common.member.MemberDto">
+        UPDATE ${tableName} SET profile = #{profile} WHERE ${columnName} = #{userId}
+    </update>
 
 </mapper>

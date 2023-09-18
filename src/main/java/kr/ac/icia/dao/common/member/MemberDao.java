@@ -17,5 +17,7 @@ public interface MemberDao {
     public boolean findPw(MemberDto memberDto);
 
     public boolean resetPw(MemberDto memberDto);
+    
+    public boolean profileUpload(MemberDto memberDto);
 
 }

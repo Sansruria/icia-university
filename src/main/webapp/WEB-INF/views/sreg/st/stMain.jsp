@@ -23,7 +23,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-5 col-md-6">
-				<div class="mb-2">
+				<div class="mb-2" class="user-img">
 					<img src="/img/park.png">
 				</div>
 				<div class="mb-2 d-flex">
