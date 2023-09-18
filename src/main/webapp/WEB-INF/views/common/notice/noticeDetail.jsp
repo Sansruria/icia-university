@@ -14,7 +14,6 @@
 			document.querySelector('.btn-cancle').addEventListener('click', ()=>cancle())
 	        document.querySelector('.btn-update').addEventListener('click', ()=>update())
             document.querySelector('.btn-delete').addEventListener('click', ()=>del())
-			document.querySelector('#gender').innerText = genderVal
 	    })
 
 		function cancle() {

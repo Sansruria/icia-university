@@ -54,7 +54,7 @@
 							<div class="row">
 								<div class="col">
 									<div class="input-group mb-3">
-										<span class="input-group-text p-3">제목</span>
+										<span class="input-group-text w-25 p-3">제목</span>
 										<input type="text" class="form-control" name="title">
 									</div>
 								</div>

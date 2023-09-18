@@ -123,7 +123,7 @@
                             <thead class="table-primary">
                                 <tr>
                                     <th>번호</th>
-                                    <th>제목</th>
+                                    <th style="width:70%">제목</th>
                                     <th>등록일자</th>
                                 </tr>
                             </thead>
