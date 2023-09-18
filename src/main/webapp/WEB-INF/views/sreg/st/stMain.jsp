@@ -4,7 +4,7 @@
   Time: 12:51
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 <style type="text/css">
@@ -48,6 +48,9 @@
 			</div>
 			<div class="col-lg-7 col-md-6 pl-xl-3">
 				<h5 class="font-weight-normal">ICIA UNIV 공지사항</h5>
+				<c:forEach var="notice" items="${noticesList}">
+				  <p><a href="/common/notice/${notice.noticeId}" class="link-offset-2 link-underline link-underline-opacity-0">${notice.title}</a></p>
+				  </c:forEach>
 				<p> * 수강신청 관련 안내 공지사항 입니다.</p>
 					<p>* 전과 관련 신청 관련 공지사항 입니다.</p>
 					<p>* 자퇴 신청 관련 안내 공지사항 입니다.</p>
