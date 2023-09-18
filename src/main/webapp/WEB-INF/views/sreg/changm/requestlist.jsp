@@ -18,7 +18,7 @@
 	<div class="container w-50">
 		<div class="row mb-4 ps-4">
 			<div class="col">
-				<span class="fs-2">2023학년 2학기 전과신청내역</span>
+				<span class="fs-2"><img alt="" src="/img/changmserchlist.png"></span>
 			</div>
 		</div>
 	</div>

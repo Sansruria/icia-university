@@ -5,7 +5,7 @@
         <div class="row">
 		    <div class="col-md-4 d-flex align-items-center">
 		        <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-		            <img src="/img/icia-logo2.png" alt="icia" height="30">
+		            <img src="/img/icia-logo.png"" alt="icia" height="30">
 		        </a>
 		    </div>
 		    

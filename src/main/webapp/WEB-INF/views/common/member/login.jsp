@@ -33,8 +33,8 @@
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
 <main class="form-signin w-100 m-auto">
     <form action="/login" method="POST">
-        <img class="mb-4" src="/img/icia-logo2.png" alt="" width="295">
-        <h1 class="h3 mb-3 fw-normal">로그인</h1>
+        
+        <h1 class="h3 mb-3 fw-normal"><img class="mb-5" src="/img/login_logo.png" alt="" width="400"></h1>
 
         <div class="row">
             <div class="col">
@@ -65,4 +65,5 @@
     </form>
 </main>
 </body>
+
 </html>

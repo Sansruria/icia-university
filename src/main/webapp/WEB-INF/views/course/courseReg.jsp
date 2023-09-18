@@ -18,7 +18,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<h3 class="text-center mb-4">수강신청</h3>
+				<h3 class="text-center mb-4"><img alt="" src="/img/course.png"></h3>
 			</div>
 		</div>
 

@@ -60,7 +60,7 @@
   </div>
 
 <div class="container">
-  <img src="logo.jpg" >
+  <img src="/img/iciauniv.png" >
   <p style="color :#5a5a5a; ">인천캠퍼스 (우)  인천광역시 미추홀구 매소홀로488번길 6-3</p>
   <p style="color :#5a5a5a; ">COPYRIGHT©INCHENILBO UNIVERSITY . ALL RIGHTS RESERVED.</p>
     </div>		

@@ -26,7 +26,7 @@ function updateTable(departmentLineId, facultyId) {
 		},
 		success: function(data) {
 			// 테이블 갱신 로직
-			let tableBody = $("#st_data_changmajor"); // 테이블의 tbody에 해당하는 id를 지정하세요.
+			let tableBody = $("#st_data_changmajor"); 
 			tableBody.empty();
 
 			$.each(data, function(indexl, row) {
