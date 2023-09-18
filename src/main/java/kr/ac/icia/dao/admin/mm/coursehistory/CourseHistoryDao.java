@@ -11,7 +11,7 @@ import kr.ac.icia.dto.course.CourseHistorySearchListDto2;
 @Mapper
 public interface CourseHistoryDao {
 	//xml의 id와 똑같아야 한다
-	public List<CourseHistorySearchListDto> list();
+	public List<CourseHistorySearchListDto> list(CourseHistoryMMDto courseHistoryMMDto);
 	
 //	public Integer findAllCount(CourseHistoryMMDto courseHistoryMMDto);
 	

@@ -25,9 +25,9 @@ public class CourseHistroyMM {
 
 	// 수강내역관리 페이지 이동
 	@GetMapping("/admin/mm/courselist/list")
-	public String list(Model model) {
+	public String list(CourseHistoryMMDto courseHistoryMMDto, Model model) {
 		// 목록 가져오기
-		List<CourseHistorySearchListDto> courseHistoryList = courseHistoryService.list();
+		List<CourseHistorySearchListDto> courseHistoryList = courseHistoryService.list(courseHistoryMMDto);
 		model.addAttribute("list", courseHistoryList); // 이 부분은 필요 없습니다.
 
 		// 여기에서 courseHistoryList를 JSON 형식으로 변환하여 반환

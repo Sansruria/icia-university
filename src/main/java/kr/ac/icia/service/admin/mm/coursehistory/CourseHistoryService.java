@@ -23,10 +23,10 @@ public class CourseHistoryService {
 	private CourseHistoryDao courseHistoryDao;
 	
 //  목록	
-	public List<CourseHistorySearchListDto> list(){
+	public List<CourseHistorySearchListDto> list(CourseHistoryMMDto courseHistoryMMDto){
 		
 				
-		return courseHistoryDao.list();
+		return courseHistoryDao.list(courseHistoryMMDto);
 	}
 //	public Integer findAllCount(CourseHistoryMMDto courseHistoryMMDto) {
 //		return courseHistoryDao.findAllCount(courseHistoryMMDto);

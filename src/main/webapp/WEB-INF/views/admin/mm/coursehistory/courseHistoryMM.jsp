@@ -14,15 +14,26 @@
 <script>
 
  	$(document).ready(function() {
+ 		document.querySelector('.btn-search').addEventListener('click', ()=>search())
+ 		document.querySelector('.btn-reset').addEventListener('click', ()=>reset())
  		// "글쓰기" 버튼 클릭 시 수강내역 등록 페이지로 이동
  		$('#registration').click(function() {
  			window.location.href = '/admin/mm/courselist/write'; // 이동할 페이지의 URL을 설정합니다.
  		});
+ 		
  	});
 
  	function detail(id) {
  		location.href = '/admin/mm/coursehistory/courseHistoryMMdetail/' + id 
 	}
+ 	
+ 	function search() {
+        document.searchFrm.submit()
+    }
+ 	function reset() {
+        document.searchFrm.reset()
+        search()
+    }
 	
 </script>
 </head>
