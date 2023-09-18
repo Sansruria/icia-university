@@ -19,6 +19,22 @@
 				        ORDER BY create_date DESC)
         WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
+
+	<select id="findAll" resultType="kr.ac.icia.dto.common.notice.NoticeDto">
+		SELECT * FROM (SELECT rownum      AS rnum,
+				              notice_id   AS noticeId,
+				              title,
+				              contents,
+				              writer,
+				              hit,
+				              create_date AS createDate,
+				              modify_date AS modifyDate
+				        FROM board
+		                <if test="title != null and title != ''">
+				            WHERE title LIKE '%' || #{title} || '%'
+				        </if>
+				        ORDER BY create_date DESC)
+	</select>
 	
 	<select id="findAllCount" parameterType="kr.ac.icia.dto.common.notice.NoticeSearchDto">
 		SELECT COUNT(*) FROM board

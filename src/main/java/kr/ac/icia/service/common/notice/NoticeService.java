@@ -24,6 +24,11 @@ public class NoticeService {
 		return noticeDao.findByCondition(searchDto);
 	}
 	
+//	목록
+	public ArrayList<NoticeDto> findAll() {
+		return noticeDao.findAll();
+	}
+	
 	public Integer findAllCount(NoticeSearchDto searchDto) {
 		return noticeDao.findAllCount(searchDto);
 	}
