@@ -117,7 +117,7 @@
 
     <select id="findLastNum" parameterType="kr.ac.icia.dto.sreg.pf.PfDto" resultType="Integer">
         SELECT * FROM (
-                      SELECT SUBSTR(pf_id, 10, 2) AS pfId
+                      SELECT SUBSTR(pf_id, 11, 2) AS pfId
                       FROM pf
                       WHERE pf_id LIKE '%' || #{deptId}  || '%'
                             AND
