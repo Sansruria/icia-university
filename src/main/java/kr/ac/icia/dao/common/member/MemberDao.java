@@ -1,5 +1,6 @@
 package kr.ac.icia.dao.common.member;
 
+import kr.ac.icia.dto.common.file.FileDto;
 import kr.ac.icia.dto.common.member.MemberDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,6 +19,10 @@ public interface MemberDao {
 
     public boolean resetPw(MemberDto memberDto);
     
-    public boolean profileUpload(MemberDto memberDto);
+    public boolean isExistProfile(String userId);
+    
+    public boolean profileUpload(FileDto fileDto);
+
+    public boolean profileUpdate(FileDto fileDto);
 
 }

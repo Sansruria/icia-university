@@ -43,12 +43,15 @@
 										                    st.semester,
 										                    st.address,
 										                    st.email,
-										                    st.profile,
 										                    st.national,
 										                    NVL(r.reg_change_status, '재학') AS status,
-										                    r.r_date
+										                    r.r_date,
+										                    p.profile_id                    AS profileId,
+                                                            p.original_file_name            AS originalFileName,
+                                                            p.system_file_name              AS systemFileName
 										             FROM st
 										                    JOIN department d ON st.department_id = d.department_id
+										                    LEFT OUTER JOIN profile p    ON p.user_id = st.st_id
 										                    LEFT OUTER JOIN register r ON st.st_id = r.st_id
 										             WHERE st.st_id = #{userId}
 										             ORDER By r.r_date DESC) a1) WHERE rownum = 1
@@ -74,8 +77,20 @@
         UPDATE ${tableName} SET password = #{password} WHERE ${columnName} = #{userId}
     </update>
     
-    <update id="profileUpload" parameterType="kr.ac.icia.dto.common.member.MemberDto">
-        UPDATE ${tableName} SET profile = #{profile} WHERE ${columnName} = #{userId}
+<!--     <update id="profileUpload" parameterType="kr.ac.icia.dto.common.member.MemberDto"> -->
+<!--         UPDATE ${tableName} SET profile = #{profile} WHERE ${columnName} = #{userId} -->
+<!--     </update> -->
+
+    <select id="isExistProfile" parameterType="String">
+        SELECT COUNT(*) FROM profile WHERE user_id = #{userId}
+    </select>
+    
+    <update id="profileUpdate" parameterType="kr.ac.icia.dto.common.file.FileDto">
+        UPDATE profile SET original_file_name = #{originalFileName}, system_file_name = #{systemFileName} WHERE user_id = #{userId}
     </update>
+    
+    <insert id="profileUpload" parameterType="kr.ac.icia.dto.common.file.FileDto">
+        INSERT INTO profile VALUES (profile_seq.NEXTVAL, #{userId}, #{originalFileName}, #{systemFileName})
+    </insert>
 
 </mapper>

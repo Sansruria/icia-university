@@ -7,7 +7,6 @@
 	})
 	
 	function save() {
-// 		const uploadFiles = document.querySelector('input[name="uploadFiles"]').value
 		const frm = document.querySelector('form[name="frm"]')
 		const formData = new FormData(frm)
 		
