@@ -24,10 +24,10 @@ public class CourseSelectOperController {
 	private CourseSelectService csSer;
 	
 	//로그인 한 학생의 학번 데이터 기준 선택한 학년 기반으로 학기 데이터 가져오기
-	@GetMapping({"/filtering"})
+	@GetMapping({"/filtering2"})
 	public List<FilteringDto2> filteringSemester(@RequestParam String grade, HttpSession session) {
 		 String stId = (String) session.getAttribute("ST_ID");
-		return csSer.filtering(grade, stId);
+		return csSer.filtering2(grade, stId);
 	}
 	
 }

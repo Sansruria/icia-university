@@ -9,7 +9,7 @@
 		WHERE ST_ID = #{stId}
 	</select>
 
-	<select id="filtering" resultType="FilteringDto2">
+	<select id="filtering2" resultType="FilteringDto2">
 		SELECT REQ_SEMESTER 
 		FROM COURSE_REQUEST 
 		WHERE ST_ID = #{stId} AND REQ_GRADE = #{grade}

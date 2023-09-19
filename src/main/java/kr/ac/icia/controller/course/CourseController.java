@@ -37,7 +37,6 @@ public class CourseController {
 	@GetMapping({"/courseselect/list"})
 	public String SelectListPage(Model model, HttpSession session) {
 	    String stId = (String) session.getAttribute("ST_ID");
-	    System.out.println("ST_ID from session: " + stId);
 	    List<FilteringDto2> gradeList = csSer.getGrade(stId); // 해당 학생의 학년 목록을 가져옴
 	    model.addAttribute("gradeList", gradeList);
 	    return "course/courseSelect";

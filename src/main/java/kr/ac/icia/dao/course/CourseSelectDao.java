@@ -11,6 +11,6 @@ public interface CourseSelectDao {
 
 	List<FilteringDto2> getGrade(String stId);
 
-	List<FilteringDto2> filtering(String grade, String stId);
+	List<FilteringDto2> filtering2(String grade, String stId);
 
 }

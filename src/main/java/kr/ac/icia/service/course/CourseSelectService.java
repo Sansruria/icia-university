@@ -18,8 +18,8 @@ public class CourseSelectService {
         return csDao.getGrade(stId);
     }
 
-	public List<FilteringDto2> filtering(String grade, String stId) {
-		return csDao.filtering(grade, stId);
+	public List<FilteringDto2> filtering2(String grade, String stId) {
+		return csDao.filtering2(grade, stId);
 	}
 
 }

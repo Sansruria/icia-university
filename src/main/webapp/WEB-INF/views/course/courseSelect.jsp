@@ -32,8 +32,8 @@
 								<span class="input-group-text p-3">학년</span> <select
 									name="gradeId" id="gradeSelect" class="form-select">
 									<option value="">선택</option>
-									<c:forEach items="${gradeList}" var="gradeInfo">
-										<option value="${gradeInfo.grade}">${gradeInfo.grade}</option>
+									<c:forEach items="${gradeList}" var="grade">
+										<option value="${grade.grade}">${grade.grade}</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -47,8 +47,8 @@
 								<span class="input-group-text p-3">학기</span> <select
 									name="semesterId" id="semesterSelect" class="form-select">
 									<option value="">선택</option>
-									<c:forEach items="${semesterList}" var="semesterInfo">
-										<option value="${semesterInfo.semester}">${semesterInfo.semester}</option>
+									<c:forEach items="${semesterList}" var="semester">
+										<option value="${semester}">${semester}</option>
 									</c:forEach>
 								</select>
 							</div>
