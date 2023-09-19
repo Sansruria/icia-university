@@ -44,7 +44,6 @@ $(document).ready(function() {
 			},
 			success: function(response) {
 				console.log("Response:", response); // Debugging: 응답 확인
-				console.log("Response:", response);
 				let table = $("#courseRegTableBody");
 				table.empty(); // 기존 내용을 지움
 

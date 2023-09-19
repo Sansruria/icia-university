@@ -33,7 +33,7 @@
 									name="gradeId" id="gradeSelect" class="form-select">
 									<option value="">선택</option>
 									<c:forEach items="${gradeList}" var="grade">
-										<option value="${grade.grade}">${grade.grade}</option>
+										<option value="${grade}">${grade}</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -47,14 +47,14 @@
 								<span class="input-group-text p-3">학기</span> <select
 									name="semesterId" id="semesterSelect" class="form-select">
 									<option value="">선택</option>
-									<c:forEach items="${semesterList}" var="semester">
-										<option value="${semester}">${semester}</option>
-									</c:forEach>
+									<option value="1학기">1학기</option>
+									<option value="2학기">2학기</option>
 								</select>
 							</div>
 						</div>
 
 						<div class="col text-end mt-auto">
+							<div id="alert-placeholder"></div>
 							<button id="searchButton" type="button" class="btn text-white"
 								style="background: #a9201d">SEARCH</button>
 							<button id="resetButton" type="button"
@@ -72,7 +72,6 @@
 				<table class="table table-bordered align-middle">
 					<thead class="table-primary">
 						<tr>
-							<th>선택</th>
 							<th>학년/학기</th>
 							<th>이수구분</th>
 							<th>학수번호</th>
@@ -80,12 +79,15 @@
 							<th>과목명</th>
 							<th>교수명</th>
 							<th>강의시간</th>
+							<th>재수강</th>
 						</tr>
 					</thead>
 
 					<tbody id="courseRegTableBody">
 						<tr>
-							<td colspan="8">조회된 데이터가 없습니다</td>
+							<td colspan="8"><img src="/img/no.jpg"
+								alt="No data available" style="width: 150px; height: 150px;">조회된
+								데이터가 없습니다.</td>
 						</tr>
 					</tbody>
 				</table>
@@ -94,10 +96,10 @@
 		<!-- end row -->
 
 		<div class="row border border-3 p-4">
-			<div class="col-1">과목수</div>
-			<div class="col-auto"></div>
-			<div class="col-1">학점</div>
-			<div class="col-auto"></div>
+			<div class="col-1"></div>
+			<div class="col-auto" id="totalCourses"></div>
+			<div class="col-1"></div>
+			<div class="col-auto" id="totalCredits"></div>
 		</div>
 
 		<!-- end row -->

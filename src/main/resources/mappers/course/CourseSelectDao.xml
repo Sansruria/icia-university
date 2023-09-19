@@ -5,14 +5,27 @@
 
 	<select id="getGrade" resultType="FilteringDto2">
 		SELECT REQ_GRADE as grade
-		FROM COURSE_REQUEST
+		FROM
+		COURSE_REQUEST
 		WHERE ST_ID = #{stId}
 	</select>
 
-	<select id="filtering2" resultType="FilteringDto2">
-		SELECT REQ_SEMESTER 
-		FROM COURSE_REQUEST 
-		WHERE ST_ID = #{stId} AND REQ_GRADE = #{grade}
+	<select id="filteringSearch2"
+		resultType="FilterringSearchListDto2">
+		SELECT 
+		REQ_COURSE_ID,
+		ST_ID,
+		COURSE_ID,
+		REQ_GRADE,
+		REQ_SEMESTER,
+		REQ_COURSE_DIVISION,
+		REQ_CREDIT,
+		REQ_COURSE_NAME,
+		REQ_PF_NAME,
+		REQ_COURSE_TIME,
+		REAPPLY
+		FROM COURSE_REQUEST
+		WHERE st_id = #{stId} AND REQ_GRADE = #{req_grade} AND REQ_SEMESTER = #{req_semester}
 	</select>
 
 </mapper>
