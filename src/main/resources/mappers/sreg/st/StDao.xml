@@ -23,19 +23,19 @@
 						         FROM st
 						         JOIN department d ON st.department_id = d.department_id
 						         LEFT OUTER JOIN register r ON st.st_id = r.st_id
-						         WHERE 1=1) a1
-                <if test="stId != null and stId != ''">
-                    AND UPPER(st.st_id) LIKE '%'||UPPER(#{stId})||'%'
-                </if>
-
-                <if test="name != null and name != ''">
-                    AND st.st_name LIKE '%'||#{name}||'%'
-                </if>
-
-                <if test="deptName != null and deptName != ''">
-                    AND d.department_name LIKE '%'||#{deptName}||'%'
-                </if>
-            )
+						         WHERE 1=1
+		                        <if test="stId != null and stId != ''">
+				                    AND UPPER(st.st_id) LIKE '%'||UPPER(#{stId})||'%'
+				                </if>
+				
+				                <if test="name != null and name != ''">
+				                    AND st.st_name LIKE '%'||#{name}||'%'
+				                </if>
+				
+				                <if test="deptName != null and deptName != ''">
+				                    AND d.department_name LIKE '%'||#{deptName}||'%'
+				                </if>
+						         ) a1)
         WHERE rnum BETWEEN #{start} AND #{end}
         <if test="status != null and status != ''">
             AND status LIKE '%' || #{status} || '%'
