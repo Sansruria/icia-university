@@ -18,13 +18,6 @@
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 
 	<div class="container">
-		<div class="mb-3">
-			<form name="frm" method="POST" action="/file/upload" enctype="multipart/form-data">
-				<label for="formFile" class="form-label">Default file input example</label>
-				<input class="form-control" type="file" id="formFile" name="uploadFiles">
-				<button type="submit">전송</button>
-			</form>
-		</div>
 	</div>
 
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
