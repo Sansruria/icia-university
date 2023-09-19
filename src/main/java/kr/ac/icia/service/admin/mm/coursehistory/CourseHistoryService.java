@@ -28,9 +28,11 @@ public class CourseHistoryService {
 				
 		return courseHistoryDao.list(courseHistoryMMDto);
 	}
-//	public Integer findAllCount(CourseHistoryMMDto courseHistoryMMDto) {
-//		return courseHistoryDao.findAllCount(courseHistoryMMDto);
-//	}
+	
+//  페이징?
+	public Integer findAllCount(CourseHistoryMMDto courseHistoryMMDto) {
+		return courseHistoryDao.findAllCount(courseHistoryMMDto);
+	}
 	
 //	상세보기
 	public  CourseHistorySearchListDto detail(String coursehId) {

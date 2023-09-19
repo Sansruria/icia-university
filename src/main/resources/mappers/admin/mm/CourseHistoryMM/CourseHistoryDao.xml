@@ -6,32 +6,36 @@
 
 	<select id="list" parameterType="courseHistoryMMDto"
 		resultType="CourseHistorySearchListDto">
-		SELECT
-		ROW_NUMBER() OVER (ORDER BY s.create_date DESC, s.course_id DESC) AS rnum,
-		s.course_id,
-		s.course_division,
-		d.department_name AS deptname,
-		s.course_day || ' ' || s.course_start_time || ' ' || s.course_end_time AS
-		course_schedule,
-		s.course_name,
-		p.pf_name,
-		s.course_day, -- 수강요일
-		s.course_start_time, -- 수강시작기간
-		s.course_end_time, -- 수강종료기간
-		s.limit_max_count
+		SELECT * FROM (SELECT
+			ROW_NUMBER() OVER (ORDER BY s.create_date DESC, s.course_id
+			DESC) AS rnum,
+			s.course_id,
+			s.course_division,
+			d.department_name AS
+			deptname,
+			s.course_day || ' ' || s.course_start_time || ' ' ||
+			s.course_end_time AS
+			course_schedule,
+			s.course_name,
+			p.pf_name,
+			s.course_day, -- 수강요일
+			s.course_start_time, -- 수강시작기간
+			s.course_end_time,
+			-- 수강종료기간
+			s.limit_max_count
 		FROM subject s
-		JOIN department d ON d.department_id = s.department_id
-		JOIN pf p ON p.pf_id = s.pf_id
+			JOIN department d ON d.department_id = s.department_id
+			JOIN pf p ON p.pf_id = s.pf_id
 		WHERE 1=1
-		
 		<if test="course_name != null and course_name != ''">
 			AND s.course_name LIKE '%'||#{course_name}||'%'
 		</if>
-		
+
 		<if test="course_division != null and course_division != ''">
-			AND UPPER(s.course_division) LIKE '%'||UPPER(#{course_division})||'%'
+			AND UPPER(s.course_division) LIKE
+			'%'||UPPER(#{course_division})||'%'
 		</if>
-		
+
 		<if test="deptName != null and deptName != ''">
 			AND d.department_name LIKE '%'||#{deptName}||'%'
 		</if>
@@ -39,17 +43,17 @@
 		<if test="pfName != null and pfName != ''">
 			AND p.pf_name LIKE '%'||#{pfName}||'%'
 		</if>
-	
+		) WHERE rnum BETWEEN #{start} AND #{end}
+
 	</select>
 
-	<!-- <select id="findAllCount" resultType="Integer"> -->
-	<!-- SELECT COUNT(*)FROM (select NVL(c.course_id, 'C1')as limit_max_count 
-		from course_request -->
-	<!-- join subject s on course_request.course_id = s.course_id -->
-	<!-- LEFT OUTER JOIN course_request c on s.course_id = c.course_id -->
-	<!-- where limit_max_count >= 30 ); -->
-	<!-- </select> -->
-	<!-- 등록 -->
+	<select id="findAllCount" parameterType="courseHistoryMMDto" resultType="Integer">
+		SELECT COUNT(*)FROM subject where 1=1
+		<if test="deptName != null and deptName != ''">
+			AND d.department_name LIKE '%'||#{deptName}||'%'
+		</if>
+	</select>
+	<!--등록-->
 	<insert id="write">
 		<!-- 컬럼이름 -->
 		INSERT INTO subject(
@@ -116,16 +120,20 @@
 		course_name = #{course_name},
 		course_division = #{course_division},
 		grade = #{grade},
-		semester = #{semester},
+		semester =
+		#{semester},
 		pf_id = #{pfId},
 		pf_name = #{pfName},
-		department_id = #{deptId},
+		department_id =
+		#{deptId},
 		department_name =#{deptName},
 		course_day = #{course_day},
 		course_start_time = #{course_start_time},
-		course_end_time = #{course_end_time},
+		course_end_time =
+		#{course_end_time},
 		limit_max_count = #{limit_max_count},
-		credit = #{credit}
+		credit =
+		#{credit}
 		WHERE course_id = #{course_id}
 	</update>
 	<!-- </update> -->

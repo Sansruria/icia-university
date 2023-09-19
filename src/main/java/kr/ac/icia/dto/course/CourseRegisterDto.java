@@ -28,5 +28,5 @@ public class CourseRegisterDto {
 	private String req_course_name; //과목명
 	private String req_pf_name; //교수명
 	private String req_course_time; //수강시간
-	private String req_st_count; //수강신청인원
+	private String req_st_count; //수강신청인원	
 }

@@ -13,7 +13,7 @@ public interface CourseHistoryDao {
 	//xml의 id와 똑같아야 한다
 	public List<CourseHistorySearchListDto> list(CourseHistoryMMDto courseHistoryMMDto);
 	
-//	public Integer findAllCount(CourseHistoryMMDto courseHistoryMMDto);
+	public Integer findAllCount(CourseHistoryMMDto courseHistoryMMDto);
 	
 	boolean write(CourseHistoryMMDto courseHistoryMMDto);//추상메소드 
 
@@ -22,5 +22,7 @@ public interface CourseHistoryDao {
 	public boolean update(CourseHistorySearchListDto2 courseHistorySearchListDto);
 
 	public void delete(String id);
+
+	public int getTotalItemCount(CourseHistoryMMDto courseHistoryMMDto);
 
 }

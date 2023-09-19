@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.ac.icia.dto.course.CourseHistoryMMDto;
@@ -25,15 +26,33 @@ public class CourseHistroyMM {
 
 	// 수강내역관리 페이지 이동
 	@GetMapping("/admin/mm/courselist/list")
-	public String list(CourseHistoryMMDto courseHistoryMMDto, Model model) {
+	public String list(CourseHistoryMMDto courseHistoryMMDto, Model model,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) {
+			
+		int total = courseHistoryService.findAllCount(courseHistoryMMDto);
+
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "5";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "5";
+		}
+		
+		courseHistoryMMDto = new CourseHistoryMMDto(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), courseHistoryMMDto);
 		// 목록 가져오기
 		List<CourseHistorySearchListDto> courseHistoryList = courseHistoryService.list(courseHistoryMMDto);
-		model.addAttribute("list", courseHistoryList); // 이 부분은 필요 없습니다.
-
+		model.addAttribute("searchDto", courseHistoryMMDto);
+		model.addAttribute("paging", courseHistoryMMDto.makePagingHtml());
+		model.addAttribute("list", courseHistoryList);
 		// 여기에서 courseHistoryList를 JSON 형식으로 변환하여 반환
-		System.out.println("CourseHistorySearchListDto " + courseHistoryList);
+//		System.out.println("CourseHistorySearchListDto " + courseHistoryList);
 		return "admin/mm/coursehistory/courseHistoryMM"; // JSP 파일 이름
 	}
+	
+	
 	
 	@PostMapping("/admin/mm/coursehistory/write")
 	public String write(CourseHistoryMMDto courseHistoryMMDto, RedirectAttributes rttr) {
