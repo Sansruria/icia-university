@@ -186,18 +186,33 @@ $(document).ready(function() {
 	// 세션에서 최종 수강신청 목록을 가져오는 함수
 	const fetchSessionArrayList = function() {
 		const arrayList = JSON.parse(sessionStorage.getItem('finalCourseList')) || [];
-		console.log("세션에서 가져온 최종 수강신청 목록:", arrayList); // 가져온 목록 출력
+		console.log("세션에서 가져온 최종 수강신청 목록:", arrayList);
 		return arrayList;
 	};
 
-	// 세션 스토리지에서 ST_ID 값 가져오기
-	const stIdFromSession = sessionStorage.getItem('ST_ID');
-	console.log("세션에서 가져온 ST_ID 값:", stIdFromSession); // 가져온 ST_ID 값 출력
+	// 데이터가 올바른 형태인지 검사하는 함수
+	function isValidCourse(obj) {
+		// 필요한 필드들을 모두 검사
+		return obj.hasOwnProperty('course_division') &&
+			obj.hasOwnProperty('credit') &&
+			obj.hasOwnProperty('grade_semester') &&
+			obj.hasOwnProperty('course_name') &&
+			obj.hasOwnProperty('pf_name') &&
+			obj.hasOwnProperty('course_time');
+	}
 
 	// '수강신청' 버튼 클릭 이벤트
 	$("#courseRegisterButton").click(function() {
 		// 세션에서 최종 수강신청 목록 가져와서 저장
 		const finalCourseList = fetchSessionArrayList();
+
+		// 데이터가 올바른 형태를 가지고 있는지 검사
+		if (finalCourseList.every(isValidCourse)) {
+			console.log('모든 과목이 유효합니다');
+		} else {
+			console.log('유효하지 않은 과목이 있습니다');
+			return; // 여기서 함수 종료
+		}
 
 		// 수강신청 목록이 비어있는 경우 사용자에게 알림
 		if (finalCourseList.length === 0) {
@@ -205,33 +220,50 @@ $(document).ready(function() {
 			return; // 여기서 함수 종료
 		}
 
-		// ST_ID를 requestData에 추가하기
-		const requestData = {
-			courses: finalCourseList,
-			stId: stIdFromSession // 세션 스토리지에서 가져온 ST_ID
-		};
+		// grade와 semester로 분리 및 필요한 필드 추가
+		const updatedCourseList = finalCourseList.map(course => {
+			const { grade_semester, ...rest } = course;
+			const [grade, semester] = grade_semester.split('/');
+			return {
+				...rest,
+				grade,
+				semester,
+				reg_course_id: 'CR2',
+				req_st_id: '2309D101',
+				req_st_count: '1',
+				course_time: '월 10:00~17:00'
+			};
+		});
 
-		console.log("서버로 보낼 요청 데이터:", requestData); // 보낼 요청 데이터 출력
+		// 서버로 데이터를 보낼 때 사용할 FinalApplyDto 객체 생성
+		const finalApplyDto = {
+			courses: updatedCourseList
+		};
+		
+		// finalApplyDto가 어떤 형태로 존재하는지 콘솔에 출력
+console.log("finalApplyDto:", finalApplyDto);
 
 		// 서버로 AJAX 요청을 보내서 최종 수강신청 처리
-		$.ajax({
-			url: "/course/coursereg/oper/finalapply", // 올바른 URL 사용
-			type: "POST", // 일관된 HTTP 메서드 사용
-			contentType: "application/json",
-			data: JSON.stringify(requestData),
-			success: function(response) {
-				console.log("서버 응답:", response); // 서버 응답 출력
-				if (response.status === 'success') { // 응답 상태에 따라 처리
+		fetch("/course/coursereg/oper/finalapply", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(finalApplyDto)  // FinalApplyDto를 JSON 형태로 변환
+		})
+			.then(response => response.json())
+			.then(data => {
+				console.log("서버 응답:", data);
+				if (data.status === 'success') {
 					alert("수강신청이 완료되었습니다.");
 				} else {
 					alert("수강신청에 실패하였습니다.");
 				}
-			},
-			error: function(err) { // 오류 처리 추가
-				console.log("서버 에러:", err); // 서버 에러 출력
-				alert("오류: " + JSON.stringify(err));
-			}
-		});
+			})
+			.catch((error) => {
+				console.log("서버 에러:", error);
+				alert("오류: " + JSON.stringify(error));
+			});
 	});
 
 });

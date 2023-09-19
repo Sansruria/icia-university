@@ -13,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.web.bind.annotation.RequestMethod;
 import jakarta.servlet.http.HttpSession;
 import kr.ac.icia.dto.course.CourseRegisterDto;
 import kr.ac.icia.dto.course.FilteringDto;
 import kr.ac.icia.dto.course.FilterringSearchListDto;
+import kr.ac.icia.dto.course.FinalApplyDto;
 import kr.ac.icia.exception.course.CourseFullException;
 import kr.ac.icia.service.course.CourseService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +33,7 @@ public class CourseOperController {
 
 	@Autowired
 	private CourseService cSer;
+	
 
 	@Autowired
 	private HttpSession session;
@@ -82,38 +87,37 @@ public class CourseOperController {
 
 	// 최종 수강 신청
 	@PostMapping("/finalapply")
-	public ResponseEntity<String> finalApply(@RequestBody List<CourseRegisterDto> CRDto, HttpSession session) {
-		System.out.println("서버에 요청이 도착했습니다. (Controller)");
+	public ResponseEntity<Map<String, String>> finalApply(@RequestBody FinalApplyDto finalApplyDto, HttpSession session) {
+	    // 요청 본문과 세션 정보 검증
+	    if (finalApplyDto == null || finalApplyDto.getCourses() == null || finalApplyDto.getCourses().isEmpty()) {
+	        log.error("CRDto 리스트가 누락되었습니다.");
+	        return ResponseEntity.badRequest().body(Map.of("status", "failure", "message", "CRDto 리스트가 누락되었습니다."));
+	    }
+	    
+	    String stId = (String) session.getAttribute("ST_ID");
+	    if (stId == null || stId.isEmpty()) {
+	        log.error("ST_ID가 누락되었습니다.");
+	        return ResponseEntity.badRequest().body(Map.of("status", "failure", "message", "ST_ID가 누락되었습니다."));
+	    }
+
 	    log.info("서버에 요청이 도착했습니다.");
-	    System.out.println("컨트롤러에서 받은 CRDto: " + CRDto);
-		log.info("컨트롤러에서 받은 CRDto: " + CRDto);
+	    log.info("컨트롤러에서 받은 CRDto: " + finalApplyDto.getCourses());
 
-		try {
-			String stId = (String) session.getAttribute("ST_ID");
+	    try {
+	        for (CourseRegisterDto course : finalApplyDto.getCourses()) {
+	            course.setReq_st_id(stId);
+	        }
 
-			if (stId == null || stId.isEmpty()) {
-				log.error("ST_ID가 누락되었습니다.");
-				return ResponseEntity.badRequest().body("ST_ID가 누락되었습니다.");
-			}
+	        List<CourseRegisterDto> updatedCRDto = cSer.finalApply(finalApplyDto.getCourses());
+	        session.setAttribute("finalCourseRegList", updatedCRDto); 
+	        log.info("컨트롤러에서 처리 후 CRDto: " + updatedCRDto);
 
-			for (CourseRegisterDto course : CRDto) {
-				course.setReq_st_id(stId);
-			}
-
-			// 최종 수강 신청 로직 실행
-			List<CourseRegisterDto> updatedCRDto = cSer.finalApply(CRDto);
-
-			// 여기서 updatedCRDto로 필요한 작업 수행
-			session.setAttribute("finalCourseRegList", updatedCRDto); // 세션에 최종 수강 신청 목록을 저장
-			System.out.println("컨트롤러에서 처리 후 CRDto: " + updatedCRDto);
-			log.info("컨트롤러에서 처리 후 CRDto: " + updatedCRDto);
-
-			return new ResponseEntity<>("수강 신청 성공", HttpStatus.OK);
-		} catch (CourseFullException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
-		} catch (Exception e) {
-			return new ResponseEntity<>("서버 오류", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	        return new ResponseEntity<>(Map.of("status", "success", "message", "수강 신청 성공"), HttpStatus.OK);
+	    } catch (CourseFullException e) {
+	        return new ResponseEntity<>(Map.of("status", "failure", "message", e.getMessage()), HttpStatus.FORBIDDEN);
+	    } catch (Exception e) {
+	        return new ResponseEntity<>(Map.of("status", "error", "message", "서버 오류"), HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 	}
-
+	
 }

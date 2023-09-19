@@ -41,6 +41,11 @@ public class CourseService {
 	// 수강 신청 최종 처리 함수
 	@Transactional
 	public List<CourseRegisterDto> finalApply(List<CourseRegisterDto> CRDto) throws Exception {
+		// 필요한 요청 본문이 누락되었는지 먼저 확인
+		if (CRDto == null || CRDto.isEmpty()) {
+			log.error("CRDto 리스트가 누락되었습니다.");
+			throw new IllegalArgumentException("CRDto 리스트가 누락되었습니다.");
+		}
 		System.out.println("서버에 요청이 도착했습니다. (Service)");
 		log.info("서버에 요청이 도착했습니다.");
 		System.out.println("서비스에서 처리 전 CRDto: " + CRDto);

@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 @Controller
 public class MemberController {
-	
+
 	@Autowired
 	private final MemberService memberService;
 
@@ -36,9 +36,13 @@ public class MemberController {
 		if (memberInfo != null) {
 			session.setAttribute("memberInfo", memberInfo);
 			session.setAttribute("ST_ID", memberInfo.getUserId()); // session에 st_id 저장
+			
+			//로그인 시 세션에 저장해서 사용할 ST_ID 데이터 확인용
 			log.info("세션에 저장된 ST_ID: " + session.getAttribute("ST_ID"));
+			log.info("세션에 저장된 MemberInfo: " + ((MemberDto) session.getAttribute("memberInfo")).getUserId());
+			System.out.println("세션에 저장된 MemberInfo: " + ((MemberDto) session.getAttribute("memberInfo")).getUserId());
 
-			String isPf = memberDto.getUserId().substring(0,1);
+			String isPf = memberDto.getUserId().substring(0, 1);
 			if (isPf.equals("P")) {
 				return "redirect:/sreg/pf/main";
 			} else if (memberDto.getUserId().equals("admin")) {
