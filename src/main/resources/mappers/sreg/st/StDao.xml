@@ -65,23 +65,25 @@
     </select>
     
     <select id="detail" parameterType="String" resultType="kr.ac.icia.dto.sreg.st.StDto">
-        SELECT
-            st.st_id AS stId,
-            st.department_id AS deptId,
-            d.department_name AS deptName,
-            st.rrn,
-            st.password,
-            st.st_name AS name,
-            st.gender,
-            st.address,
-            st.email,
-            st.profile,
-            st.national,
-            NVL(r.register_change_id, '재학') AS status
-        FROM
-            (SELECT * FROM st WHERE st_id = #{stId}) st
-        JOIN department d ON st.department_id = d.department_id
-        LEFT OUTER JOIN register r ON st.st_id = r.st_id
+        SELECT * FROM (SELECT
+                    st.st_id AS stId,
+                    st.department_id AS deptId,
+                    d.department_name AS deptName,
+                    st.rrn,
+                    st.password,
+                    st.st_name AS name,
+                    st.gender,
+                    st.address,
+                    st.email,
+                    st.profile,
+                    st.national,
+                    NVL(r.register_change_id, '재학') AS status
+                FROM st
+                    JOIN department d ON st.department_id = d.department_id
+                    LEFT OUTER JOIN register r ON st.st_id = r.st_id
+                WHERE st.st_id = #{stId}
+                ORDER BY r.r_date DESC)
+        WHERE rownum = 1
     </select>
     
     <insert id="write" parameterType="kr.ac.icia.dto.sreg.st.StDto">

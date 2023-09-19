@@ -12,6 +12,8 @@ public interface NoticeDao {
 	
 	public ArrayList<NoticeDto> findByCondition(NoticeSearchDto searhDto);
 	
+	public ArrayList<NoticeDto> findAll();
+	
 	public Integer findAllCount(NoticeSearchDto searchDto);
 	
 	public NoticeDto detail(String id);

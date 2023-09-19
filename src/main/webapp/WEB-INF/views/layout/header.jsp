@@ -1,7 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script>
+	document.addEventListener("DOMContentLoaded", function(){
+	    document.querySelector('.btn-file').addEventListener('click', ()=>openFileModal())
+	})
+	
+    function openFileModal() {
+        $('.modal-content').load('/file/modal/upload')
+    }
+
     function logout() {
         let postFrm = document.createElement('form')
         postFrm.setAttribute('method', 'POST')
@@ -13,9 +22,17 @@
 
 <nav class="navbar navbar-expand-lg mb-4" style="background-color: #0B1B40">
     <div class="container">
-        <a class="navbar-brand" href="/">
-            <img src="/img/icia-logo.png" alt="icia" height="60">
-        </a>
+       	<c:if test="${fn:substring(memberInfo.userId, 0, 1) eq 'P'}">
+    		<a class="navbar-brand" href="/">
+	            <img src="/img/icia-logo.png" alt="icia" height="60">
+	        </a>
+    	</c:if>
+    	
+    	<c:if test="${!(fn:substring(memberInfo.userId, 0, 1) eq 'P')}">
+	        <a class="navbar-brand" href="/sreg/st/main">
+	            <img src="/img/icia-logo.png" alt="icia" height="60">
+	        </a>
+        </c:if>
 
         <button class="navbar-toggler" type="button"
                 data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
@@ -27,11 +44,17 @@
             <c:if test="${memberInfo != null}">
                 <div class="col">
                     <div class="text-end text-white">
+                        <a href="#" class="nav-link btn-file" data-bs-toggle="modal" data-bs-target="#fileModal">프로필사진변경</a>
+                    </div>
+                </div>
+            
+                <div class="col-auto">
+                    <div class="text-end text-white">
                             <c:out value="${sessionScope.memberInfo.name}"></c:out>님
                     </div>
                 </div>
 
-                <div class="col-4">
+                <div class="col-auto">
                     <div class="text-end text-white">
                         <c:if test="${memberInfo != null}">
                             <a href="#" onclick="logout()" class="nav-link">로그아웃</a>
@@ -105,3 +128,13 @@
         </div>
     </div>
 </nav>
+
+<!-- File Modal -->
+<div class="modal fade" id="fileModal" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="fileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<!-- end File Modal -->

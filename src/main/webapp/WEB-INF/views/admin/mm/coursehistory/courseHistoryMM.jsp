@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,15 +13,43 @@
 <script>
 
  	$(document).ready(function() {
+ 		document.querySelector('.btn-search').addEventListener('click', ()=>search())
+ 		document.querySelector('.btn-reset').addEventListener('click', ()=>reset())
+ 		document.querySelector('#paging').innerHTML = "${paging}";
  		// "글쓰기" 버튼 클릭 시 수강내역 등록 페이지로 이동
  		$('#registration').click(function() {
  			window.location.href = '/admin/mm/courselist/write'; // 이동할 페이지의 URL을 설정합니다.
  		});
+ 		
  	});
 
  	function detail(id) {
  		location.href = '/admin/mm/coursehistory/courseHistoryMMdetail/' + id 
 	}
+ 	//검색기능
+ 	function search() {
+        document.searchFrm.submit()
+    }
+ 	//검색기능 초기화
+ 	function reset() {
+        document.searchFrm.reset()
+        search()
+    }
+ 	
+ 	function selectedPage(pageNum) {
+        document.searchFrm.querySelector('input[name="nowPage"]').value = pageNum
+        search()
+    }
+
+    function prev() {
+        document.searchFrm.querySelector('input[name="nowPage"]').value = '${searchDto.startPage - 1 }'
+        search()
+    }
+
+    function next() {
+        document.searchFrm.querySelector('input[name="nowPage"]').value = '${searchDto.endPage + 1 }'
+        search()
+    }
 	
 </script>
 </head>
@@ -35,7 +62,8 @@
 				<div class="card-body">
 					<div class="row ">
 						<form name="searchFrm" action="/admin/mm/courselist/list" method="GET">
-
+ 							<input type="hidden" name="nowPage" value="<c:out value="${searchDto.startPage}"></c:out>">
+                        	<input type="hidden" name="cntPerPage" value="<c:out value="${searchDto.cntPerPage}"></c:out>">
 							<h3>수강내역관리 페이지</h3>
 							<br>
 							<div class="row g-3">
@@ -109,8 +137,7 @@
 									<td><c:out value="${courseh.pf_name}"></c:out></td>
 									<td><c:out value="${courseh.course_schedule}"></c:out></td>
 									<td><c:out value="${courseh.limit_max_count}"></c:out></td>
-									<%-- 									<td><c:out value="${courseh.status}"></c:out></td> --%>
-
+									<%--<td><c:out value="${courseh.status}"></c:out></td> --%>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -122,6 +149,7 @@
 			<button id="registration" class="btn btn-primary me-md-2"
 				type="button">글쓰기</button>
 		</div>
+		<div id="paging"></div>
 	</div>
 
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

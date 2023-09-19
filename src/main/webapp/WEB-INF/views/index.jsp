@@ -17,7 +17,8 @@
 <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 
-	<div class="container"></div>
+	<div class="container">
+	</div>
 
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </body>
