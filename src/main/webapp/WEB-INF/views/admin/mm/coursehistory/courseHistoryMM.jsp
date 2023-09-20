@@ -16,6 +16,22 @@
  		document.querySelector('.btn-search').addEventListener('click', ()=>search())
  		document.querySelector('.btn-reset').addEventListener('click', ()=>reset())
  		document.querySelector('#paging').innerHTML = "${paging}";
+ 		
+ 		if ('${searchDto.deptName}' != null || '${searchDto.deptName}' != '') {
+            document.searchFrm.querySelector('input[name="deptName"]').value = '${searchDto.deptName}'
+        }
+		if ('${searchDto.course_name}' != null || '${searchDto.course_name}' != '') {
+        document.searchFrm.querySelector('input[name="course_name"]').value = '${searchDto.course_name}'
+    	}
+		
+		if ('${searchDto.course_division}' != null || '${searchDto.course_division}' != '') {
+        document.searchFrm.querySelector('input[name="course_division"]').value = '${searchDto.course_division}'
+    	}
+		
+		if ('${searchDto.pfName}' != null || '${searchDto.pfName}' != '') {
+         document.searchFrm.querySelector('input[name="pfName"]').value = '${searchDto.pfName}'
+     	}
+			
  		// "글쓰기" 버튼 클릭 시 수강내역 등록 페이지로 이동
  		$('#registration').click(function() {
  			window.location.href = '/admin/mm/courselist/write'; // 이동할 페이지의 URL을 설정합니다.
