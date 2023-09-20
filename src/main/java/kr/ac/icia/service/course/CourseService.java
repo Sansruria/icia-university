@@ -51,9 +51,6 @@ public class CourseService {
 		System.out.println("서비스에서 처리 전 CRDto: " + CRDto);
 		log.info("서비스에서 처리 전 CRDto: " + CRDto);
 
-		// 데이터 유효성 검사
-		// TODO: CRDto 검증
-
 		// 마지막으로 사용된 시퀀스 번호를 가져오기
 		Integer lastSequence = cDao.getLastSequenceNumber();
 		int sequence = lastSequence != null ? lastSequence : 0;
