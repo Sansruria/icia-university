@@ -16,6 +16,22 @@
  		document.querySelector('.btn-search').addEventListener('click', ()=>search())
  		document.querySelector('.btn-reset').addEventListener('click', ()=>reset())
  		document.querySelector('#paging').innerHTML = "${paging}";
+ 		
+ 		if ('${searchDto.deptName}' != null || '${searchDto.deptName}' != '') {
+            document.searchFrm.querySelector('input[name="deptName"]').value = '${searchDto.deptName}'
+        }
+		if ('${searchDto.course_name}' != null || '${searchDto.course_name}' != '') {
+        document.searchFrm.querySelector('input[name="course_name"]').value = '${searchDto.course_name}'
+    	}
+		
+		if ('${searchDto.course_division}' != null || '${searchDto.course_division}' != '') {
+        document.searchFrm.querySelector('input[name="course_division"]').value = '${searchDto.course_division}'
+    	}
+		
+		if ('${searchDto.pfName}' != null || '${searchDto.pfName}' != '') {
+         document.searchFrm.querySelector('input[name="pfName"]').value = '${searchDto.pfName}'
+     	}
+			
  		// "글쓰기" 버튼 클릭 시 수강내역 등록 페이지로 이동
  		$('#registration').click(function() {
  			window.location.href = '/admin/mm/courselist/write'; // 이동할 페이지의 URL을 설정합니다.
@@ -57,6 +73,10 @@
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 
 	<div class="container">
+		<div class="row mb-3 mt-3">
+		  <h3>수강내역관리</h3>
+		</div>
+	
 		<div class="row mb-3">
 			<div class="card">
 				<div class="card-body">
@@ -64,35 +84,44 @@
 						<form name="searchFrm" action="/admin/mm/courselist/list" method="GET">
  							<input type="hidden" name="nowPage" value="<c:out value="${searchDto.startPage}"></c:out>">
                         	<input type="hidden" name="cntPerPage" value="<c:out value="${searchDto.cntPerPage}"></c:out>">
-							<h3>수강내역관리 페이지</h3>
-							<br>
-							<div class="row g-3">
-								<!-- 과목명 -->
-								<div class="col-6">
-									<label for="course_name" class="form-label">과목명</label> <input
-										type="text" id="course_name" name="course_name" class="form-control">
+                        	
+                        	<div class="row">
+                        	    <!-- 과목명 -->
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" id="course_name" name="course_name" placeholder="검색할 과목명을를 입력해주세요.">
+										<label for="course_name">과목명</label>
+									</div>
 								</div>
+								
 								<!-- 이수구분 -->
-								<div class="col-6">
-									<label for="course_division" class="form-label">이수구분</label>
-									<input type="text" id="course_division" name="course_division" class="form-control">
-								</div>
-							</div>
+								<div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="course_division" name="course_division" placeholder="검색할 과목명을를 입력해주세요.">
+                                        <label for="course_division">이수구분</label>
+                                    </div>
+                                </div>
+                                
+                                <!-- 학과명 -->
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="deptName" name="deptName" placeholder="검색할 과목명을를 입력해주세요.">
+                                        <label for="deptName">학과명</label>
+                                    </div>
+                                </div>
+                                
+                                <!-- 교수명 -->
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="pfName" name="pfName" placeholder="검색할 과목명을를 입력해주세요.">
+                                        <label for="pfName">교수명</label>
+                                    </div>
+                                </div>
+                        	</div>
 
 							<div class="row g-3">
-								<!-- 학과명 -->
-								<div class="col-6">
-									<label for="deptName" class="form-label">학과명</label> <input
-										type="text" id="deptName" name="deptName" class="form-control">
-								</div>
-								<!-- 교수명 -->
-								<div class="col-6">
-									<label for="pfName" class="form-label">교수명</label> <input
-										type="text" id="pfName" name="pfName" class="form-control">
-								</div>
-								<br>
 								<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-									<button type="button" class="btn btn-primary btn-search" >🡼검색</button>
+									<button type="button" class="btn btn-primary btn-search" >검색</button>
 									<button type="button" class="btn btn-secondary btn-reset">초기화</button>
 								</div>
 							</div>

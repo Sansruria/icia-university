@@ -108,6 +108,25 @@
 									</div>
 								</div>
 							</div>
+							
+							<div class="row">
+                                <div class="col">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text w-25 p-3">학년</span>
+                                        <select name="grade" class="form-select">
+                                            <option value="1">1학년</option>
+                                            <option value="2">2학년</option>
+                                            <option value="3">3학년</option>
+                                            <option value="4">4학년</option>
+                                        </select>
+                                        <span class="input-group-text w-25 p-3">학기</span>
+                                        <select name="semester" class="form-select">
+                                            <option value="1">1학기</option>
+                                            <option value="2">2학기</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
 
 							<div class="row">
 								<div class="col">

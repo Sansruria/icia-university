@@ -19,14 +19,6 @@ import java.util.HashMap;
 public class DeptLineRestController {
 	
 	private final DeptLineService deptLineService;
-	
-	@GetMapping("list/{kind}")
-	public String list2(@PathVariable("kind") String kind, Model model) {
-		log.info("departmentline api...");
-		String deptLineList = deptLineService.makeListHtml(kind); 
-		
-		return deptLineList;
-	}
 
 	@GetMapping("list")
 	public HashMap<String, Object> list(Model model, CampusSearchDto searchDto

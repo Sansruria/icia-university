@@ -48,11 +48,25 @@
 	</select>
 
 	<select id="findAllCount" parameterType="courseHistoryMMDto" resultType="Integer">
-		SELECT COUNT(*)FROM subject where 1=1
+		SELECT COUNT(*) FROM subject s
+		  JOIN department d ON d.department_id = s.department_id
+		  JOIN pf p ON p.pf_id = s.pf_id
+		WHERE 1=1 
 		<if test="deptName != null and deptName != ''">
 			AND d.department_name LIKE '%'||#{deptName}||'%'
 		</if>
+		<if test="course_name != null and course_name != ''">
+			AND s.course_name LIKE '%'||#{course_name}||'%'
+		</if>
+		<if test="course_division != null and course_division != ''">
+			AND UPPER(s.course_division) LIKE
+			'%'||UPPER(#{course_division})||'%'
+		</if>
+		<if test="pfName != null and pfName != ''">
+			AND p.pf_name LIKE '%'||#{pfName}||'%'
+		</if>
 	</select>
+	
 	<!--등록-->
 	<insert id="write">
 		<!-- 컬럼이름 -->

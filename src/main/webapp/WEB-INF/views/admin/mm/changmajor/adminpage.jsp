@@ -1,21 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-	
-	
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
-<title>관리자의 전과승인페이지</title>
-<jsp:include page="/WEB-INF/views/layout/head-js.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/views/layout/head-css.jsp"></jsp:include>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+    <title>관리자의 전과승인페이지</title>
+	<jsp:include page="/WEB-INF/views/layout/head-js.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/layout/head-css.jsp"></jsp:include>
 </head>
+
 <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 
@@ -28,7 +25,7 @@
 
 		<div class="row">
 			<div class="table-responsive text-center">
-				<table class="table table-bordered table-hover">
+				<table class="table table-bordered table-hover align-middle">
 					<thead class="table-primary">
 						<tr>
 
@@ -49,7 +46,7 @@
 									<td><c:out value="${users.st_id}"></c:out></td>
 									<td><c:out value="${users.department_name}"></c:out></td>
 									<c:if test="${users.a_status == '0'}">
-										<td><select name="a_status">
+										<td><select name="a_status" class="form-select">
 												<option value="1">전과승인</option>
 												<option value="0">전과보류</option>
 										</select></td>

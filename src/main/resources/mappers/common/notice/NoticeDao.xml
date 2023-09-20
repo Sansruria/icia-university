@@ -4,36 +4,35 @@
 <mapper namespace="kr.ac.icia.dao.common.notice.NoticeDao">
 
 	<select id="findByCondition" parameterType="kr.ac.icia.dto.common.notice.NoticeSearchDto" resultType="kr.ac.icia.dto.common.notice.NoticeDto">
-		SELECT * FROM (SELECT rownum      AS rnum,
-				              notice_id   AS noticeId,
-				              title,
-				              contents,
-				              writer,
-				              hit,
-				              create_date AS createDate,
-				              modify_date AS modifyDate
-				        FROM board
-		                <if test="title != null and title != ''">
-				            WHERE title LIKE '%' || #{title} || '%'
-				        </if>
-				        ORDER BY create_date DESC)
+		SELECT * FROM (SELECT rownum AS rnum, a1.* FROM (SELECT notice_id   AS noticeId,
+									             title,
+									             contents,
+									             writer,
+									             hit,
+									             create_date AS createDate,
+									             modify_date AS modifyDate
+									        FROM board
+							                <if test="title != null and title != ''">
+									            WHERE title LIKE '%' || #{title} || '%'
+									        </if>
+									        ORDER BY create_date DESC) a1)
         WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
 
 	<select id="findAll" resultType="kr.ac.icia.dto.common.notice.NoticeDto">
-		SELECT * FROM (SELECT rownum      AS rnum,
-				              notice_id   AS noticeId,
-				              title,
-				              contents,
-				              writer,
-				              hit,
-				              create_date AS createDate,
-				              modify_date AS modifyDate
-				        FROM board
-		                <if test="title != null and title != ''">
-				            WHERE title LIKE '%' || #{title} || '%'
-				        </if>
-				        ORDER BY create_date DESC)
+		SELECT * FROM (SELECT rownum AS rnum , a1.* FROM (SELECT notice_id   AS noticeId,
+									              title,
+									              contents,
+									              writer,
+									              hit,
+									              create_date AS createDate,
+									              modify_date AS modifyDate
+									        FROM board
+							                <if test="title != null and title != ''">
+									            WHERE title LIKE '%' || #{title} || '%'
+									        </if>
+									        ORDER BY create_date DESC) a1)
+        WHERE rnum BETWEEN 1 AND 5
 	</select>
 	
 	<select id="findAllCount" parameterType="kr.ac.icia.dto.common.notice.NoticeSearchDto">

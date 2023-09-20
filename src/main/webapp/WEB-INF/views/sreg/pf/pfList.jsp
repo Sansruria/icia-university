@@ -71,10 +71,13 @@
 <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 
 <div class="container">
+    <div class="row mb-3 mt-3">
+        <h3>교수관리</h3>
+    </div>
+
     <div class="row mb-3">
         <div class="card">
             <div class="card-body">
-            
                 <div class="row ">
                     <form name="searchFrm" action="/sreg/pf" method="GET">
                         <input type="hidden" name="nowPage" value="<c:out value="${searchDto.startPage}"></c:out>">
@@ -104,7 +107,7 @@
                         </div>
                     </form>
 
-                    <div class="row mb-3">
+                    <div class="mb-3">
                         <div class="col text-end">
                             <button type="button" class="btn btn-primary btn-search">검색</button>
                             <button type="button" class="btn btn-secondary btn-reset">초기화</button>

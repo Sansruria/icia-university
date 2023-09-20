@@ -36,7 +36,7 @@ function updateTable(departmentLineId, facultyId) {
 				newRow.append("<td>" + row.department_line_name + "</td>");
 				newRow.append("<td>" + row.faculty_name + "</td>");
 				newRow.append("<td>" + row.department_name + "</td>");
-				newRow.append("<td><button class='applyButton' type='button'>신청</button></td>");
+				newRow.append("<td><button class='btn btn-primary applyButton' type='button'>신청</button></td>");
 				tableBody.append(newRow);
 			});
 		},

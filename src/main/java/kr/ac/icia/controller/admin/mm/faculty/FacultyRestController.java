@@ -49,15 +49,6 @@ public class FacultyRestController {
 		return modal;
 	}
 	
-//	@GetMapping("/list/{kind}")
-//	public String list(@PathVariable("kind") String kind, Model model) {
-//		log.info("FacultyList api...");
-//		String facultyList = facultyService.makeListHtml(kind);
-//
-//		return facultyList;
-//	}
-
-	
 	// 상세
 	@GetMapping("/detail/{id}")
 	public FacultyDto detail(@PathVariable("id") String id) {
