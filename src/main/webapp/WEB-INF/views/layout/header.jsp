@@ -3,14 +3,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script>
-	document.addEventListener("DOMContentLoaded", function(){
-	    document.querySelector('.btn-file').addEventListener('click', ()=>openFileModal())
-	})
-	
-    function openFileModal() {
-        $('.modal-content').load('/file/modal/upload')
-    }
-
     function logout() {
         let postFrm = document.createElement('form')
         postFrm.setAttribute('method', 'POST')
@@ -43,12 +35,6 @@
         <div class="row my-2">
             <c:if test="${memberInfo != null}">
                 <div class="col">
-                    <div class="text-end text-white">
-                        <a href="#" class="nav-link btn-file" data-bs-toggle="modal" data-bs-target="#fileModal">프로필사진변경</a>
-                    </div>
-                </div>
-            
-                <div class="col-auto">
                     <div class="text-end text-white">
                             <c:out value="${sessionScope.memberInfo.name}"></c:out>님
                     </div>
@@ -128,13 +114,3 @@
         </div>
     </div>
 </nav>
-
-<!-- File Modal -->
-<div class="modal fade" id="fileModal" data-bs-backdrop="static" data-bs-keyboard="false"
-     tabindex="-1" aria-labelledby="fileModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        </div>
-    </div>
-</div>
-<!-- end File Modal -->

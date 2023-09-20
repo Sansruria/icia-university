@@ -9,12 +9,19 @@
 
 <html>
 <head>
-<style type="text/css">
-
-</style>
     <title>학생메인</title>
     <jsp:include page="/WEB-INF/views/layout/head-js.jsp"></jsp:include>
     <jsp:include page="/WEB-INF/views/layout/head-css.jsp"></jsp:include>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function(){
+        document.querySelector('.btn-file').addEventListener('click', ()=>openFileModal())
+    })
+    
+    function openFileModal() {
+        $('.modal-content').load('/file/modal/upload')
+    }
+    </script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
@@ -23,7 +30,7 @@
 		<div class="row">
 		  <div class="col-6">
 		      <div class="card">
-		          <div class="card-body p-5" style="height:700px;">
+		          <div class="card-body ps-5 pe-5" style="height:700px;">
 		              <c:if test="${memberInfo.gender eq '0' and memberInfo.systemFileName == null}">
 		                  <img src="/upload/anonymous_female.jpg" class="rounded mx-auto d-block" style="width:400px">
 		              </c:if>
@@ -39,7 +46,15 @@
 		              </c:if>
 		              
 		              <div class="row">
-		                  <h4 class="text-center my-4"><c:out value="${memberInfo.name}"></c:out></h4>
+                          <h4 class="text-center mt-3">
+                              <button type="button" class="btn btn-primary btn-file" data-bs-toggle="modal" data-bs-target="#fileModal">프로필사진변경</button>                                  
+                          </h4>
+                      </div>
+		              
+		              <div class="row">
+		                  <h4 class="text-center my-2">
+		                      <c:out value="${memberInfo.name}"></c:out>
+	                      </h4>
 		              </div>
 		              
 		              <div class="row">
@@ -158,7 +173,16 @@
 		  </div>
 		</div>
 	</div>
-
+	
+	<!-- File Modal -->
+	<div class="modal fade" id="fileModal" data-bs-backdrop="static" data-bs-keyboard="false"
+	     tabindex="-1" aria-labelledby="fileModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	        </div>
+	    </div>
+	</div>
+	<!-- end File Modal -->
 
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </body>
