@@ -2,6 +2,7 @@ package kr.ac.icia.controller.sreg.st;
 
 import java.util.ArrayList;
 
+import kr.ac.icia.dto.common.member.MemberDto;
 import kr.ac.icia.dto.sreg.common.SregSearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import kr.ac.icia.dto.sreg.st.StDto;
 import kr.ac.icia.service.common.notice.NoticeService;
+import kr.ac.icia.service.course.CourseSelectService;
 import kr.ac.icia.service.sreg.st.StService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +30,16 @@ public class StController {
 
 	@Autowired
 	private final NoticeService nSer;
+	
+	@Autowired
+	private final CourseSelectService csSer;
 
 	@GetMapping("/st/main")
-	public String mainPage(Model model) {
+	public String mainPage(Model model, HttpSession session) {
+		MemberDto memberInfo = (MemberDto) session.getAttribute("memberInfo");
 		model.addAttribute("noticesList", nSer.findAll());
+		model.addAttribute("courseList", csSer.filteringSearch2(memberInfo.getUserId(), memberInfo.getGrade()+"학년", memberInfo.getSemester()+"학기"));
+		
 		return "sreg/st/stMain";
 	}
 

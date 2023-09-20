@@ -5,6 +5,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <html>
 <head>
@@ -19,7 +20,7 @@
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 	
 	<div class="container">
-		<div class="row" style="height:700px;">
+		<div class="row">
 		  <div class="col-6">
 		      <div class="card">
 		          <div class="card-body p-5" style="height:700px;">
@@ -66,29 +67,91 @@
 		  <div class="col-6">
 		      <div class="row">
 		          <div class="card">
-		              <div class="card-body p-5" style="height:700px;">
+		              <div class="card-body py-3" style="height:700px;">
+		                  <div class="row mb-2">
+		                      <div class="col">
+		                          <span class="fs-4">ICIA UNIV 공지사항</span>
+		                      </div>
+		                      
+		                      <div class="col text-end">
+		                          <button type="button" onclick="location.href='/common/notice'" class="btn btn-primary">더보기</button>
+		                      </div>
+		                  </div>
 		              
-						<div class="row mb-5">
-    					  <h5 class="font-weight-normal">ICIA UNIV 공지사항</h5>
-						  <c:forEach var="notice" items="${noticesList}">
-						      <a href="/common/notice/${notice.noticeId}" class="link-offset-2 link-underline link-underline-opacity-0">${notice.title}</a><br/>
-						  </c:forEach>
-						</div>
-						
-						<div class="row mt-auto">
-							<p class="text-center">제 1 장 총 칙</p>
-							<ul>
-								<li class="mb-2">제1조(목적) 본 대학교는 대한민국 교육의 근본이념에 입각하여 국가산업 발전에 필요한 전문적인 지식과 이론을 교수, 연구하고 재능을 연마하여 국가발전에 필요한 전문직업인을 양성함을 목적으로 한다.</li>
-								<li class="mb-2">제2조(명칭) 본 대학교는 인천일보대학교라 한다.</li>
-								<li class="mb-2">제3조(위치) 본 대학교는 인천 미추홀구 매소홀로488번길 6-32에 둔다.(개정 2023.04.14, 2023.09.25)</li>
-								<li class="mb-2">제4조(수업연한) ①본 대학교의 수업연한은 3년 내지 4년으로 한다.(개정 2013.9.1)</li>
-								<li class="mb-2">
-								    ②「산업교육진흥 및 산학연협력촉진에 관한 법률」에 의거 설치된 “계약학과”의 경우에는 산업체와의 계약에 의해 수업연한을 별도로 정할 수 있다.(신설 2018.2.1)
-                                    제5조(재학연한) ①재학연한은 10년으로 한다. 단, 휴학기간은 재학연한에 포함하지 아니한다.(개정 2019.3.1)
-                                </li>
-							</ul>
-						</div>
-			                
+							<div class="row">
+								<div class="col">
+									
+									<div class="table-responsive text-center">
+                                        <table class="table table-bordered table-hover">
+                                            <thead class="table-primary text-center">
+                                                <tr>
+                                                    <th>제목</th>
+                                                    <th>등록일</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <c:forEach var="notice" items="${noticesList}">
+                                                    <tr>
+                                                        <td>
+                                                            <a href="/common/notice/${notice.noticeId}"
+                                                                class="link-offset-2 link-underline link-underline-opacity-0">${notice.title}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <fmt:parseDate value="${notice.createDate}" pattern="yyyy-MM-dd HH:mm:ss" var="parsedDateTime" type="both" />
+                                                            <fmt:formatDate pattern="yyyy/MM/dd" value="${parsedDateTime}" />
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+								</div>
+							</div>
+
+							<div class="row mb-2">
+                              <div class="col">
+                                  <span class="fs-4">내 수강신청내역</span>
+                              </div>
+                            </div>
+                      
+                            <div class="row">
+                                <div class="col">
+                                    
+                                    <div class="table-responsive text-center">
+                                        <table class="table table-bordered table-hover text-center">
+                                            <thead class="table-primary">
+                                                <tr>
+                                                    <th>이수구분</th>
+                                                    <th>과목명</th>
+                                                    <th>교수명</th>
+                                                    <th>수강시간</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <c:if test="${not empty courseList}">
+	                                                <c:forEach var="course" items="${courseList}">
+	                                                    <tr>
+	                                                        <td><c:out value="${course.req_course_division}"></c:out></td>
+	                                                        <td><c:out value="${course.req_course_name}"></c:out></td>
+	                                                        <td><c:out value="${course.req_pf_name}"></c:out></td>
+	                                                        <td><c:out value="${course.req_course_time}"></c:out></td>
+	                                                    </tr>
+	                                                </c:forEach>
+                                                </c:if>
+                                                
+                                                <c:if test="${empty courseList}">
+                                                    <tr class="text-center">
+                                                        <td colspan="4">신청한 수강과목이 없습니다</td>
+                                                    </tr>
+                                                </c:if>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
 		              </div>
 		          </div>
 		      </div>
