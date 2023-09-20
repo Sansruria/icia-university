@@ -84,4 +84,8 @@ public class CourseService {
 		return CRDto;
 	}
 
+	public List<CourseRegisterDto> getPreviousCourses(String stId) {
+		return cDao.getPreviousCourses(stId);
+	}
+
 }

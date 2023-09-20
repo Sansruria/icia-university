@@ -66,26 +66,36 @@
 		#{courseId}
 	</select>
 
+	<!-- 이전에 수강신청한 과목을 조회하는 쿼리 -->
+	<select id="getPreviousCourses" resultType="CourseRegisterDto">
+		SELECT *
+		FROM
+		COURSE_REQUEST
+		WHERE st_id = #{stId}
+	</select>
+
 	<!-- 강의를 신청하는 쿼리 -->
-	<insert id="finalApply" parameterType="list">
-		INSERT INTO COURSE_REQUEST (
+	<insert id="finalApply" parameterType="CourseRegisterDto">
+		INSERT INTO COURSE_REQUEST
+		(
 		REQ_COURSE_ID, COURSE_ID, ST_ID,
-		REQ_GRADE, REQ_SEMESTER, REQ_COURSE_DIVISION,
+		REQ_GRADE, REQ_SEMESTER,
+		REQ_COURSE_DIVISION,
 		REQ_CREDIT, REQ_COURSE_NAME,
-		REQ_PF_NAME, REQ_COURSE_TIME, REQ_ST_COUNT
+		REQ_PF_NAME,
+		REQ_COURSE_TIME, REQ_ST_COUNT
 		)
 		VALUES
-		<foreach collection="list" item="course" separator=",">
-			(
-			#{course.reg_course_id}, #{course.course_id}, #{course.req_st_id},
-			#{course.grade}, #{course.semester},
-			#{course.course_division},
-			#{course.credit},
-			#{course.course_name},
-			#{course.pf_name},
-			#{course.course_time}, #{course.req_st_count}
-			)
-		</foreach>
+		(
+		#{reg_course_id}, #{course_id},
+		#{req_st_id},
+		#{grade}, #{semester},
+		#{course_division},
+		#{credit},
+		#{course_name},
+		#{pf_name},
+		#{course_time}, #{req_st_count}
+		)
 	</insert>
 
 	<!-- 수강신청 End -->

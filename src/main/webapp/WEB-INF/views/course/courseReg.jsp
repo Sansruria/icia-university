@@ -56,6 +56,7 @@
 						</div>
 
 						<div class="col text-end mt-auto">
+						<div id="alert-placeholder"></div>
 							<button id="searchButton" type="button" class="btn text-white"
 								style="background: #a9201d">SEARCH</button>
 							<button id="resetButton" type="button"
@@ -95,10 +96,10 @@
 		<!-- end row -->
 
 		<div class="row border border-3 p-4">
-			<div class="col-1">과목수</div>
-			<div class="col-auto"></div>
-			<div class="col-1">학점</div>
-			<div class="col-auto"></div>
+			<div class="col-1"></div>
+			<div class="col-auto" id="totalCourses1"></div>
+			<div class="col-1"></div>
+			<div class="col-auto" id="totalCredits1"></div>
 		</div>
 
 		<div class="row py-4">
@@ -128,10 +129,10 @@
 		<!-- end row -->
 
 		<div class="row border border-3 p-4">
-			<div class="col-1">과목수</div>
-			<div class="col-auto"></div>
-			<div class="col-1">학점</div>
-			<div class="col-auto"></div>
+			<div class="col-1"></div>
+			<div class="col-auto" id="totalCourses2"></div>
+			<div class="col-1"></div>
+			<div class="col-auto" id="totalCredits2"></div>
 		</div>
 
 		<div class="col text-end mt-3">

@@ -33,4 +33,6 @@ public interface CourseDao {
 	// 특정 강의의 최대 학생 수를 가져오기
 	int getMaxStudentLimitForCourse(String course_id);
 
+	List<CourseRegisterDto> getPreviousCourses(String stId);
+
 }

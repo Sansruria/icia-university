@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 @Builder
 @Accessors(chain = true)
 public class CourseRegisterDto {
+	private String st_id;
 	private String course_division;
 	private String credit;
 	private String course_name;
