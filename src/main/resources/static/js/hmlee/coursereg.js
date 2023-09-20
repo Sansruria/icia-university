@@ -131,7 +131,7 @@ $(document).ready(function() {
 								if (courseRegList.some(regItem => regItem.course_id === item.course_id)) return;
 
 								//								console.log(item); // Debugging: 아이템 확인
-								table.append('<tr data-id="' + item.course_id + '"><td><button class="applyButton" type="button">신청</button></td><td>' + item.grade + "/" + item.semester + '</td><td>' + item.course_division + '</td><td>' + item.course_id + '</td><td>' + item.credit + '</td><td>' + item.course_name + '</td><td>' + item.pf_name + '</td><td>' + item.course_time + '</td></tr>');
+								table.append('<tr data-id="' + item.course_id + '"><td><button class="applyButton btn btn-primary" type="button">신청</button></td><td>' + item.grade  + "학년/" + item.semester + "학기"+ '</td><td>' + item.course_division + '</td><td>' + item.course_id + '</td><td>' + item.credit + '</td><td>' + item.course_name + '</td><td>' + item.pf_name + '</td><td>' + item.course_time + '</td></tr>');
 							});
 						}
 					}
@@ -141,7 +141,7 @@ $(document).ready(function() {
 			// '수강신청현황' 테이블에 행을 추가하는 함수
 			const addToCourseRegStatusTable = function(rowData) {
 				let courseRegStatusTable = $("#courseRegStatusTableBody");
-				courseRegStatusTable.append('<tr><td><button class="cancelButton" type="button">취소</button></td><td>' + rowData.grade_semester + '</td><td>' + rowData.course_division + '</td><td>' + rowData.course_id + '</td><td>' + rowData.credit + '</td><td>' + rowData.course_name + '</td><td>' + rowData.pf_name + '</td><td>' + rowData.course_time + '</td></tr>');
+				courseRegStatusTable.append('<tr><td><button class="cancelButton btn btn-danger" type="button">취소</button></td><td>' + rowData.grade_semester + '</td><td>' + rowData.course_division + '</td><td>' + rowData.course_id + '</td><td>' + rowData.credit + '</td><td>' + rowData.course_name + '</td><td>' + rowData.pf_name + '</td><td>' + rowData.course_time + '</td></tr>');
 				updateNoDataMessage(courseRegStatusTable);
 			};
 
