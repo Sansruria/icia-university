@@ -72,13 +72,10 @@ public class DeptService {
 		String str = "";
 		String prefix = "<td>";
 		String suffix = "</td>";
-
-		int count = findAllCount(searchDto)+1;
-
 		for (DeptDto dto : findByCondition(searchDto)) {
 			str += "<tr>";
 			str += prefix;
-			str += count - dto.getRnum();
+			str += dto.getRnum();
 			str += suffix;
 
 			str += prefix;

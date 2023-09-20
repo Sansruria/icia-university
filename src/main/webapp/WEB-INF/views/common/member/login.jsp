@@ -40,7 +40,7 @@
             <div class="col">
                 <div class="input-group mb-3">
                     <span class="input-group-text p-3 w-25" style="background-color : #F6AB00"><b>아이디</b></span>
-                    <input type="text" class="form-control" name="userId" value="2309NET1003">
+                    <input type="text" class="form-control" name="userId" value="admin">
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
             <div class="col">
                 <div class="input-group mb-3">
                     <span class="input-group-text p-3 w-25" style="background-color : #F6AB00"><b>비밀번호</b></span>
-                    <input type="password" name="password" class="form-control" value="1111111">
+                    <input type="password" name="password" class="form-control" value="1234">
                 </div>
             </div>
         </div>

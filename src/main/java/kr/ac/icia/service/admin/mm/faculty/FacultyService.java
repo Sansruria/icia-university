@@ -74,12 +74,10 @@ public class FacultyService {
 		String prefix = "<td>";
 		String suffix = "</td>";
 
-		int count = findAllCount(searchDto)+1;
-
 		for (FacultyDto dto : findByCondition(searchDto)) {
 			str += "<tr>";
 			str += prefix;
-			str += count - dto.getRnum();
+			str += dto.getRnum();
 			str += suffix;
 
 			str += prefix;

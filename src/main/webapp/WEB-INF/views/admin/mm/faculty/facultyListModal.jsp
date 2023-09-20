@@ -4,6 +4,8 @@
 <script>
     document.querySelector('.paging-modal').innerHTML = "${paging}".replace(/\\/gi, '')
 
+    let startPage = ${searchDto.startPage}
+    let endPage = ${searchDto.endPage}
     function searchAndPagingModal(pageNum) {
         let obj = {}
         obj.nowPage = pageNum
@@ -19,6 +21,8 @@
             let searchDto = res['searchDto'];
             document.searchFrmModal.querySelector('input[name="nowPageModal"]').value = searchDto['nowPage']
             document.searchFrmModal.querySelector('input[name="cntPerPageModal"]').value = searchDto['cntPerPage']
+            startPage = searchDto['startPage']
+            endPage   = searchDto['endPage']
 
             let makePagingModalHtml = res['makePagingHtml']
             makePagingModalHtml = makePagingModalHtml.replace(/\\/gi, ''); // 정규식을 이용해서 문자열에 포함된 모든 '\'를 삭제함
@@ -34,6 +38,18 @@
         $('#searchModal').modal('hide')
         document.querySelector('input[name="facultyId"]').value = id
         document.querySelector('input[name="facultyName"]').value = name
+    }
+
+    function prev() {
+        document.searchFrmModal.querySelector('input[name="nowPageModal"]').value = startPage-1
+        const nowPage = document.searchFrmModal.querySelector('input[name="nowPageModal"]').value
+        searchAndPagingModal(nowPage)
+    }
+
+    function next() {
+        document.searchFrmModal.querySelector('input[name="nowPageModal"]').value = endPage+1
+        const nowPage = document.searchFrmModal.querySelector('input[name="nowPageModal"]').value
+        searchAndPagingModal(nowPage)
     }
 </script>
 
