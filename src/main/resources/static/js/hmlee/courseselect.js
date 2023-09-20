@@ -22,7 +22,7 @@ $(document).ready(function() {
 				// 과목수와 학점도 초기화
 				$("#totalCourses").html("과목수 : 0개");
 				$("#totalCredits").html("학점 : 0점");
-			});
+		});
 
 			// 검색 버튼 클릭 이벤트
 			$("#searchButton").click(function() {
