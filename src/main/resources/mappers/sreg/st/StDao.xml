@@ -97,7 +97,7 @@
             rrn,
             password,
             st_name,
-            gender,
+            grade,
             semester,
             gender,
             address,
