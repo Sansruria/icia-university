@@ -1,7 +1,5 @@
 package kr.ac.icia.service.admin.mm.deptline;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import kr.ac.icia.dto.admin.mm.common.CampusSearchDto;
@@ -11,9 +9,7 @@ import org.springframework.stereotype.Service;
 import kr.ac.icia.dao.admin.mm.deptline.DeptLineDao;
 import kr.ac.icia.dto.admin.mm.deptline.DeptLineDto;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class DeptLineService {
@@ -31,7 +27,14 @@ public class DeptLineService {
 	}
 
 	public ArrayList<DeptLineDto> findByCondition(CampusSearchDto searchDto) {
-		return deptLineDao.findByCondition(searchDto);
+		ArrayList<DeptLineDto> deptLineList = deptLineDao.findByCondition(searchDto);
+		int count = findAllCount(searchDto)+1;
+		
+		for (DeptLineDto dto : deptLineList) {
+			dto.setRnum(count - dto.getRnum());
+		}
+		
+		return deptLineList;
 	}
 	
 	public DeptLineDto detail(String deptLineId) {
@@ -54,34 +57,6 @@ public class DeptLineService {
 			return "삭제에 성공하였습니다";
 		}
 		return "삭제에 실패했습니다";
-	}
-	
-	public String makeListHtml(String kind) {
-//		String str = "";
-//		String prefix = "<td>";
-//		String suffix = "</td>";
-//		for (DeptLineDto dto : findByCondition()) {
-//			str += "<tr>";
-//			str += prefix;
-//			str += dto.getRnum();
-//			str += suffix;
-//
-//			str += prefix;
-//			str += dto.getDeptLineId();
-//			str += suffix;
-//
-//			str += prefix;
-//			str += "<a href=\"#\" onclick=selected('" + dto.getDeptLineId() + "','" + dto.getDeptLineName() + "','" + kind +"') "
-//					+ "style=\"cursor:pointer\" "
-//					+ "class=\"link-offset-2 link-underline link-underline-opacity-0\">";
-//			str += dto.getDeptLineName();
-//			str += "</a>";
-//			str += suffix;
-//			str += "</tr>";
-//		}
-//
-//		return str;
-		return "";
 	}
 
 	public String makeListHtml(CampusSearchDto searchDto) {

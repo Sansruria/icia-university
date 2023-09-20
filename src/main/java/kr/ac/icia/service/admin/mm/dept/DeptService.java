@@ -19,7 +19,14 @@ public class DeptService {
 
 //	목록
 	public ArrayList<DeptDto> findByCondition(CampusSearchDto searchDto) {
-		return deptDao.findByCondition(searchDto);
+		ArrayList<DeptDto> deptList = deptDao.findByCondition(searchDto);
+		int count = findAllCount(searchDto)+1;
+		
+		for (DeptDto dto : deptList) {
+			dto.setRnum(count - dto.getRnum());
+		}
+		
+		return deptList;
 	}
 
 	public Integer findAllCount(CampusSearchDto searchDto) {

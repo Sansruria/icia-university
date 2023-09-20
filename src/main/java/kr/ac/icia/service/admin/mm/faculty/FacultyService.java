@@ -20,7 +20,14 @@ public class FacultyService {
 	
 //	목록
 	public ArrayList<FacultyDto> findByCondition(CampusSearchDto searchDto) {
-		return facultyDao.findByCondition(searchDto);
+		ArrayList<FacultyDto> facultyList = facultyDao.findByCondition(searchDto);
+		int count = findAllCount(searchDto)+1;
+		
+		for (FacultyDto dto : facultyList) {
+			dto.setRnum(count - dto.getRnum());
+		}
+		
+		return facultyList;
 	}
 
 	public Integer findAllCount(CampusSearchDto searchDto) {
@@ -88,33 +95,6 @@ public class FacultyService {
 			str += suffix;
 			str += "</tr>";
 		}
-
-
-
-
-
-
-//		String prefix = "<td>";
-//		String suffix = "</td>";
-//		for (FacultyDto dto : findByCondition()) {
-//			str += "<tr>";
-//			str += prefix;
-//			str += dto.getRnum();
-//			str += suffix;
-//
-//			str += prefix;
-//			str += dto.getFacultyId();
-//			str += suffix;
-//
-//			str += prefix;
-//			str += "<a href=\"#\" onclick=selected('" + dto.getFacultyId() + "','" + dto.getFacultyName() + "','" + kind +"') "
-//					+ "style=\"cursor:pointer\" "
-//					+ "class=\"link-offset-2 link-underline link-underline-opacity-0\">";
-//			str += dto.getFacultyName();
-//			str += "</a>";
-//			str += suffix;
-//			str += "</tr>";
-//		}
 		
 		return str;
 	}

@@ -187,8 +187,8 @@
 							
 							<div class="row">
 					<div class="col text-end">
-						<button type="button" class="btn btn-secondary" id="btn-close">←취소</button>
-						<input type="submit" class="btn btn-primary btn-save" value="📖등록">
+						<button type="button" class="btn btn-secondary" id="btn-close">취소</button>
+						<input type="submit" class="btn btn-primary btn-save" value="등록">
 					</div>
 				</div>
 						</form>

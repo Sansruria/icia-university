@@ -48,11 +48,14 @@
 	</select>
 
 	<select id="findAllCount" parameterType="courseHistoryMMDto" resultType="Integer">
-		SELECT COUNT(*)FROM subject where 1=1
+		SELECT COUNT(*) FROM subject s
+		  JOIN department d ON d.department_id = s.department_id
+		WHERE 1=1
 		<if test="deptName != null and deptName != ''">
 			AND d.department_name LIKE '%'||#{deptName}||'%'
 		</if>
 	</select>
+	
 	<!--등록-->
 	<insert id="write">
 		<!-- 컬럼이름 -->

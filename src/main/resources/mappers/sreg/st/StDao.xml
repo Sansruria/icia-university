@@ -43,7 +43,7 @@
     </select>
     
     <select id="findAllCount" parameterType="kr.ac.icia.dto.sreg.common.SregSearchDto" resultType="Integer">
-        SELECT COUNT(*) FROM (SELECT NVL(r.register_change_id, '재학') AS status FROM st
+        SELECT COUNT(*) FROM (SELECT DISTINCT(st.st_id) as stId, NVL(r.reg_change_status, '재학') AS status FROM st
                             JOIN department d ON st.department_id = d.department_id
                             LEFT OUTER JOIN register r ON st.st_id = r.st_id
                             WHERE 1=1

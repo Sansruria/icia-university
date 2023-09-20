@@ -138,7 +138,7 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text bg-primary-subtle w-25 p-3">학부명</span>
+                                        <span class="input-group-text bg-primary-subtle w-25 p-3">학과계열명</span>
                                         <input type="text" class="form-control" name="deptLineName" placeholder="검색할 학과계열명을 입력해주세요.">
                                         <button type="button" class="btn btn-primary btn-search">검색</button>
                                         <button type="button" class="btn btn-secondary btn-reset">초기화</button>

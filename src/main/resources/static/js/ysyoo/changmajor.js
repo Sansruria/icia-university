@@ -85,7 +85,7 @@ $(document).on('click', '.applyButton', function() {
 	newRow.append("<td><input type='hidden' name='department_line_name' value='"+ data.departmentLineName +"'>" + data.departmentLineName + "</td>");
 	newRow.append("<td><input type='hidden' name='facultyName' value='"+ data.facultyName +"'>" + data.facultyName + "</td>");
 	newRow.append("<td><input type='hidden' name='departmentName' value='"+ data.departmentName +"'>" + data.departmentName + "</td>");
-	newRow.append("<td><button type='button' class='deleteButton'>삭제</button></td>");
+	newRow.append("<td><button type='button' class='btn btn-danger deleteButton'>삭제</button></td>");
 	$("#apply_table tbody").append(newRow);
 	$("#apply_table tbody tr:contains('조회된 내역이 없습니다.')").remove();
 });
