@@ -157,7 +157,11 @@
 								<tr>
 									<td><c:out value="${courseh.rnum}"></c:out></td>
 									<td><c:out value="${courseh.course_id}"></c:out></td>
-									<td><c:out value="${courseh.course_division}"></c:out></td>
+									<td>
+										<c:if test="${courseh.course_division eq 'MR'}">전공필수</c:if>
+										<c:if test="${courseh.course_division eq 'SM'}">전공선택</c:if>
+										<c:if test="${courseh.course_division eq 'CU'}">교양</c:if>
+									</td>
 									<td><c:out value="${courseh.deptname}"></c:out></td>
 									<td><a href="#"
 										onclick="detail('<c:out value="${courseh.course_id}"></c:out>')">
