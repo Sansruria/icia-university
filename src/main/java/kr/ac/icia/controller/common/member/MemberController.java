@@ -45,8 +45,6 @@ public class MemberController {
 			String isPf = memberDto.getUserId().substring(0, 1);
 			if (isPf.equals("P")) {
 				return "redirect:/sreg/pf/main";
-			} else if (memberDto.getUserId().equals("admin")) {
-				return "redirect:/admin/main";
 			} else {
 				return "redirect:/sreg/st/main";
 			}
